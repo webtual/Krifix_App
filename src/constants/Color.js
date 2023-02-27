@@ -5,7 +5,12 @@ export const black03 = "rgba(1,1,1,0.3)"
 export const black05 = "rgba(1,1,1,0.5)"
 export const transparent = "transparent"
 
+export const seprator = "rgb(230,230,230)"
+
 export const primary = "#f7701e"
 export const greenPrimary = "rgb(77,184,72)"
+export const disableColor = 'rgb(212,212,212)'
+export const midGreen = 'rgb(64,155,59)'
+export const warmGrey = 'rgb(113,113,113)'
 
 export const offWhite = "rgb(248,255,248)"

@@ -3,7 +3,7 @@ import React, { Component, useRef } from 'react';
 
 /* Constants Files */
 import translate from '../translation/Translate';
-import { darkgreen, primary, white } from '../constants/Color';
+import { disableColor, greenPrimary, offWhite, primary, white } from '../constants/Color';
 import { FontSize, SEMIBOLD } from '../constants/Fonts';
 
 
@@ -17,6 +17,15 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 /* Screens */
 import Splash from '../screens/Splash';
 import Intro from '../screens/Intro';
+import Login from '../screens/Login';
+import Register from '../screens/Register';
+import OtpView from '../screens/OtpView';
+import Home from '../screens/Home';
+import FastImage from 'react-native-fast-image';
+import { FolderFillImg, FolderImg, HomeFillImg, HomeImg, SettingFillImg, SettingImg, UserFillImg, UserImg } from '../constants/Images';
+import RedeemHistory from '../screens/RedeemHistory';
+import Profile from '../screens/Profile';
+import Settings from '../screens/Settings';
 
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
@@ -26,84 +35,99 @@ const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 
-// function UserTabs() {
+function HomeTabs() {
 
-// 	const cartData = useSelector(cart_data);
+	return (
+		<>
+			<Tab.Navigator
+				initialRouteName="Home"
+				screenOptions={{
+					headerShown: false,
+					tabBarShowLabel: false,
+					tabBarActiveTintColor: greenPrimary,
+					tabBarInactiveTintColor: disableColor,
+					tabBarStyle: { backgroundColor: offWhite, borderTopColor: offWhite, },
+					tabBarLabelStyle: { fontFamily: SEMIBOLD, fontSize: FontSize.FS_11 },
+					tabBarHideOnKeyboard: true
+				}}
+			>
+				<Tab.Screen
+					name={"Home"}
+					component={Home}
+					options={{
+						tabBarLabel: "",
+						tabBarIcon: ({ color, size, focused }) => (
 
-// 	console.log("cart Data : ", cartData)
+							<FastImage style={{ width: size, height: size, }}
+								tintColor={color}
+								resizeMode='contain'
+								source={focused ? HomeFillImg : HomeImg}
+							/>
 
-// 	return (
-// 		<>
-// 			<Tab.Navigator
-// 				initialRouteName="UserHome"
-// 				screenOptions={{
-// 					headerShown: false,
-// 					tabBarActiveTintColor: primary,
-// 					tabBarInactiveTintColor: darkgreen,
-// 					tabBarStyle: { backgroundColor: white, borderTopColor: primary, },
-// 					tabBarLabelStyle: { fontFamily: SEMIBOLD, fontSize: FontSize.FS_11 },
-// 					tabBarHideOnKeyboard : true
-// 				}}
-// 			>
-// 				<Tab.Screen
-// 					name={"UserHome"}
-// 					component={VegetableList}
-// 					options={{
-// 						tabBarLabel: translate.t('list'),
-// 						tabBarIcon: ({ color, size, focused }) => (
-
-// 							<Icon name='shopping-bag' color={color} size={size}/>
-
-// 						),
-// 					}}
-// 				/>
-
-// 				<Tab.Screen
-// 					name="Cart"
-// 					component={Cart}
-// 					options={{
-// 						tabBarBadge : cartData.length ? cartData.length : null,
-// 						tabBarLabel: translate.t('cart'),
-// 						tabBarIcon: ({ color, size, focused }) => (
-
-// 							<Icon name='shopping-cart' color={color} size={size}/>
-
-// 						),
-// 					}}
-// 				/>
+						),
+					}}
+				/>
 
 
-// 				<Tab.Screen
-// 					name="OrderHistory"
-// 					component={OrderHistory}
-// 					options={{
-// 						tabBarLabel: translate.t('order_history'),
-// 						tabBarIcon: ({ color, size, focused }) => (
+				<Tab.Screen
+					name={"RedeemHistory"}
+					component={RedeemHistory}
+					options={{
+						tabBarLabel: "",
+						tabBarIcon: ({ color, size, focused }) => (
 
-// 							<Icon name='file-text' color={color} size={size}/>
+							<FastImage style={{ width: size, height: size, }}
+								tintColor={color}
+								resizeMode='contain'
+								source={focused ? FolderFillImg : FolderImg}
+							/>
 
-// 						),
-// 					}}
-// 				/>
+						),
+					}}
+				/>
 
-// 				<Tab.Screen
-// 					name="Profile"
-// 					component={Profile}
-// 					options={{
-// 						tabBarLabel: translate.t('profile'),
-// 						tabBarIcon: ({ color, size, focused }) => (
+				<Tab.Screen
+					name={"Profile"}
+					component={Profile}
+					options={{
+						tabBarLabel: "",
+						tabBarIcon: ({ color, size, focused }) => (
 
-// 							<Icon name='user' color={color} size={size}/>
+							<FastImage style={{ width: size, height: size, }}
+								tintColor={color}
+								resizeMode='contain'
+								source={focused ? UserFillImg : UserImg}
+							/>
 
-// 						),
-// 					}}
-// 				/>
-// 			</Tab.Navigator>
+						),
+					}}
+				/>
 
 
-// 		</>
-// 	);
-// }
+				<Tab.Screen
+					name={"Setting"}
+					component={Settings}
+					options={{
+						tabBarLabel: "",
+						tabBarIcon: ({ color, size, focused }) => (
+
+							<FastImage style={{ width: size, height: size, }}
+								tintColor={color}
+								resizeMode='contain'
+								source={focused ? SettingFillImg : SettingImg}
+							/>
+
+						),
+					}}
+				/>
+
+
+			</Tab.Navigator>
+
+
+		</>
+	);
+}
 
 
 function AppStacks() {
@@ -117,6 +141,10 @@ function AppStacks() {
 			}}>
 			<Stack.Screen name="Splash" component={Splash} />
 			<Stack.Screen name="Intro" component={Intro} />
+			<Stack.Screen name="Login" component={Login} />
+			<Stack.Screen name="Register" component={Register} />
+			<Stack.Screen name="OtpView" component={OtpView} />
+			<Stack.Screen name="Dashboard" component={HomeTabs} />
 		</Stack.Navigator>
 	)
 }

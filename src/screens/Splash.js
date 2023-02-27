@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
 		marginHorizontal: pixelSizeHorizontal(20)
 	},
 	txtWebsite: {
-		color: greenPrimary, fontFamily: SEMIBOLD, marginTop: pixelSizeHorizontal(20),
+		color: greenPrimary, fontFamily: BOLD, marginTop: pixelSizeHorizontal(20),
 		marginHorizontal: pixelSizeHorizontal(20), fontSize: FontSize.FS_18,
 	}
 });
