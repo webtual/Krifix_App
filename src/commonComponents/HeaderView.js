@@ -41,14 +41,13 @@ const HeaderView = ({ title = "", isBack = true, children, onPress = {}, contain
                     </SafeAreaView>
                 </LinearGradient>
 
+
                 <LinearGradient colors={[greenPrimary, midGreen]} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }}
                     style={{ height: heightPixel(25) }}>
-
                 </LinearGradient>
 
                 <View style={[styles.mainView, { ...containerStyle }]}>
                     {children}
-
                 </View>
             </ScrollView>
 

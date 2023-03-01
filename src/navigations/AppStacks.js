@@ -26,6 +26,10 @@ import { FolderFillImg, FolderImg, HomeFillImg, HomeImg, SettingFillImg, Setting
 import RedeemHistory from '../screens/RedeemHistory';
 import Profile from '../screens/Profile';
 import Settings from '../screens/Settings';
+import AboutUs from '../screens/AboutUs';
+import PrivacyPolicy from '../screens/PrivacyPolicy';
+import ContactUs from '../screens/ContactUs';
+import HelpCenter from '../screens/HelpCenter';
 
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
@@ -145,6 +149,11 @@ function AppStacks() {
 			<Stack.Screen name="Register" component={Register} />
 			<Stack.Screen name="OtpView" component={OtpView} />
 			<Stack.Screen name="Dashboard" component={HomeTabs} />
+			<Stack.Screen name="AboutUs" component={AboutUs} />
+			<Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
+			<Stack.Screen name="ContactUs" component={ContactUs} />
+			<Stack.Screen name="HelpCenter" component={HelpCenter} />
+			
 		</Stack.Navigator>
 	)
 }
