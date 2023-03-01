@@ -50,5 +50,12 @@ export default {
 	refer_your_friends_and_earn : "Refer your friends and Earn",
 	refer_desc : "Your friend gets 50 Loyalty Points on sign up and, you get 100 Loyalty Points too everytime!",
 	share : "Share",
-	welcome : "Welcome %{name}"
+	welcome : "Welcome %{name}",
+	invite_friend : "Invite friend",
+	redeem : "Redeem",
+	popular_offer : "Popular Offer",
+	scan_qr : "Scan QR",
+	krifix_reward : "Krifix Reward",
+	cash_voucher : "Cash Voucher",
+	redeem_it : "Redeem It!",
 }

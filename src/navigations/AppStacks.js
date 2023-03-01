@@ -30,6 +30,7 @@ import AboutUs from '../screens/AboutUs';
 import PrivacyPolicy from '../screens/PrivacyPolicy';
 import ContactUs from '../screens/ContactUs';
 import HelpCenter from '../screens/HelpCenter';
+import Rewards from '../screens/Rewards';
 
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
@@ -153,6 +154,7 @@ function AppStacks() {
 			<Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
 			<Stack.Screen name="ContactUs" component={ContactUs} />
 			<Stack.Screen name="HelpCenter" component={HelpCenter} />
+			<Stack.Screen name="Rewards" component={Rewards} />
 			
 		</Stack.Navigator>
 	)
