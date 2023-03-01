@@ -49,5 +49,6 @@ export default {
 	we_are_here_to_help : "We’re here to help!",
 	refer_your_friends_and_earn : "Refer your friends and Earn",
 	refer_desc : "Your friend gets 50 Loyalty Points on sign up and, you get 100 Loyalty Points too everytime!",
-	share : "Share"
+	share : "Share",
+	welcome : "Welcome %{name}"
 }
