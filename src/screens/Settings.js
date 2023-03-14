@@ -29,7 +29,7 @@ const Settings = () => {
     {
       title: Translate.t("notifications"),
       image: NotificationImg,
-      screenName: ""
+      screenName: "notifications"
     },
     {
       title: Translate.t("privacy"),
@@ -91,6 +91,10 @@ const Settings = () => {
     }
     else if (item.screenName == "privacy") {
       navigate("PrivacyPolicy")
+    }
+    else if (item.screenName == "notifications"){
+      console.log("ok")
+      navigate("Notification")
     }
     else if (item.screenName == "logout") {
       Alert.alert(

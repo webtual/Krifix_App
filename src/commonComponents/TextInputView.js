@@ -35,6 +35,7 @@ const TextInputView = ({ value = "",imageSource, onChangeText, placeholder = "",
             />
 
         </View>
+        
     )
 }
 

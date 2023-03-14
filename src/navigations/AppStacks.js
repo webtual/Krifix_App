@@ -31,7 +31,8 @@ import PrivacyPolicy from '../screens/PrivacyPolicy';
 import ContactUs from '../screens/ContactUs';
 import HelpCenter from '../screens/HelpCenter';
 import Rewards from '../screens/Rewards';
-
+import Notification from '../screens/Notification';
+import QrCodeScan from '../screens/QrCodeScan';
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
 
@@ -138,7 +139,7 @@ function HomeTabs() {
 function AppStacks() {
 	return (
 		<Stack.Navigator
-			initialRouteName="Splash"
+			initialRouteName="Register"
 			screenOptions={{
 				headerShown: false,
 				gesturesEnabled: false,
@@ -155,6 +156,8 @@ function AppStacks() {
 			<Stack.Screen name="ContactUs" component={ContactUs} />
 			<Stack.Screen name="HelpCenter" component={HelpCenter} />
 			<Stack.Screen name="Rewards" component={Rewards} />
+			<Stack.Screen name="Notification" component={Notification} />
+			<Stack.Screen name="QrCodeScan" component={QrCodeScan} />
 			
 		</Stack.Navigator>
 	)

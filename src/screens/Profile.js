@@ -16,7 +16,8 @@ const Profile = () => {
 
   const [mobile, setMobile] = useState("")
   const [fullName, setFullName] = useState("")
-
+  const [firstName, setFirstname] = useState("")
+    const [lastName, setLastName] = useState("")
   const [bankName, setBankName] = useState("")
   const [bankLocation, setBankLocation] = useState("")
   const [accountNumber, setAccountNumber] = useState("")
@@ -69,12 +70,18 @@ const Profile = () => {
 
           <TextInputView
             containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
-            value={fullName}
+            value={firstName}
             imageSource={SmileImg}
-            onChangeText={(text) => setFullName(text)}
-            placeholder={Translate.t("full_name")}
+            onChangeText={(text) => setFirstname(text)}
+            placeholder={Translate.t("first_name")}
           />
-
+ <TextInputView
+                    imageSource={SmileImg}
+                    containerStyle={{ marginTop: pixelSizeHorizontal(15) }}
+                    value={lastName}
+                    onChangeText={(text) => setLastName(text)}
+                    placeholder={Translate.t("last_name")}
+                />
 
           <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
             {Translate.t("mobile")}

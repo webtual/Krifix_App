@@ -12,6 +12,8 @@ export default {
 	sign_up : "Sign up",
 	already_Registered : "Already Registered? ",
 	full_name : 'Full name',
+	first_name:"First name",
+	last_name:"Last name",
 	city : 'City',
 	area : 'Area',
 	pincode : 'Pincode',
@@ -58,4 +60,11 @@ export default {
 	krifix_reward : "Krifix Reward",
 	cash_voucher : "Cash Voucher",
 	redeem_it : "Redeem It!",
+	Notification:"Notification",
+	Scan_QR:"Scan QR",
+	Congratulations:"Congratulations!",
+	You_earned:"You earned",
+	Point:"Point",
+	Withdraw_desc:"We have received your withdraw reward request of",
+	withdraw_mail_text:"* you will received reward in "
 }

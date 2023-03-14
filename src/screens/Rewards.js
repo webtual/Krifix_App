@@ -5,21 +5,24 @@ import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { goBack } from '../navigations/RootNavigation'
 import FastImage from 'react-native-fast-image'
-import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg } from '../constants/Images'
+import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, white } from '../constants/Color'
 import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import InvitePopUp from './InvitePopUp'
 import { RUPEE } from '../constants/ConstantKey'
+import CongratulationsPopUp from './CongratulationsPopUp'
 
 const Rewards = () => {
-
-
+  
+    const [isCongratulationModel, setCongratulationModel] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-
+    const CongratulationModel = () => {
+        setCongratulationModel(!isCongratulationModel);
+    };
     const btnScanTap = () => {
 
     }
@@ -158,7 +161,8 @@ const Rewards = () => {
 
                                 </View>
 
-                                <TouchableOpacity style={{
+                                <TouchableOpacity onPress={()=>CongratulationModel()}
+                                style={{
                                     backgroundColor: black, paddingVertical: pixelSizeHorizontal(5),
                                     borderBottomLeftRadius: widthPixel(8), borderBottomRightRadius: widthPixel(8)
                                 }}>
@@ -173,7 +177,8 @@ const Rewards = () => {
                 </View>
 
                 <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} />
-
+                <CongratulationsPopUp isWithDrawModel={true}
+            isInviteVisible={isCongratulationModel} toggleInvite={() => CongratulationModel()}/>
 
             </HeaderView>
         </>

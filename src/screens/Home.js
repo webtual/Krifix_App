@@ -21,9 +21,7 @@ const Home = () => {
   };
  
 
-  const btnScanTap = () => {
-
-  }
+  
 
   return (
     <>
@@ -142,7 +140,7 @@ const Home = () => {
       </HeaderView>
 
       <Pressable
-        onPress={() => btnScanTap()}
+        onPress={() =>  navigate("QrCodeScan")}
         style={[styles.btnScanStyle]}>
 
         <FastImage
