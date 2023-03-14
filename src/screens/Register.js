@@ -6,10 +6,12 @@ import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveS
 import Translate from '../translation/Translate'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
-import { goBack, resetScreen } from '../navigations/RootNavigation'
+import { goBack, navigate, resetScreen } from '../navigations/RootNavigation'
 import { BuildingImg, LocationImg, PhoneImg, PinImg, SmileImg } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+
+const userData = ''
 const Register = () => {
 
     const [isLoading, setIsLoading] = useState(false)
@@ -21,34 +23,38 @@ const Register = () => {
     const [pincode, setPincode] = useState("")
 
     const btnSignUpTap = (value) => {
-        console.log("User Data :",value)
+      const   userData = value
+        console.log("User Data :",userData)
     }
 
+    const btnLoginTap = () => {
+        navigate("Login")
+      }
   
-    const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
+  
     const SignupSchema = Yup.object().shape({
         firstname: Yup.string()
-            .min(2, 'Too Short!')
-            .max(50, 'Too Long!')
-            .required('First name cannot be empty'),
+            .min(2, '* Too Short!')
+            .max(50, '* Too Long!')
+            .required('* First name cannot be empty'),
         lastname: Yup.string()
-            .min(2, 'Too Short!')
-            .max(50, 'Too Long!')
-            .required('Last name cannot be empty'),
+            .min(2, '* Too Short!')
+            .max(50, '* Too Long!')
+            .required('* Last name cannot be empty'),
         mobile: Yup.string()
-            .min(10, 'Phone number is not valid')
-            .required("Mobile number cannot be empty"),
+            .min(10, '* Phone number is not valid')
+            .required("* Mobile number cannot be empty"),
         city: Yup.string()
-            .min(2, 'Too Short!')
-            .max(20, 'Too Long!')
-            .required('City cannot be empty'),
+            .min(2, '* Too Short!')
+            .max(20, '* Too Long!')
+            .required('* City cannot be empty'),
         area: Yup.string()
-            .min(2, 'Too Short!')
-            .max(30, 'Too Long!')
-            .required('Area cannot be empty'),
+            .min(2, '* Too Short!')
+            .max(30, '* Too Long!')
+            .required('* Area cannot be empty'),
         pincode: Yup.string()
-            .min(6, 'Enter 6 digit pincode')
-            .required('Pincode cannot be empty'),
+            .min(6, '* Enter 6 digit pincode')
+            .required('* Pincode cannot be empty'),
 
     });
     return (
@@ -71,12 +77,11 @@ const Register = () => {
                 }
             >
                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                    <View style={{ marginTop: pixelSizeHorizontal(60) }}>
+                    <View style={{ marginVertical: pixelSizeHorizontal(20) }}>
 
                         <TextInputView
                             imageSource={SmileImg}
                             value={values.firstname}
-                            // onChangeText={(text) => setFirstname(text)}
                             onChangeText={handleChange('firstname')}
                             onBlur={handleBlur('firstname')}
                             placeholder={Translate.t("first_name")}
@@ -88,7 +93,6 @@ const Register = () => {
                             imageSource={SmileImg}
                             containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
                             value={values.lastname}
-                            // onChangeText={(text) => setLastName(text)}
                             onChangeText={handleChange('lastname')}
                             onBlur={handleBlur('lastname')}
                             placeholder={Translate.t("last_name")}
@@ -100,11 +104,11 @@ const Register = () => {
                             imageSource={PhoneImg}
                             containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
                             value={values.mobile}
-                            // onChangeText={(text) => setMobile(text)}
                             onChangeText={handleChange('mobile')}
                             onBlur={handleBlur('mobile')}
                             placeholder={Translate.t("mobile")}
                             keyboardType={'number-pad'}
+                            maxLength={10}
                         />
                         {(errors.mobile && touched.mobile) &&
                             <Text style={styles.errorText}>{errors.mobile}</Text>
@@ -113,7 +117,6 @@ const Register = () => {
                             imageSource={BuildingImg}
                             containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
                             value={values.city}
-                            // onChangeText={(text) => setCity(text)}
                             onChangeText={handleChange('city')}
                             onBlur={handleBlur('city')}
                             placeholder={Translate.t("city")}
@@ -126,7 +129,6 @@ const Register = () => {
                             imageSource={LocationImg}
                             containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
                             value={values.area}
-                            // onChangeText={(text) => setArea(text)}
                             onChangeText={handleChange('area')}
                             onBlur={handleBlur('area')}
                             placeholder={Translate.t("area")}
@@ -139,18 +141,17 @@ const Register = () => {
                             imageSource={PinImg}
                             containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
                             value={values.pincode}
-                            // onChangeText={(text) => setPincode(text)}
                             onChangeText={handleChange('pincode')}
                             onBlur={handleBlur('pincode')}
                             placeholder={Translate.t("pincode")}
                             keyboardType={'number-pad'}
+                            maxLength={6}
                         />
                         {(errors.pincode && touched.pincode) &&
                             <Text style={styles.errorText}>{errors.pincode}</Text>
                         }
                         <Pressable
                             onPress={handleSubmit}
-                            // onPress={() => btnLoginTap()}
                             style={styles.btnStyle}>
                             <Text style={styles.btnText}>{Translate.t("sign_up")}</Text>
 
@@ -202,6 +203,7 @@ const styles = StyleSheet.create({
         fontFamily: REGULAR,
         fontSize: FontSize.FS_10,
         color: 'red',
+        marginLeft:pixelSizeHorizontal(40)
     },
 })
 

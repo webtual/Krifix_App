@@ -139,7 +139,7 @@ function HomeTabs() {
 function AppStacks() {
 	return (
 		<Stack.Navigator
-			initialRouteName="Register"
+			initialRouteName="Splash"
 			screenOptions={{
 				headerShown: false,
 				gesturesEnabled: false,

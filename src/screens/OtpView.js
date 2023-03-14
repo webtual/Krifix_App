@@ -21,7 +21,10 @@ const OtpView = () => {
     }
 
     const btnSubmitTap = () => {
-        resetScreen("Dashboard")
+        console.log("optcode.length",optcode.length)
+        if(optcode.length == 4){
+            resetScreen("Dashboard")
+        }
     }
 
     return (

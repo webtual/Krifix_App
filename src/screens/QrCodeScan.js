@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, SectionList, Linking, Dimensions } from 'react-native'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -15,13 +15,17 @@ import CongratulationsPopUp from './CongratulationsPopUp'
 import QRCodeScanner from 'react-native-simple-qrcode-scanner';
 import { RNCamera } from 'react-native-camera';
 const QrCodeScan = () => {
+
+    const refScan = useRef(null)
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isFlash, setIsFlash] = useState(RNCamera.Constants.FlashMode.off)
+
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
-        setTimeout(() => {
-            goBack()
-        }, 3000)
+        // setTimeout(() => {
+        //     goBack()
+        // }, 3000)
     };
     const onSuccess = e => {
         console.log("success", e)
@@ -31,6 +35,14 @@ const QrCodeScan = () => {
         // );
     };
 
+    const toggleFlash = () => {
+        if(isFlash == 0){
+            setIsFlash(RNCamera.Constants.FlashMode.torch)
+        }else{
+            setIsFlash(RNCamera.Constants.FlashMode.off)
+        }
+    }
+
     return (
         <>
             <View style={{ flex: 1, flexDirection: 'column', backgroundColor: 'transparent' }}>
@@ -39,14 +51,12 @@ const QrCodeScan = () => {
                     cameraStyle={{ height: '100%' }}
                     containerStyle={{ flex: 1, backgroundColor: "transparent" }}
                     onRead={onSuccess}
-                    flashMode={RNCamera.Constants.FlashMode.auto}
+                    flashMode={isFlash}
                     cameraProps={{ captureAudio: false }}
                     reactivate={true}
                     showOnlyCamera={true}
                     showMarker={Platform.OS !== "ios"}
-                    ref={(node) => {
-                        this.scanner = node;
-                    }}
+                    ref={refScan}
                 />
                 <TouchableOpacity style={styles.headContainer} onPress={() => goBack()}>
                     <FastImage
@@ -56,21 +66,23 @@ const QrCodeScan = () => {
                     />
                 </TouchableOpacity>
                 <TouchableOpacity
-                    style={styles.flashContainer}>
+                    style={styles.flashContainer}
+                    onPress={() => toggleFlash()}>
                     <FastImage
                         style={styles.flashImage}
                         resizeMode="contain"
                         source={FlashImg}
                     />
                 </TouchableOpacity>
-                <View style={styles.scanBtn}>
+                <TouchableOpacity style={styles.scanBtn}
+                onPress={() => refScan.current.reactivate()}>
                     <FastImage
                         style={styles.image}
                         resizeMode="contain"
                         source={ScanImgBlack}
                     />
                     <Text style={styles.scanText}>{Translate.t("Scan_QR")} </Text>
-                </View>
+                </TouchableOpacity>
 
             </View>
             <CongratulationsPopUp isWithDrawModel={false}
