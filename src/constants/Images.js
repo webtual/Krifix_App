@@ -50,4 +50,5 @@ export const FlashImg = require('../assets/images/ic_flash.png')
 export const ScanImgOutline = require('../assets/images/ic_scan_outline.png')
 export const CongratsImg = require('../assets/images/congratulation_box.png')
 export const WithdrawImg = require('../assets/images/withdraw_congratulations.png')
+export const Camera = require('../assets/images/ic_camera.png')
 

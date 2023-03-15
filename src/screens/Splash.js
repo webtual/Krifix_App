@@ -51,7 +51,7 @@ const Splash = (props) => {
 
 					dispatch(storeUserData(data))
 
-					resetScreen("Home")
+					resetScreen("Dashboard")
 
 				})
 			}

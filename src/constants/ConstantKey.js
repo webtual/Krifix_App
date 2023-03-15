@@ -7,6 +7,7 @@ export const RUPEE = "₹"
 
 export const USER_DATA = "USER_DATA"
 export const FCM_TOKEN = "FCM_TOKEN"
+export const BEARER_TOKEN = "BEARER_TOKEN"
 
 export const GOOGLE_API_KEY = ''
 

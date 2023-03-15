@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 /** Constant Files */
-import { USER_DATA } from '../constants/ConstantKey';
+import { BEARER_TOKEN, USER_DATA } from '../constants/ConstantKey';
 import { BASE_URL } from "../constants/ApiUrl";
 
 
@@ -21,7 +21,7 @@ const ApiManager = axios.create({
 ApiManager.interceptors.request.use(async config => {
 
 	/**  Set Barear Token in Haeder */
-	var token = await AsyncStorage.getItem(USER_DATA)
+	var token = await AsyncStorage.getItem(BEARER_TOKEN)
 
 	// console.log('====================================');
 	// console.log("User Token axios: " + token);
@@ -30,7 +30,7 @@ ApiManager.interceptors.request.use(async config => {
 	token = JSON.parse(token)
 
 	if (token) {
-		config.headers.Authorization = token.token
+		config.headers.Authorization = "Bearer "+token
 	}
 
 	return config

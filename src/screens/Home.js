@@ -11,10 +11,15 @@ import { ANDROID_APP_LINK, IOS_APP_LINK, SCREEN_WIDTH } from '../constants/Const
 
 import { navigate } from '../navigations/RootNavigation'
 import InvitePopUp from './InvitePopUp'
+import { useSelector } from 'react-redux'
+import { user_data } from '../redux/reducers/userReducer'
 
 const Home = () => {
 
   const [isModalVisible, setModalVisible] = useState(false);
+  const userData = useSelector(user_data)
+  console.log("userData",userData)
+
 
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -25,7 +30,7 @@ const Home = () => {
 
   return (
     <>
-      <HeaderView title={Translate.t("welcome", { name: "Developer!" })} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}>
+      <HeaderView title={Translate.t("welcome", { name: userData.user.first_name+"!" })} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}>
 
         <View style={[styles.viewInvite, {
           alignItems: 'center', paddingVertical: pixelSizeHorizontal(25),
@@ -59,7 +64,7 @@ const Home = () => {
           }}>
 
             <Text style={styles.textBigName}>
-              D
+              {userData.user.first_name.charAt(0)}
             </Text>
 
           </View>

@@ -10,9 +10,16 @@ import { goBack, navigate, resetScreen } from '../navigations/RootNavigation'
 import { BuildingImg, LocationImg, PhoneImg, PinImg, SmileImg } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import ApiManager from '../commonComponents/ApiManager'
+import { storeData } from '../commonComponents/AsyncManager'
+import { USER_DATA } from '../constants/ConstantKey'
+import { storeUserData } from '../redux/reducers/userReducer'
+import { useDispatch } from 'react-redux'
+import { CHECK_MOBILE, REGISTER } from '../constants/ApiUrl'
+import LoadingView from '../commonComponents/LoadingView'
 
-const userData = ''
 const Register = () => {
+    const dispatch = useDispatch()
 
     const [isLoading, setIsLoading] = useState(false)
     const [mobile, setMobile] = useState("")
@@ -21,17 +28,47 @@ const Register = () => {
     const [city, setCity] = useState("")
     const [area, setArea] = useState("")
     const [pincode, setPincode] = useState("")
+    const [userData, setUserData] = useState()
+
+
+
+
+    const Api_Check_mobile = (isLoad, data) => {
+        setIsLoading(isLoad)
+        ApiManager.post(CHECK_MOBILE, {
+            phone: data.mobile,
+        }).then((response) => {
+            console.log("Api_Check_mobile : ", response)
+            setIsLoading(false)
+
+            if (response.data.status == false) {
+
+                var dict = data
+                dict["isFrom"] = "Register"
+                navigate("OtpView", { data: dict })
+
+            } else {
+                alert(response.data.message)
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Check_mobile Error ", err);
+        })
+    }
+
 
     const btnSignUpTap = (value) => {
-      const   userData = value
-        console.log("User Data :",userData)
+        console.log("User Data Register :", value)
+        setUserData(value)
+        Api_Check_mobile(true, value)
     }
 
     const btnLoginTap = () => {
         navigate("Login")
-      }
-  
-  
+    }
+
+
     const SignupSchema = Yup.object().shape({
         firstname: Yup.string()
             .min(2, '* Too Short!')
@@ -58,121 +95,121 @@ const Register = () => {
 
     });
     return (
+        <>
+            <HeaderView title={Translate.t("sign_up")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
+                onPress={() => goBack()}>
 
-        <HeaderView title={Translate.t("sign_up")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
-            onPress={() => goBack()}>
+                <Formik
+                    initialValues={{
+                        firstname: firstName,
+                        lastname: lastname,
+                        mobile: mobile,
+                        city: city,
+                        area: area,
+                        pincode: pincode
+                    }}
+                    validationSchema={SignupSchema}
+                    onSubmit={values => { btnSignUpTap(values) }
+                    }
+                >
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                        <View style={{ marginVertical: pixelSizeHorizontal(20) }}>
 
-            <Formik
-                initialValues={{
-                    firstname: firstName,
-                    lastname: lastname,
-                    mobile: mobile,
-                    city: city,
-                    area: area,
-                    pincode: pincode
-                }}
-                validationSchema={SignupSchema}
-                onSubmit={values => 
-                   { btnSignUpTap(values)}
-                }
-            >
-                {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                    <View style={{ marginVertical: pixelSizeHorizontal(20) }}>
+                            <TextInputView
+                                imageSource={SmileImg}
+                                value={values.firstname}
+                                onChangeText={handleChange('firstname')}
+                                onBlur={handleBlur('firstname')}
+                                placeholder={Translate.t("first_name")}
+                            />
+                            {(errors.firstname && touched.firstname) &&
+                                <Text style={styles.errorText}>{errors.firstname}</Text>
+                            }
+                            <TextInputView
+                                imageSource={SmileImg}
+                                containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
+                                value={values.lastname}
+                                onChangeText={handleChange('lastname')}
+                                onBlur={handleBlur('lastname')}
+                                placeholder={Translate.t("last_name")}
+                            />
+                            {(errors.lastname && touched.lastname) &&
+                                <Text style={styles.errorText}>{errors.lastname}</Text>
+                            }
+                            <TextInputView
+                                imageSource={PhoneImg}
+                                containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
+                                value={values.mobile}
+                                onChangeText={handleChange('mobile')}
+                                onBlur={handleBlur('mobile')}
+                                placeholder={Translate.t("mobile")}
+                                keyboardType={'number-pad'}
+                                maxLength={10}
+                            />
+                            {(errors.mobile && touched.mobile) &&
+                                <Text style={styles.errorText}>{errors.mobile}</Text>
+                            }
+                            <TextInputView
+                                imageSource={BuildingImg}
+                                containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
+                                value={values.city}
+                                onChangeText={handleChange('city')}
+                                onBlur={handleBlur('city')}
+                                placeholder={Translate.t("city")}
+                            />
+                            {(errors.city && touched.city) &&
+                                <Text style={styles.errorText}>{errors.city}</Text>
+                            }
 
-                        <TextInputView
-                            imageSource={SmileImg}
-                            value={values.firstname}
-                            onChangeText={handleChange('firstname')}
-                            onBlur={handleBlur('firstname')}
-                            placeholder={Translate.t("first_name")}
-                        />
-                        {(errors.firstname && touched.firstname) &&
-                            <Text style={styles.errorText}>{errors.firstname}</Text>
-                        }
-                        <TextInputView
-                            imageSource={SmileImg}
-                            containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
-                            value={values.lastname}
-                            onChangeText={handleChange('lastname')}
-                            onBlur={handleBlur('lastname')}
-                            placeholder={Translate.t("last_name")}
-                        />
-                        {(errors.lastname && touched.lastname) &&
-                            <Text style={styles.errorText}>{errors.lastname}</Text>
-                        }
-                        <TextInputView
-                            imageSource={PhoneImg}
-                            containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
-                            value={values.mobile}
-                            onChangeText={handleChange('mobile')}
-                            onBlur={handleBlur('mobile')}
-                            placeholder={Translate.t("mobile")}
-                            keyboardType={'number-pad'}
-                            maxLength={10}
-                        />
-                        {(errors.mobile && touched.mobile) &&
-                            <Text style={styles.errorText}>{errors.mobile}</Text>
-                        }
-                        <TextInputView
-                            imageSource={BuildingImg}
-                            containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
-                            value={values.city}
-                            onChangeText={handleChange('city')}
-                            onBlur={handleBlur('city')}
-                            placeholder={Translate.t("city")}
-                        />
-                        {(errors.city && touched.city) &&
-                            <Text style={styles.errorText}>{errors.city}</Text>
-                        }
+                            <TextInputView
+                                imageSource={LocationImg}
+                                containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
+                                value={values.area}
+                                onChangeText={handleChange('area')}
+                                onBlur={handleBlur('area')}
+                                placeholder={Translate.t("area")}
+                            />
+                            {(errors.area && touched.area) &&
+                                <Text style={styles.errorText}>{errors.area}</Text>
+                            }
 
-                        <TextInputView
-                            imageSource={LocationImg}
-                            containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
-                            value={values.area}
-                            onChangeText={handleChange('area')}
-                            onBlur={handleBlur('area')}
-                            placeholder={Translate.t("area")}
-                        />
-                        {(errors.area && touched.area) &&
-                            <Text style={styles.errorText}>{errors.area}</Text>
-                        }
+                            <TextInputView
+                                imageSource={PinImg}
+                                containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
+                                value={values.pincode}
+                                onChangeText={handleChange('pincode')}
+                                onBlur={handleBlur('pincode')}
+                                placeholder={Translate.t("pincode")}
+                                keyboardType={'number-pad'}
+                                maxLength={6}
+                            />
+                            {(errors.pincode && touched.pincode) &&
+                                <Text style={styles.errorText}>{errors.pincode}</Text>
+                            }
+                            <Pressable
+                                onPress={handleSubmit}
+                                style={styles.btnStyle}>
+                                <Text style={styles.btnText}>{Translate.t("sign_up")}</Text>
 
-                        <TextInputView
-                            imageSource={PinImg}
-                            containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
-                            value={values.pincode}
-                            onChangeText={handleChange('pincode')}
-                            onBlur={handleBlur('pincode')}
-                            placeholder={Translate.t("pincode")}
-                            keyboardType={'number-pad'}
-                            maxLength={6}
-                        />
-                        {(errors.pincode && touched.pincode) &&
-                            <Text style={styles.errorText}>{errors.pincode}</Text>
-                        }
-                        <Pressable
-                            onPress={handleSubmit}
-                            style={styles.btnStyle}>
-                            <Text style={styles.btnText}>{Translate.t("sign_up")}</Text>
+                            </Pressable>
 
-                        </Pressable>
-
-                        <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: pixelSizeHorizontal(25) }}>
-                            <Text style={styles.text}>
-                                {Translate.t("already_Registered")}
-                            </Text>
-                            <TouchableOpacity onPress={() => btnLoginTap()}>
-                                <Text style={styles.textSignUp}>
-                                    {Translate.t("login")}
+                            <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: pixelSizeHorizontal(25) }}>
+                                <Text style={styles.text}>
+                                    {Translate.t("already_Registered")}
                                 </Text>
-                            </TouchableOpacity>
+                                <TouchableOpacity onPress={() => btnLoginTap()}>
+                                    <Text style={styles.textSignUp}>
+                                        {Translate.t("login")}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                )}
-            </Formik>
+                    )}
+                </Formik>
 
-        </HeaderView>
-
+            </HeaderView>
+            {isLoading && <LoadingView />}
+        </>
 
     )
 }
@@ -203,7 +240,7 @@ const styles = StyleSheet.create({
         fontFamily: REGULAR,
         fontSize: FontSize.FS_10,
         color: 'red',
-        marginLeft:pixelSizeHorizontal(40)
+        marginLeft: pixelSizeHorizontal(40)
     },
 })
 

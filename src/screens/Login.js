@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity, Platform } from 'react-native'
 import React, { useState } from 'react'
 import { black, greenPrimary, offWhite, warmGrey, white } from '../constants/Color'
 import HeaderView from '../commonComponents/HeaderView'
@@ -10,15 +10,22 @@ import { navigate, resetScreen } from '../navigations/RootNavigation'
 import { PhoneImg } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import ApiManager from '../commonComponents/ApiManager'
+import { CHECK_MOBILE, LOGIN } from '../constants/ApiUrl'
+import { useDispatch } from 'react-redux'
+import { storeUserData } from '../redux/reducers/userReducer'
+import { storeData } from '../commonComponents/AsyncManager'
+import { USER_DATA } from '../constants/ConstantKey'
+import LoadingView from '../commonComponents/LoadingView'
 
 const Login = () => {
+
+    const dispatch = useDispatch()
 
     const [isLoading, setIsLoading] = useState(false)
     const [mobile, setMobile] = useState("")
 
-    const btnLoginTap = () => {
-        navigate("OtpView")
-    }
+  
 
     const btnSignUpTap = () => {
         navigate("Register")
@@ -29,59 +36,90 @@ const Login = () => {
             .required("* Mobile number cannot be empty"),
     });
 
-    
+
     const loginData = (value) => {
-        const   LoginData = value
-        console.log("User Data :",LoginData)
-        navigate("OtpView")
+        console.log("value",value)
+        setMobile(value.mobile)
+        Api_Check_mobile(true, value)
     }
+
+    const Api_Check_mobile = (isLoad, data) => {
+        setIsLoading(isLoad)
+        ApiManager.post(CHECK_MOBILE, {
+            phone: data.mobile,
+        }).then((response) => {
+            console.log("Api_Check_mobile : ", response)
+            setIsLoading(false)
+
+           
+            if (response.data.status == true) {
+
+                var dict = data
+                dict["isFrom"] =  "Login"
+                navigate("OtpView",{data : dict})
+
+            } else {
+                alert(response.data.message)
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Check_mobile Error ", err);
+        })
+    }
+
+
+
     return (
+        <>
+            <HeaderView title={Translate.t("login")} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
+                <Formik
+                    initialValues={{
+                        mobile: mobile,
+                    }}
+                    validationSchema={LoginSchema}
+                    onSubmit={values => { loginData(values) }
+                    }
+                >
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                        <View style={{ marginTop: pixelSizeHorizontal(60) }}>
 
-        <HeaderView title={Translate.t("login")} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
-            <Formik
-                initialValues={{
-                    mobile: mobile,
-                }}
-                validationSchema={LoginSchema}
-                onSubmit={values => { loginData(values) }
-                }
-            >
-                {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
-                    <View style={{ marginTop: pixelSizeHorizontal(60) }}>
+                            <TextInputView
+                                imageSource={PhoneImg}
+                                onChangeText={handleChange('mobile')}
+                                onBlur={handleBlur('mobile')}
+                                value={values.mobile}
+                                placeholder={Translate.t("mobile")}
+                                maxLength={10}
+                                keyboardType={'number-pad'}
+                            />
+                            {(errors.mobile && touched.mobile) &&
+                                <Text style={styles.errorText}>{errors.mobile}</Text>
+                            }
+                            <Pressable
+                                onPress={handleSubmit}
+                                style={styles.btnStyle}>
+                                <Text style={styles.btnText}>{Translate.t("login")}</Text>
 
-                        <TextInputView
-                            imageSource={PhoneImg}
-                            onChangeText={handleChange('mobile')}
-                            onBlur={handleBlur('mobile')}
-                            value={values.mobile}
-                            placeholder={Translate.t("mobile")}
-                            maxLength={10}
-                            keyboardType={'number-pad'}
-                        />
-                        {(errors.mobile && touched.mobile) &&
-                            <Text style={styles.errorText}>{errors.mobile}</Text>
-                        }
-                        <Pressable
-                           onPress={handleSubmit}
-                            style={styles.btnStyle}>
-                            <Text style={styles.btnText}>{Translate.t("login")}</Text>
+                            </Pressable>
 
-                        </Pressable>
-
-                        <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: pixelSizeHorizontal(25) }}>
-                            <Text style={styles.text}>
-                                {Translate.t("new_to_krifix")}
-                            </Text>
-                            <TouchableOpacity onPress={() => btnSignUpTap()}>
-                                <Text style={styles.textSignUp}>
-                                    {Translate.t("sign_up")}
+                            <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: pixelSizeHorizontal(25) }}>
+                                <Text style={styles.text}>
+                                    {Translate.t("new_to_krifix")}
                                 </Text>
-                            </TouchableOpacity>
+                                <TouchableOpacity onPress={() => btnSignUpTap()}>
+                                    <Text style={styles.textSignUp}>
+                                        {Translate.t("sign_up")}
+                                    </Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                    </View>
-                )}
-            </Formik>
-        </HeaderView>
+                    )}
+                </Formik>
+            </HeaderView>
+
+            {isLoading && <LoadingView />}
+        </>
     )
 }
 
@@ -111,7 +149,7 @@ const styles = StyleSheet.create({
         fontFamily: REGULAR,
         fontSize: FontSize.FS_10,
         color: 'red',
-        marginLeft:pixelSizeHorizontal(40)
+        marginLeft: pixelSizeHorizontal(40)
     },
 })
 
