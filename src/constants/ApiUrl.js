@@ -4,4 +4,11 @@ export const LOGIN = "auth/login"
 export const CHECK_MOBILE = "auth/check-mobile"
 export const REGISTER = "auth/register"
 export const GET_PROFILE = "get-profile"
+export const UPDATE_PROFILE = "update-profile"
+export const GET_HOME_BANNER = "get-homebanner"
+export const GET_FAQS = "get-faqs"
+export const GET_CONTACT_DETAILS = "get-contact-details"
+export const GET_CMS = "get-cms"
+export const GET_REDEEM_HISTORY = "get-transaction-history"
+
 

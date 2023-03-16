@@ -37,7 +37,7 @@ const Settings = () => {
       screenName: "privacy"
     },
     {
-      title: Translate.t("help_center"),
+      title: Translate.t("faq"),
       image: HelpImg,
       screenName: "helpCenter"
     },

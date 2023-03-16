@@ -1,5 +1,5 @@
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert } from 'react-native'
-import React, { useEffect, useState } from 'react'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native'
+import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -7,24 +7,25 @@ import FastImage from 'react-native-fast-image'
 import { black, disableColor, greenPrimary, paleGreen, warmGrey, white } from '../constants/Color'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
-import { Camera, PhoneImg, PrivacyImg, SmileImg } from '../constants/Images'
+import { BuildingImg, Camera, LocationImg, PhoneImg, PinImg, PrivacyImg, SmileImg } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ImagePicker from 'react-native-image-crop-picker';
 import { SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
-import { GET_PROFILE } from '../constants/ApiUrl'
+import { GET_PROFILE, UPDATE_PROFILE } from '../constants/ApiUrl'
 import ApiManager from '../commonComponents/ApiManager'
 import LoadingView from '../commonComponents/LoadingView'
 import { storeData } from '../commonComponents/AsyncManager'
 import { storeUserData, user_data } from '../redux/reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
+import { useFocusEffect } from '@react-navigation/native'
 
 
 const Profile = () => {
 
   const dispatch = useDispatch()
   const userData = useSelector(user_data)
-
+  console.log("PROFILE GET USER DATA :", userData)
   const [isLoading, setIsLoading] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [isDisabled, seIsDisabled] = useState(false)
@@ -32,43 +33,47 @@ const Profile = () => {
   const [fullName, setFullName] = useState("")
   const [firstName, setFirstname] = useState("")
   const [lastName, setLastName] = useState("")
+  const [city, setCity] = useState("")
+  const [area, setArea] = useState("")
+  const [pincode, setPincode] = useState("")
   const [bankName, setBankName] = useState("")
   const [bankLocation, setBankLocation] = useState("")
   const [accountNumber, setAccountNumber] = useState("")
   const [ifscCode, setIfscCode] = useState("")
-  const [profileImg, setProfileImg] = useState({ path: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8dXNlciUyMHByb2ZpbGV8ZW58MHx8MHx8&w=1000&q=80" })
+  const [profileImg, setProfileImg] = useState({ path: "" })
+  const [isImageUpdate, setIsImageUpdate] = useState(false)
 
-
-  useEffect(() => {
-    Api_Get_Profile(true)
-  }, [])
+  useFocusEffect(
+    useCallback(() => {
+      Api_Get_Profile(true)
+    }, [])
+  );
 
   const Api_Get_Profile = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_PROFILE).then((response) => {
       console.log("Api_Get_Profile : ", response)
       setIsLoading(false)
-
-
       if (response.data.status == true) {
+        var user_data = response.data.data
+        console.log("user_data", user_data)
+        setFirstname(user_data.user.first_name)
+        setLastName(user_data.user.last_name)
+        setCity(user_data.user.city)
+        setArea(user_data.user.area)
+        setPincode(user_data.user.pincode)
+        setMobile(user_data.user.phone)
+        setBankName(user_data.user.bank_name)
+        setBankLocation(user_data.user.branch_name)
+        setAccountNumber(user_data.user.account_no)
+        setIfscCode(user_data.user.ifsc_code)
+        setProfileImg({ path: userData.asset_url + user_data.user.avatar })
 
-         var user_data = response.data.data
 
-         console.log("first Name : ",user_data.user.first_name)
-         setFirstname(user_data.user.first_name)
-         setLastName(user_data.user.last_name)
-         setMobile(user_data.user.phone)
-         setBankName(user_data.user.bank_name)
-         setBankLocation(user_data.user.phone)
-         setAccountNumber(user_data.user.account_no)
-         setIfscCode(user_data.user.ifsc_code)
-         setProfileImg({path: userData.asset_url+user_data.user.avatar})
-
-
-        storeData(USER_DATA, user_data,() => {
+        storeData(USER_DATA, user_data, () => {
           dispatch(storeUserData(user_data))
 
-      })
+        })
 
 
       } else {
@@ -82,6 +87,57 @@ const Profile = () => {
   }
 
 
+  const Api_Update_Profile = (isLoad, data) => {
+    setIsLoading(isLoad)
+    let body = new FormData();
+    body.append('first_name', data.firstName)
+    body.append('last_name', data.lastName)
+    body.append('city', data.city)
+    body.append('area', data.area)
+    body.append('pincode', data.pincode)
+    body.append('bank_name', data.bankName)
+    body.append('branch_name', data.bankLocation)
+    body.append('account_no', data.accountNumber)
+    body.append('ifsc_code', data.ifscCode)
+    body.append('upi_id', "oksbi@icici")
+
+    if (isImageUpdate == true) {
+
+      body.append('avatar',
+        {
+          uri: profileImg.path,
+          name: Platform.OS == 'android' ? "image.png" : profileImg.filename,
+          type: profileImg.mime
+        });
+    }
+    ApiManager.post(UPDATE_PROFILE, body, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    }).then((response) => {
+      console.log("Api_Update_Profile : ", response)
+      setIsLoading(false)
+
+      var data = response.data;
+      if (data.status == true) {
+
+        Api_Get_Profile(true)
+        setIsImageUpdate(false)
+        Alert.alert(
+          Translate.t('success'),
+          Translate.t('profile_update_successfully'),
+          { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'destructive' },
+          { cancelable: true }
+        );
+      } else {
+        alert(data.message)
+      }
+
+    }).catch((err) => {
+      setIsLoading(false)
+      console.error("Api_Update_Profile Error ", err);
+    })
+  }
   // Action Methods
   const btnEditTap = () => {
     setIsEdit(!isEdit)
@@ -89,9 +145,8 @@ const Profile = () => {
   }
 
   const btnSaveTap = (value) => {
-    const editProfileData = value
-    editProfileData["profileImg"] = profileImg.path;
-    console.log("EditProfileData :", editProfileData)
+    console.log("SAVE PROFILE DATA :", value)
+    Api_Update_Profile(true, value)
     setIsEdit(!isEdit)
     seIsDisabled(false)
   }
@@ -113,6 +168,17 @@ const Profile = () => {
     mobile: Yup.string()
       .min(10, '* Phone number is not valid')
       .required("* Mobile number cannot be empty"),
+    city: Yup.string()
+      .min(2, '* Too Short!')
+      .max(20, '* Too Long!')
+      .required('* City cannot be empty'),
+    area: Yup.string()
+      .min(2, '* Too Short!')
+      .max(30, '* Too Long!')
+      .required('* Area cannot be empty'),
+    pincode: Yup.string()
+      .min(6, '* Enter 6 digit pincode')
+      .required('* Pincode cannot be empty'),
     bankName: Yup.string()
       .min(2, '* Bank name too short!')
       .max(20, '* Bank name too long!')
@@ -149,9 +215,10 @@ const Profile = () => {
             includeBase64: false,
             compressImageQuality: 0.7
           }).then(images => {
-
             console.log("Selected Image  " + JSON.stringify(images))
             setProfileImg(images)
+            setIsImageUpdate(true)
+            setIsLoading(false)
           }).catch((error) => {
             setIsLoading(false)
             console.log(error)
@@ -173,11 +240,10 @@ const Profile = () => {
             multipleShot: false,
             compressImageQuality: 0.7
           }).then(images => {
-
             console.log("Selected Image : " + JSON.stringify(images))
-
             setIsLoading(false)
             setProfileImg(images)
+            setIsImageUpdate(true)
 
           }).catch((error) => {
 
@@ -194,7 +260,7 @@ const Profile = () => {
 
 
   return (
-    <>
+    <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}  >
       <HeaderView title={isEdit ? Translate.t("edit_profile") : Translate.t("profile")} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
 
         <View style={{ marginTop: pixelSizeHorizontal(30) }}>
@@ -247,10 +313,13 @@ const Profile = () => {
           </View>
 
           <Formik
-           enableReinitialize={true}
+            enableReinitialize={true}
             initialValues={{
               firstName: firstName,
               lastName: lastName,
+              city: city,
+              area: area,
+              pincode: pincode,
               mobile: mobile,
               bankName: bankName,
               bankLocation: bankLocation,
@@ -265,7 +334,7 @@ const Profile = () => {
               <View style={{ marginTop: pixelSizeHorizontal(30) }}>
 
                 <Text style={styles.textTitle}>
-                  {Translate.t("name")}
+                  {Translate.t("first_name")}
                 </Text>
 
                 <TextInputView
@@ -280,10 +349,13 @@ const Profile = () => {
                 {(errors.firstName && touched.firstName) &&
                   <Text style={styles.errorText}>{errors.firstName}</Text>
                 }
+                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
+                  {Translate.t("last_name")}
+                </Text>
                 <TextInputView
                   editable={isDisabled}
                   imageSource={SmileImg}
-                  containerStyle={{ marginTop: pixelSizeHorizontal(15) }}
+                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.lastName}
                   onChangeText={handleChange('lastName')}
                   onBlur={handleBlur('lastName')}
@@ -297,7 +369,7 @@ const Profile = () => {
                 </Text>
 
                 <TextInputView
-                  editable={isDisabled}
+                  editable={false}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.mobile}
                   imageSource={PhoneImg}
@@ -310,6 +382,60 @@ const Profile = () => {
                 {(errors.mobile && touched.mobile) &&
                   <Text style={styles.errorText}>{errors.mobile}</Text>
                 }
+                <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(40) }]}>
+                  {Translate.t("address")}
+                </Text>
+
+                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
+                  {Translate.t("city")}
+                </Text>
+
+                <TextInputView
+                  editable={isDisabled}
+                  imageSource={BuildingImg}
+                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
+                  value={values.city}
+                  onChangeText={handleChange('city')}
+                  onBlur={handleBlur('city')}
+                  placeholder={Translate.t("city")}
+                />
+                {(errors.city && touched.city) &&
+                  <Text style={styles.errorText}>{errors.city}</Text>
+                }
+                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
+                  {Translate.t("area")}
+                </Text>
+                <TextInputView
+                  editable={isDisabled}
+                  imageSource={LocationImg}
+                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
+                  value={values.area}
+                  onChangeText={handleChange('area')}
+                  onBlur={handleBlur('area')}
+                  placeholder={Translate.t("area")}
+                />
+                {(errors.area && touched.area) &&
+                  <Text style={styles.errorText}>{errors.area}</Text>
+                }
+                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
+                  {Translate.t("pincode")}
+                </Text>
+                <TextInputView
+                  editable={isDisabled}
+                  imageSource={PinImg}
+                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
+                  value={values.pincode}
+                  onChangeText={handleChange('pincode')}
+                  onBlur={handleBlur('pincode')}
+                  placeholder={Translate.t("pincode")}
+                  keyboardType={'number-pad'}
+                  maxLength={6}
+                />
+                {(errors.pincode && touched.pincode) &&
+                  <Text style={styles.errorText}>{errors.pincode}</Text>
+                }
+
+
 
                 <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(40) }]}>
                   {Translate.t("bank_details")}
@@ -412,8 +538,8 @@ const Profile = () => {
         </View>
 
       </HeaderView>
-      {isLoading && <LoadingView />}
-    </>
+      {isLoading && <LoadingView  />}
+    </KeyboardAvoidingView>
   )
 }
 
@@ -452,7 +578,7 @@ const styles = StyleSheet.create({
   btnSaveText: {
     fontFamily: SEMIBOLD,
     color: white,
-    fontSize: FontSize.FS_22,
+    fontSize: FontSize.FS_16,
     textTransform: 'uppercase',
   },
   errorText: {

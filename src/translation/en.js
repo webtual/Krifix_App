@@ -25,7 +25,7 @@ export default {
 
 	notifications : "Notifications",
 	privacy : "Privacy Policy",
-	help_center : "Help center",
+	faq : "FAQ",
 	about_us : "About us",
 	refer_earn : "Refer & Earn",
 	contact_us : "Contact Us",
@@ -40,10 +40,11 @@ export default {
 
 	name : "Name",
 	bank_details : "Bank Details",
+	address : "Address",
 	bank_name : "Bank name",
-	branch_location : "Branch Location",
+	branch_location : "Branch name",
 	account_number : "Account number",
-	ifsc_code : "IFSC Code",
+	ifsc_code : "IFSC code",
 	save_details : "Save Details",
 	cancel : "Cancel",
 	alert : "Alert",
@@ -66,5 +67,8 @@ export default {
 	You_earned:"You earned",
 	Point:"Point",
 	Withdraw_desc:"We have received your withdraw reward request of",
-	withdraw_mail_text:"* you will received reward in "
+	withdraw_mail_text:"* you will received reward in ",
+	profile_update_successfully:"Profile update successfully",
+	success:"Success",
+	redeem_desc:"Savings %{name} to your wallet"
 }

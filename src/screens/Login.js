@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { black, greenPrimary, offWhite, warmGrey, white } from '../constants/Color'
 import HeaderView from '../commonComponents/HeaderView'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -15,8 +15,12 @@ import { CHECK_MOBILE, LOGIN } from '../constants/ApiUrl'
 import { useDispatch } from 'react-redux'
 import { storeUserData } from '../redux/reducers/userReducer'
 import { storeData } from '../commonComponents/AsyncManager'
-import { USER_DATA } from '../constants/ConstantKey'
+import { FCM_TOKEN, USER_DATA } from '../constants/ConstantKey'
 import LoadingView from '../commonComponents/LoadingView'
+
+import messaging from '@react-native-firebase/messaging';
+import { useFocusEffect } from '@react-navigation/native'
+
 
 const Login = () => {
 
@@ -24,8 +28,50 @@ const Login = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [mobile, setMobile] = useState("")
+    const [fcm_token, setFcmToken] = useState("")
 
-  
+    useFocusEffect(
+        useCallback(() => {
+            if (Platform.OS === "android") {
+                getFCMToken()
+            }
+            else {
+                requestUserPermission()
+            }
+        }, [])
+    );
+
+
+    const requestUserPermission = async () => {
+        const authStatus = await messaging().requestPermission();
+        const enabled =
+            authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+            authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+
+        if (enabled) {
+
+            console.log('Authorization status:', authStatus);
+
+            getFCMToken()
+
+        } else {
+            await messaging().requestPermission({
+                sound: true,
+                alert: true,
+                badge: true,
+                announcement: true,
+            });
+        }
+    }
+    const getFCMToken = async () => {
+        const fcmToken = await messaging().getToken();
+        if (fcmToken) {
+            console.log("FCM TOKEN : ", fcmToken);
+            setFcmToken(fcmToken)
+
+            storeData(FCM_TOKEN, fcmToken)
+        }
+    }
 
     const btnSignUpTap = () => {
         navigate("Register")
@@ -38,7 +84,7 @@ const Login = () => {
 
 
     const loginData = (value) => {
-        console.log("value",value)
+        console.log("value", value)
         setMobile(value.mobile)
         Api_Check_mobile(true, value)
     }
@@ -51,12 +97,12 @@ const Login = () => {
             console.log("Api_Check_mobile : ", response)
             setIsLoading(false)
 
-           
+
             if (response.data.status == true) {
 
                 var dict = data
-                dict["isFrom"] =  "Login"
-                navigate("OtpView",{data : dict})
+                dict["isFrom"] = "Login"
+                navigate("OtpView", { data: dict })
 
             } else {
                 alert(response.data.message)
@@ -68,7 +114,19 @@ const Login = () => {
         })
     }
 
+    messaging().getInitialNotification()
+        .then(remoteMessage => {
+            if (remoteMessage) {
+                let data = remoteMessage.data
+                console.log("data",data)
+                if (data.page_url == "") {
 
+                    navigate("Notification");
+
+                }
+
+            }
+        });
 
     return (
         <>

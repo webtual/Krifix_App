@@ -8,25 +8,48 @@ import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import { black, warmGrey } from '../constants/Color'
 import FastImage from 'react-native-fast-image'
 import { BackImg } from '../constants/Images'
+import { GET_FAQS } from '../constants/ApiUrl'
+import ApiManager from '../commonComponents/ApiManager'
+import LoadingView from '../commonComponents/LoadingView'
 
 const HelpCenter = () => {
 
     const [isLoading, setIsLoading] = useState(false)
     const [Description_expanded, setDescription_expanded] = useState(false)
     const [questionIndex, setQuestionIndex] = useState(0)
-    const [ArrFaq, setArrFaq] = useState([1,2,3,6,5])
+    const [ArrFaq, setArrFaq] = useState([1, 2, 3, 6, 5])
+    const [faqData, setFaqData] = useState([])
 
 
     useEffect(() => {
         Description_changeLayout(0)
+        Api_Get_Faq(true)
     }, [])
-    
 
+    const Api_Get_Faq = (isLoad) => {
+        setIsLoading(isLoad)
+        ApiManager.get(GET_FAQS).then((response) => {
+            console.log("Api_Get_Faq : ", response)
+            setIsLoading(false)
+            var data = response.data
+            if (data.status == true) {
+                setFaqData(data.data)
+
+                console.log("Api_Get_Faq data successfully")
+            } else {
+                alert(data.message)
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Get_Faq Error ", err);
+        })
+    }
     const Description_changeLayout = (index) => {
         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        if(index == questionIndex){
+        if (index == questionIndex) {
             setDescription_expanded(!Description_expanded)
-        }else{
+        } else {
             setDescription_expanded(true)
         }
         setQuestionIndex(index)
@@ -34,38 +57,39 @@ const HelpCenter = () => {
 
 
     return (
-        <HeaderView title={Translate.t("help_center")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
+        <>
+        <HeaderView title={Translate.t("faq")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
             onPress={() => goBack()}>
 
             <Text style={styles.textTitle}>
                 {Translate.t("we_are_here_to_help")}
             </Text>
 
-
-            <FlatList 
-                data={ArrFaq}
+            {console.log("faqData", faqData)}
+            <FlatList
+                data={faqData}
                 scrollEnabled={false}
-                ListHeaderComponent={() => (<View style={{ height: widthPixel(30),}} />)}
-                ItemSeparatorComponent={() => (<View style={{ height: widthPixel(10),}} />)}
+                ListHeaderComponent={() => (<View style={{ height: widthPixel(30), }} />)}
+                ItemSeparatorComponent={() => (<View style={{ height: widthPixel(10), }} />)}
                 renderItem={({ item, index }) => (
                     <View >
 
                         <TouchableOpacity
                             onPress={() => Description_changeLayout(index)}
                             style={{
-                                alignItems: 'center', flexDirection: 'row', paddingVertical : pixelSizeHorizontal(10),
-                                justifyContent: 'space-between', 
+                                alignItems: 'center', flexDirection: 'row', paddingVertical: pixelSizeHorizontal(10),
+                                justifyContent: 'space-between',
                             }}>
 
                             <Text style={{
                                 color: warmGrey, fontFamily: MEDIUM, fontSize: FontSize.FS_16,
                                 justifyContent: 'center', marginRight: 10, flex: 1
                             }}
-                                numberOfLines={2}>How to use app?</Text>
+                                numberOfLines={2}>{item.name}</Text>
 
-                            <FastImage 
+                            <FastImage
                                 source={BackImg}
-                                style={{width : widthPixel(15), height : widthPixel(15), transform: [{ rotate: Description_expanded && questionIndex == index ? '90deg' : '270deg'}]}}
+                                style={{ width: widthPixel(15), height: widthPixel(15), transform: [{ rotate: Description_expanded && questionIndex == index ? '90deg' : '270deg' }] }}
                                 tintColor={warmGrey}
                                 resizeMode='contain'
                             />
@@ -74,10 +98,10 @@ const HelpCenter = () => {
                         {questionIndex == index &&
 
                             <View style={{
-                                height: Description_expanded ? null : 0, overflow: 'hidden', marginTop : Description_expanded ? pixelSizeHorizontal(10) : 0
+                                height: Description_expanded ? null : 0, overflow: 'hidden', marginTop: Description_expanded ? pixelSizeHorizontal(10) : 0
                             }}>
                                 <Text style={{ fontSize: FontSize.FS_12, fontFamily: REGULAR, color: warmGrey }}>
-                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+                                    {item.description}
                                 </Text>
                             </View>
                         }
@@ -86,6 +110,8 @@ const HelpCenter = () => {
             />
 
         </HeaderView>
+        {isLoading && <LoadingView />}
+        </>
     )
 }
 

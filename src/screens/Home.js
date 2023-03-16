@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList } from 'react-native'
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -7,20 +7,72 @@ import { black, greenPrimary, iceBlue, offWhite, paleGreen, white } from '../con
 import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg } from '../constants/Images'
-import { ANDROID_APP_LINK, IOS_APP_LINK, SCREEN_WIDTH } from '../constants/ConstantKey'
+import { ANDROID_APP_LINK, BANNER_DATA, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 
 import { navigate } from '../navigations/RootNavigation'
 import InvitePopUp from './InvitePopUp'
-import { useSelector } from 'react-redux'
-import { user_data } from '../redux/reducers/userReducer'
+import { useDispatch, useSelector } from 'react-redux'
+import { storeUserData, user_data } from '../redux/reducers/userReducer'
+import { GET_HOME_BANNER, GET_PROFILE } from '../constants/ApiUrl'
+import ApiManager from '../commonComponents/ApiManager'
+import LoadingView from '../commonComponents/LoadingView'
+import { getData, storeData } from '../commonComponents/AsyncManager'
+import { useFocusEffect } from '@react-navigation/native'
 
 const Home = () => {
-
+  const dispatch = useDispatch()
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
+  const [bannerData, setBannerData] = useState([])
+  const [totalPoints, setTotalPoints] = useState()
   const userData = useSelector(user_data)
   console.log("userData",userData)
 
 
+  useFocusEffect(
+    useCallback(() => {
+      Api_Get_Home_Banner(true)
+    Api_Get_Profile(true)
+
+    }, [])
+  );
+
+  const Api_Get_Profile = (isLoad) => {
+    setIsLoading(isLoad)
+    ApiManager.get(GET_PROFILE).then((response) => {
+      console.log("Api_Get_Profile : ", response)
+      setIsLoading(false)
+      if (response.data.status == true) {
+        var user_data = response.data.data
+        setTotalPoints(user_data.user.reward_point)
+      } else {
+        alert(response.data.message)
+      }
+
+    }).catch((err) => {
+      setIsLoading(false)
+      console.error("Api_Get_Profile Error ", err);
+    })
+  }
+  const Api_Get_Home_Banner = (isLoad) => {
+    setIsLoading(isLoad)
+    ApiManager.get(GET_HOME_BANNER).then((response) => {
+      console.log("Api_Get_Home_Banner : ", response)
+      setIsLoading(false)
+      var data = response.data
+      if (data.status == true) {
+        setBannerData(data.data)
+
+       console.log("GET HOME BANNER SUCCESSFULLY")
+      } else {
+        alert(data.message)
+      }
+
+    }).catch((err) => {
+      setIsLoading(false)
+      console.error("Api_Get_Home_Banner Error ", err);
+    })
+  }
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -45,9 +97,8 @@ const Home = () => {
             />
 
             <View style={{ marginLeft: pixelSizeHorizontal(8) }}>
-              <Text style={styles.textPoint}>
-                500
-              </Text>
+              {console.log("totalPoints",totalPoints)}
+              <Text style={styles.textPoint}>{totalPoints}</Text>
               <Text style={[styles.textPoint, { fontSize: FontSize.FS_14 }]}>
                 {Translate.t("krifix_point")}
               </Text>
@@ -123,7 +174,7 @@ const Home = () => {
 
         <View style={{ marginTop: pixelSizeHorizontal(20), marginBottom: pixelSizeHorizontal(120) }}>
           <FlatList
-            data={[1, 2, 3, 5]}
+            data={bannerData}
             horizontal
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={() => (<View style={{ width: widthPixel(20) }}></View>)}
@@ -131,7 +182,7 @@ const Home = () => {
               <View style={{ borderRadius: widthPixel(10), width: SCREEN_WIDTH - 100, height: widthPixel(160), }}>
                 <FastImage
                   style={{ flex: 1, borderRadius: widthPixel(10) }}
-                  source={{ uri: "https://img.freepik.com/free-vector/mega-sale-offers-banner-template_1017-31299.jpg" }}
+                  source={{ uri: userData.asset_url+item.banner_image }}
                 />
               </View>
             )}
@@ -157,6 +208,7 @@ const Home = () => {
         <Text style={styles.btnScanText} >{Translate.t("scan_qr")}</Text>
 
       </Pressable>
+      {isLoading && <LoadingView />}
     </>
   )
 }

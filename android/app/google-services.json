@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "529235610678",
+    "project_id": "krifix-e17af",
+    "storage_bucket": "krifix-e17af.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:529235610678:android:73ec7ee601e43f8d535c97",
+        "android_client_info": {
+          "package_name": "com.krifix.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "529235610678-478f69akup2p36tv3ksbashdd6rukrpa.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBKrd0i1tnZBatehuze3lQBJNFPfTPnX80"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "529235610678-478f69akup2p36tv3ksbashdd6rukrpa.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

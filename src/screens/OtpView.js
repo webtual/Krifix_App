@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable, TouchableOpacity, Platform } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Translate from '../translation/Translate'
 import { heightPixel, pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import HeaderView from '../commonComponents/HeaderView'
@@ -10,8 +10,8 @@ import OTPInputView from '@twotalltotems/react-native-otp-input'
 import LoadingView from '../commonComponents/LoadingView'
 import ApiManager from '../commonComponents/ApiManager'
 import { LOGIN, REGISTER } from '../constants/ApiUrl'
-import { storeData } from '../commonComponents/AsyncManager'
-import { BEARER_TOKEN, USER_DATA } from '../constants/ConstantKey'
+import { getData, storeData } from '../commonComponents/AsyncManager'
+import { BEARER_TOKEN, FCM_TOKEN, USER_DATA } from '../constants/ConstantKey'
 import { storeUserData } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
 
@@ -23,13 +23,25 @@ const OtpView = ({ route }) => {
     const [optcode, setOptcode] = useState("")
     const [Userdata, setUserdata] = useState(route.params.data)
     const [mobile, setMobile] = useState(route.params.data.mobile)
+    const [fcm_token, setFcmToken] = useState("")
+
+    useEffect(() => {
+        GetFCM_TOKEN()
+    },[])
+
+    const GetFCM_TOKEN = () => {
+
+		getData(FCM_TOKEN, (data) => {
+            setFcmToken(data)
+        })
+    }
 
 
     const Api_Login = (isLoad, data) => {
         setIsLoading(isLoad)
         ApiManager.post(LOGIN, {
             phone: data.mobile,
-            device_id: '32323233232323fdsffdf',
+            device_id: fcm_token,
             device_type: Platform.OS === "android" ? 0 : 1
         }).then((response) => {
             console.log("Api_Login : ", response)
@@ -73,7 +85,7 @@ const OtpView = ({ route }) => {
         body.append('area', data.area)
         body.append('pincode', data.pincode)
         body.append('avatar', null)
-        body.append('device_id', '32323233232323fdsffdf')
+        body.append('device_id', fcm_token)
         body.append('device_type', Platform.OS === "android" ? 0 : 1)
 
 

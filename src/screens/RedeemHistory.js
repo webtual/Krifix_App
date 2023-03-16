@@ -1,106 +1,135 @@
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useCallback, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
-import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
-import { black, disableColor, greenPrimary, iceBlue, warmGrey } from '../constants/Color'
+import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
+import { black, disableColor, greenPrimary, iceBlue, warmGrey, yellow } from '../constants/Color'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import moment from 'moment'
 import FastImage from 'react-native-fast-image'
 import { CoinImg, TrophyImg } from '../constants/Images'
+import ApiManager from '../commonComponents/ApiManager'
+import { GET_REDEEM_HISTORY } from '../constants/ApiUrl'
+import { useFocusEffect } from '@react-navigation/native'
 
 const RedeemHistory = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [headerData, setHeaderdata] = useState()
+  const [redeemHistory, setReddemHistory] = useState()
+
+
+
+  useFocusEffect(
+    useCallback(() => {
+      Api_Get_Redeem_History(true)
+    }, [])
+  );
+
+
+  const Api_Get_Redeem_History = (isLoad) => {
+    setIsLoading(isLoad)
+    ApiManager.post(GET_REDEEM_HISTORY).then((response) => {
+      console.log("Api_Get_Redeem_History : ", response)
+      setIsLoading(false)
+      var data = response.data
+      if (data.status == true) {
+        console.log("data.data.susummary", data.data.summary)
+        setHeaderdata(data.data.summary)
+        setReddemHistory(data.data.transaction)
+
+        console.log("Api_Get_Redeem_History data successfully")
+      } else {
+        alert(data.message)
+      }
+
+    }).catch((err) => {
+      setIsLoading(false)
+      console.error("Api_Get_Redeem_History Error ", err);
+    })
+  }
+
+
   return (
-    <HeaderView title={Translate.t("redeem_history")} isBack={false} containerStyle={{}}>
+    <>
+
+      <HeaderView title={Translate.t("redeem_history")} isBack={false} containerStyle={{}}>
 
 
-      <View style={styles.pointView}>
+        <View style={styles.pointView}>
 
-        <Text style={styles.textKrifixPoint}>
-          {Translate.t("krifix_point")}
-        </Text>
-
-        <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: pixelSizeHorizontal(10) }}>
-
-          <FastImage
-            source={CoinImg}
-            style={{ width: widthPixel(30), height: widthPixel(30) }}
-            resizeMode={'contain'}
-          />
-
-          <Text style={styles.textPoint}>
-            500
+          <Text style={styles.textKrifixPoint}>
+            {Translate.t("krifix_point")}
           </Text>
+
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: pixelSizeHorizontal(10) }}>
+
+            <FastImage
+              source={CoinImg}
+              style={{ width: widthPixel(30), height: widthPixel(30) }}
+              resizeMode={'contain'}
+            />
+            {console.log("headerData", headerData)}
+            <Text style={styles.textPoint}>{headerData?.total_point}</Text>
+
+          </View>
+
+          <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(20) }}>
+            <Text style={styles.textItem}>{Translate.t("last_transaction") + " : "}</Text>
+            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{moment(headerData?.last_transation_date).format("DD MMM YYYY")}</Text>
+          </View>
+
+          <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(10) }}>
+            <Text style={styles.textItem}>{Translate.t("total_voucher_redeem") + " : "}</Text>
+            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{headerData?.total_voucher_redeem}</Text>
+          </View>
+
+          <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(10) }}>
+            <Text style={styles.textItem}>{Translate.t("total_referral") + " : "}</Text>
+            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{headerData?.total_referral}</Text>
+          </View>
 
         </View>
 
+        <FlatList
+          data={redeemHistory}
+          scrollEnabled={false}
+          ListHeaderComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+          ItemSeparatorComponent={() => (<View style={{ height: widthPixel(1), backgroundColor: disableColor, marginHorizontal: pixelSizeHorizontal(25) }}></View>)}
+          ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+          renderItem={({ item, index }) => (
+            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: pixelSizeHorizontal(8), paddingHorizontal: pixelSizeHorizontal(25) }}>
 
-        <Text style={[styles.textItem, { marginTop: pixelSizeHorizontal(20) }]}>
-          {Translate.t("last_transaction") + " : "}
-          <Text style={styles.textValue}>
-            {moment(new Date()).format("DD MMM YYYY")}
-          </Text>
-        </Text>
+              <View style={{ width: widthPixel(40), height: widthPixel(40) }}>
 
-        <Text style={[styles.textItem, { marginTop: pixelSizeHorizontal(10) }]}>
-          {Translate.t("total_voucher_redeem") + " : "}
-          <Text style={styles.textValue}>
-            25
-          </Text>
-        </Text>
+                <FastImage
+                  style={{ flex: 1 }}
+                  resizeMode="contain"
+                  source={TrophyImg}
+                />
 
-        <Text style={[styles.textItem, { marginTop: pixelSizeHorizontal(10) }]}>
-          {Translate.t("total_referral") + " : "}
-          <Text style={styles.textValue}>
-            5
-          </Text>
-        </Text>
+              </View>
 
-      </View>
+              <View style={{ flex: 1, marginHorizontal: pixelSizeHorizontal(10) }}>
+                <Text 
+                  style={[styles.textTitle, { textTransform: "capitalize" }]}>{item?.transaction_title}</Text>
 
-      <FlatList
-        data={[1, 2, 3, 6, 5, 4, 7, 8, 9, 0]}
-        scrollEnabled={false}
-        ListHeaderComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-        ItemSeparatorComponent={() => (<View style={{ height: widthPixel(1), backgroundColor: disableColor, marginHorizontal: pixelSizeHorizontal(25) }}></View>)}
-        ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-        renderItem={({ item, index }) => (
-          <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: pixelSizeHorizontal(8), paddingHorizontal: pixelSizeHorizontal(25) }}>
+                <Text style={[styles.textDesc, { textTransform: "capitalize" }]}>{Translate.t("redeem_desc", { name: item?.type == "credit" ? "credited" : "debited" })}
+                </Text>
+              </View>
 
-            <View style={{ width: widthPixel(40), height: widthPixel(40) }}>
+              <View>
+                <Text style={[styles.textTitle, { color: item?.type == "credit" ? greenPrimary : yellow, textAlign: 'right', }]}>{item?.type == "credit" ? "+" : "-"}{item?.reward_sale_point}</Text>
 
-              <FastImage
-                style={{ flex: 1 }}
-                resizeMode="contain"
-                source={TrophyImg}
-              />
+                <Text style={styles.textDate}>
+                  {moment(item?.created_at).format("DD MMM YYYY")}
+                </Text>
+              </View>
 
             </View>
-
-            <View style={{ flex: 1, marginHorizontal: pixelSizeHorizontal(10) }}>
-              <Text style={styles.textTitle}>
-                Received Reward
-              </Text>
-
-              <Text style={styles.textDesc}>
-                Savings Credited to your wallet
-              </Text>
-            </View>
-
-            <View>
-            <Text style={[styles.textTitle,{color : greenPrimary, textAlign : 'right',}]}>
-                + 1500
-              </Text>
-
-              <Text style={styles.textDate}>
-                {moment(new Date()).format("DD MMM YYYY")}
-              </Text>
-            </View>
-
-          </View>
-        )}
-      />
-    </HeaderView>
+          )}
+        />
+      </HeaderView>
+    </>
 
   )
 }
@@ -142,13 +171,13 @@ const styles = StyleSheet.create({
     fontFamily: REGULAR,
     fontSize: FontSize.FS_12,
     color: warmGrey,
-    marginTop: pixelSizeHorizontal(10)
+    marginTop: pixelSizeHorizontal(6)
   },
-  textDate : {
+  textDate: {
     fontFamily: MEDIUM,
     fontSize: FontSize.FS_10,
     color: warmGrey,
-    textAlign : 'right',
+    textAlign: 'right',
     marginTop: pixelSizeHorizontal(10)
   }
 })

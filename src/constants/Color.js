@@ -17,3 +17,4 @@ export const paleGreen = "rgb(213,253,213)"
 
 export const offWhite = "rgb(248,255,248)"
 export const iceBlue = "rgb(227,246,255)"
+export const yellow = "#DF8600"

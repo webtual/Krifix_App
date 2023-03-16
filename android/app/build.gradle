@@ -2,6 +2,9 @@ apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
+
+apply plugin: 'com.google.gms.google-services' // <- Add this line
+
 import com.android.build.OutputFile
 
 /**
@@ -94,9 +97,9 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.krifix"
+    namespace "com.krifix.app"
     defaultConfig {
-        applicationId "com.krifix"
+        applicationId "com.krifix.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1

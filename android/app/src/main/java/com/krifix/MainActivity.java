@@ -1,4 +1,4 @@
-package com.krifix;
+package com.krifix.app;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

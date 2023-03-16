@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import HeaderView from '../commonComponents/HeaderView'
@@ -8,9 +8,44 @@ import { black, warmGrey } from '../constants/Color'
 import { goBack } from '../navigations/RootNavigation'
 import FastImage from 'react-native-fast-image'
 import { AtImg, BigPhoneImg, NavigateImg, PhoneImg } from '../constants/Images'
+import ApiManager from '../commonComponents/ApiManager'
+import { GET_CONTACT_DETAILS } from '../constants/ApiUrl'
+import LoadingView from '../commonComponents/LoadingView'
 
 const ContactUs = () => {
+    const [isLoading, setIsLoading] = useState(false)
+    const [contactData, setContactData] = useState()
+
+    useEffect(() => {
+        Api_Get_Contact_details(true)
+    }, [])
+
+
+    const Api_Get_Contact_details = (isLoad) => {
+        setIsLoading(isLoad)
+        ApiManager.get(GET_CONTACT_DETAILS).then((response) => {
+            console.log("Api_Get_Contact_details : ", response)
+            setIsLoading(false)
+            var data = response.data
+            if (data.status == true) {
+                setContactData(data.data)
+
+                console.log("Api_Get_Contact_details data successfully")
+            } else {
+                alert(data.message)
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Get_Contact_details Error ", err);
+        })
+    }
+
+
+
+
     return (
+        <>
         <HeaderView title={Translate.t("contact_us")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
             onPress={() => goBack()}>
 
@@ -26,14 +61,12 @@ const ContactUs = () => {
                     resizeMode='contain'
                 />
 
-                <Text style={styles.textDesc}>
-                    B/803, Ganesh Glory, 11 Jagatpur Road, Sarkhej-Gandhinagar Highway, Gota, Ahmedabad, Gujarat 382470.
-                </Text>
+                <Text style={styles.textDesc}>{contactData?.contact_address}</Text>
 
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.viewItem}
-                onPress={() => Linking.openURL("tel:+919925326200")}>
+                onPress={() => Linking.openURL("tel:+91"+(contactData?.contact_no))}>
 
                 <FastImage
                     source={BigPhoneImg}
@@ -41,9 +74,7 @@ const ContactUs = () => {
                     resizeMode='contain'
                 />
 
-                <Text style={styles.textDesc}>
-                    +91 9925326200
-                </Text>
+                <Text style={styles.textDesc}>{contactData?.contact_no}</Text>
 
             </TouchableOpacity>
 
@@ -56,13 +87,13 @@ const ContactUs = () => {
                     resizeMode='contain'
                 />
 
-                <Text style={styles.textDesc}>
-                    info@krifix.com
-                </Text>
+                <Text style={styles.textDesc}>{contactData?.contcat_email}</Text>
 
             </TouchableOpacity>
 
         </HeaderView>
+        {isLoading && <LoadingView />}
+        </>
     )
 }
 
