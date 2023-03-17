@@ -26,7 +26,7 @@ const Home = () => {
   const [bannerData, setBannerData] = useState([])
   const [totalPoints, setTotalPoints] = useState()
   const userData = useSelector(user_data)
-  console.log("userData",userData)
+  // console.log("userData",userData)
 
 
   useFocusEffect(
@@ -40,11 +40,12 @@ const Home = () => {
   const Api_Get_Profile = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_PROFILE).then((response) => {
-      console.log("Api_Get_Profile : ", response)
+      // console.log("Api_Get_Profile : ", response)
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
         setTotalPoints(user_data.user.reward_point)
+        console.log("GET PROFILE SUCCESSFULLY")
       } else {
         alert(response.data.message)
       }
@@ -57,12 +58,11 @@ const Home = () => {
   const Api_Get_Home_Banner = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_HOME_BANNER).then((response) => {
-      console.log("Api_Get_Home_Banner : ", response)
+      // console.log("Api_Get_Home_Banner : ", response)
       setIsLoading(false)
       var data = response.data
       if (data.status == true) {
         setBannerData(data.data)
-
        console.log("GET HOME BANNER SUCCESSFULLY")
       } else {
         alert(data.message)
@@ -95,9 +95,7 @@ const Home = () => {
               style={{ width: widthPixel(30), height: widthPixel(30) }}
               resizeMode={'contain'}
             />
-
             <View style={{ marginLeft: pixelSizeHorizontal(8) }}>
-              {console.log("totalPoints",totalPoints)}
               <Text style={styles.textPoint}>{totalPoints}</Text>
               <Text style={[styles.textPoint, { fontSize: FontSize.FS_14 }]}>
                 {Translate.t("krifix_point")}

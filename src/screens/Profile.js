@@ -25,7 +25,6 @@ const Profile = () => {
 
   const dispatch = useDispatch()
   const userData = useSelector(user_data)
-  console.log("PROFILE GET USER DATA :", userData)
   const [isLoading, setIsLoading] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [isDisabled, seIsDisabled] = useState(false)
@@ -52,11 +51,11 @@ const Profile = () => {
   const Api_Get_Profile = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_PROFILE).then((response) => {
-      console.log("Api_Get_Profile : ", response)
+      // console.log("Api_Get_Profile : ", response)
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
-        console.log("user_data", user_data)
+        // console.log("user_data", user_data)
         setFirstname(user_data.user.first_name)
         setLastName(user_data.user.last_name)
         setCity(user_data.user.city)
@@ -69,12 +68,11 @@ const Profile = () => {
         setIfscCode(user_data.user.ifsc_code)
         setProfileImg({ path: userData.asset_url + user_data.user.avatar })
 
-
         storeData(USER_DATA, user_data, () => {
           dispatch(storeUserData(user_data))
 
         })
-
+        console.log("GET PROFILE DATA SUCCEESSFULLY")
 
       } else {
         alert(response.data.message)
@@ -108,13 +106,13 @@ const Profile = () => {
           type: profileImg.mime
         });
     }
-    console.log("body",JSON.stringify(body))
+    // console.log("body",JSON.stringify(body))
     ApiManager.post(UPDATE_PROFILE, body, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }).then((response) => {
-      console.log("Api_Update_Profile : ", response)
+      // console.log("Api_Update_Profile : ", response)
       setIsLoading(false)
 
       var data = response.data;
@@ -128,6 +126,7 @@ const Profile = () => {
           { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'destructive' },
           { cancelable: true }
         );
+        console.log("PROFILE DATA UPDATE SUCCEESSFULLY")
       } else {
         alert(data.message)
       }
@@ -213,7 +212,7 @@ const Profile = () => {
             includeBase64: false,
             compressImageQuality: 0.7
           }).then(images => {
-            console.log("Selected Image  " + JSON.stringify(images))
+            // console.log("Selected Image  " + JSON.stringify(images))
             setProfileImg(images)
             setIsImageUpdate(true)
             setIsLoading(false)
@@ -238,7 +237,7 @@ const Profile = () => {
             multipleShot: false,
             compressImageQuality: 0.7
           }).then(images => {
-            console.log("Selected Image : " + JSON.stringify(images))
+            // console.log("Selected Image : " + JSON.stringify(images))
             setIsLoading(false)
             setProfileImg(images)
             setIsImageUpdate(true)
@@ -536,7 +535,7 @@ const Profile = () => {
         </View>
 
       </HeaderView>
-      {isLoading && <LoadingView  />}
+      {isLoading && <LoadingView />}
     </KeyboardAvoidingView>
   )
 }

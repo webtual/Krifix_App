@@ -42,7 +42,7 @@ const Splash = (props) => {
 	const GetUserData = () => {
 
 		getData(USER_DATA, (data) => {
-			console.log("USER_DATA Splash: " + JSON.stringify(data))
+			// console.log("USER_DATA Splash: " + JSON.stringify(data))
 			if (data == null) {
 				console.log("go to login")
 				resetScreen('Intro')

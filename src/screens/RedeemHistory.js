@@ -29,15 +29,13 @@ const RedeemHistory = () => {
   const Api_Get_Redeem_History = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.post(GET_REDEEM_HISTORY).then((response) => {
-      console.log("Api_Get_Redeem_History : ", response)
+      // console.log("Api_Get_Redeem_History : ", response)
       setIsLoading(false)
       var data = response.data
       if (data.status == true) {
-        console.log("data.data.susummary", data.data.summary)
         setHeaderdata(data.data.summary)
         setReddemHistory(data.data.transaction)
-
-        console.log("Api_Get_Redeem_History data successfully")
+        console.log("DATA REDEEM HISTORY SUCCESSFULLY")
       } else {
         alert(data.message)
       }
@@ -68,7 +66,6 @@ const RedeemHistory = () => {
               style={{ width: widthPixel(30), height: widthPixel(30) }}
               resizeMode={'contain'}
             />
-            {console.log("headerData", headerData)}
             <Text style={styles.textPoint}>{headerData?.total_point}</Text>
 
           </View>
