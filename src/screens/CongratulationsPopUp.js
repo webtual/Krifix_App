@@ -10,7 +10,7 @@ import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import Modal from "react-native-modal";
 
 
-const CongratulationsPopUp = ({ isInviteVisible, toggleInvite, image, isWithDrawModel }) => {
+const CongratulationsPopUp = ({ isInviteVisible, toggleInvite, image, isWithDrawModel, Point }) => {
 
 
 
@@ -72,9 +72,7 @@ const CongratulationsPopUp = ({ isInviteVisible, toggleInvite, image, isWithDraw
             color: black,
             fontFamily: SEMIBOLD,
             marginLeft: pixelSizeHorizontal(15)
-          }}>
-            512
-          </Text>
+          }}>{Point}</Text>
           <Text style={{
             fontSize: FontSize.FS_14,
             color: black,
@@ -90,7 +88,7 @@ const CongratulationsPopUp = ({ isInviteVisible, toggleInvite, image, isWithDraw
             fontFamily: MEDIUM,
             textAlign: "center"
           }}>
-            {Translate.t("withdraw_mail_text")} {"ap*****@icici"}
+            {Translate.t("withdraw_mail_text")}
           </Text>
           :
           <></>

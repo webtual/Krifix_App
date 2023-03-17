@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, SectionList, Linking, Dimensions } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, SectionList, Linking, Dimensions, Alert } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
@@ -18,20 +18,24 @@ import CongratulationsPopUp from './CongratulationsPopUp'
 import { CameraKitCameraScreen, CameraScreen } from 'react-native-camera-kit';
 import { Platform } from 'react-native'
 import { PermissionsAndroid } from 'react-native'
+import LoadingView from '../commonComponents/LoadingView'
+import ApiManager from '../commonComponents/ApiManager'
+import { ADD_REWARD, GET_REWARD } from '../constants/ApiUrl'
 
 
 const QrCodeScan = () => {
 
     const refScan = useRef(null)
     const [isModalVisible, setModalVisible] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
     // const [isFlash, setIsFlash] = useState(RNCamera.Constants.FlashMode.off)
 
     const [qrvalue, setQrvalue] = useState('');
     const [opneScanner, setOpneScanner] = useState(false);
+    const [point, setPoint] = useState();
 
 
     useEffect(() => {
-
         onOpneScanner()
     }, [])
 
@@ -73,7 +77,39 @@ const QrCodeScan = () => {
             setOpneScanner(true);
         }
     };
+    const Api_Add_Reward = (isLoad, data) => {
+        setIsLoading(isLoad)
+        ApiManager.post(ADD_REWARD, {
+            unique_id: 'GOLD10012',
+        }).then((response) => {
+            console.log("Api_Add_Reward : ", response)
+            setIsLoading(false)
+            var data = response.data;
+            if (data.status == true) {
+                var user_data = data.point
+                setPoint(user_data)
+                toggleModal()
+            } else {
+                Alert.alert(
+                    Translate.t('alert'),
+                    data.message,
+                    [
+                    { text: 'Ok', onPress: () => setOpneScanner(true), style: 'default' },
+                ]
+                  );
+            }
 
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Add_Reward Error ", err);
+        })
+    }
+
+    const rewardManage = (data) => {
+        let response = data.nativeEvent
+        console.log("response : ", response)
+        Api_Add_Reward(true)
+    }
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -96,15 +132,9 @@ const QrCodeScan = () => {
                         <CameraScreen
                             scanBarcode={true}
                             onReadCode={(event) => {
-
-                                let data = event.nativeEvent.codeStringValue
-
-                                console.log(event.nativeEvent)
-
                                 setOpneScanner(false)
-                                toggleModal()
-                            }
-                            }
+                                rewardManage(event)
+                            }}
                             showFrame={true} // (default false) optional, show frame with transparent layer (qr code or barcode will be read on this area ONLY), start animation for scanner,that stoped when find any code. Frame always at center of the screen
                             laserColor={greenPrimary} // (default red) optional, color of laser in scanner frame
                             frameColor={white} // (default white) optional, color of border of scanner frame
@@ -113,7 +143,7 @@ const QrCodeScan = () => {
                     : null
                 }
 
-               
+
                 <TouchableOpacity style={styles.headContainer} onPress={() => goBack()}>
                     <FastImage
                         style={styles.closeImage}
@@ -123,7 +153,7 @@ const QrCodeScan = () => {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.flashContainer}
-                  >
+                >
                     <FastImage
                         style={styles.flashImage}
                         resizeMode="contain"
@@ -141,11 +171,12 @@ const QrCodeScan = () => {
                 </TouchableOpacity>
 
             </View>
-            <CongratulationsPopUp isWithDrawModel={false}
+            <CongratulationsPopUp isWithDrawModel={false} Point={point}
                 isInviteVisible={isModalVisible} toggleInvite={() => {
                     toggleModal()
                     goBack()
                 }} />
+            {isLoading && <LoadingView />}
         </>
     )
 }

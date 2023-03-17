@@ -93,6 +93,9 @@ const RedeemHistory = () => {
         <FlatList
           data={redeemHistory}
           scrollEnabled={false}
+          ListEmptyComponent={() =>(<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+          <Text style={{textTransform:"capitalize"}}>{Translate.t("no_data_found")}</Text>
+      </View>)}
           ListHeaderComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
           ItemSeparatorComponent={() => (<View style={{ height: widthPixel(1), backgroundColor: disableColor, marginHorizontal: pixelSizeHorizontal(25) }}></View>)}
           ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}

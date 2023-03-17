@@ -60,12 +60,14 @@ const HelpCenter = () => {
         <>
         <HeaderView title={Translate.t("faq")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
             onPress={() => goBack()}>
-
-            <Text style={styles.textTitle}>
-                {Translate.t("we_are_here_to_help")}
-            </Text>
-
-            {console.log("faqData", faqData)}
+            {faqData?.length === 0 ?
+            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+            <Text style={styles.textItem}>{Translate.t("no_data_found")}</Text>
+        </View>:
+        <View>
+           <Text style={styles.textTitle}>
+           {Translate.t("we_are_here_to_help")}
+       </Text>
             <FlatList
                 data={faqData}
                 scrollEnabled={false}
@@ -108,7 +110,8 @@ const HelpCenter = () => {
                     </View>
                 )}
             />
-
+            </View>
+                    }
         </HeaderView>
         {isLoading && <LoadingView />}
         </>

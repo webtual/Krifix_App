@@ -38,8 +38,45 @@ const Login = () => {
             else {
                 requestUserPermission()
             }
+
+
+          
+
         }, [])
     );
+
+
+useEffect(() =>{
+    messaging().onNotificationOpenedApp(remoteMessage => {
+			
+        console.log("remoteMessage 1",remoteMessage);
+        
+        let data = remoteMessage.data
+        console.log("data".data)
+                navigate("Notification");
+    })
+
+    messaging().getInitialNotification()
+    .then(remoteMessage => {
+        console.log("remoteMessage 2",remoteMessage)
+        if (remoteMessage) {
+            let data = remoteMessage.data
+            console.log("data",data)
+                navigate("Notification");
+
+
+        }
+    });
+
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+        console.log("remoteMessage 3"+ JSON.stringify(remoteMessage));
+    });
+
+
+    return unsubscribe
+
+},[])
 
 
     const requestUserPermission = async () => {
@@ -114,19 +151,7 @@ const Login = () => {
         })
     }
 
-    messaging().getInitialNotification()
-        .then(remoteMessage => {
-            if (remoteMessage) {
-                let data = remoteMessage.data
-                console.log("data",data)
-                if (data.page_url == "") {
-
-                    navigate("Notification");
-
-                }
-
-            }
-        });
+ 
 
     return (
         <>

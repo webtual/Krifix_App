@@ -52,7 +52,7 @@ const PrivacyPolicy = () => {
             <HeaderView title={Translate.t("privacy")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
                 onPress={() => goBack()}>
 
-                    <View style={{marginTop : pixelSizeHorizontal(30), flex : 1}}>
+                    <View style={{marginTop : pixelSizeHorizontal(30)}}>
                     {privacyData?.page_desc &&
                     <RenderHtml
                         contentWidth={width}

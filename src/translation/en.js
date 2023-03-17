@@ -67,8 +67,9 @@ export default {
 	You_earned:"You earned",
 	Point:"Point",
 	Withdraw_desc:"We have received your withdraw reward request of",
-	withdraw_mail_text:"* you will received reward in ",
+	withdraw_mail_text:"* you will received reward in your bank account",
 	profile_update_successfully:"Profile update successfully",
 	success:"Success",
-	redeem_desc:"Savings %{name} to your wallet"
+	redeem_desc:"Savings %{name} to your wallet",
+	no_data_found:"No data found"
 }

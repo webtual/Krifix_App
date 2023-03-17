@@ -10,5 +10,8 @@ export const GET_FAQS = "get-faqs"
 export const GET_CONTACT_DETAILS = "get-contact-details"
 export const GET_CMS = "get-cms"
 export const GET_REDEEM_HISTORY = "get-transaction-history"
+export const ADD_REWARD = "add-rewards"
+export const GET_REWARD = "get-reward-item"
+export const REDEEM_REWARD = "redeem-rewards"
 
 
