@@ -99,10 +99,8 @@ const Profile = () => {
     body.append('branch_name', data.bankLocation)
     body.append('account_no', data.accountNumber)
     body.append('ifsc_code', data.ifscCode)
-    body.append('upi_id', "oksbi@icici")
 
     if (isImageUpdate == true) {
-
       body.append('avatar',
         {
           uri: profileImg.path,
@@ -110,6 +108,7 @@ const Profile = () => {
           type: profileImg.mime
         });
     }
+    console.log("body",JSON.stringify(body))
     ApiManager.post(UPDATE_PROFILE, body, {
       headers: {
         'Content-Type': 'multipart/form-data'
@@ -145,7 +144,6 @@ const Profile = () => {
   }
 
   const btnSaveTap = (value) => {
-    console.log("SAVE PROFILE DATA :", value)
     Api_Update_Profile(true, value)
     setIsEdit(!isEdit)
     seIsDisabled(false)

@@ -71,5 +71,7 @@ export default {
 	profile_update_successfully:"Profile update successfully",
 	success:"Success",
 	redeem_desc:"Savings %{name} to your wallet",
-	no_data_found:"No data found"
+	no_data_found:"No data found",
+	already_used:"This QR Code already used",
+	date:"Date : "
 }

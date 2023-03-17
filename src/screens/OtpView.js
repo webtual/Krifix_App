@@ -14,6 +14,7 @@ import { getData, storeData } from '../commonComponents/AsyncManager'
 import { BEARER_TOKEN, FCM_TOKEN, USER_DATA } from '../constants/ConstantKey'
 import { storeUserData } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
+import crashlytics from '@react-native-firebase/crashlytics';
 
 const OtpView = ({ route }) => {
     const dispatch = useDispatch()
@@ -27,6 +28,7 @@ const OtpView = ({ route }) => {
 
     useEffect(() => {
         GetFCM_TOKEN()
+        crashlytics().log('App mounted.');
     },[])
 
     const GetFCM_TOKEN = () => {
@@ -117,11 +119,22 @@ const OtpView = ({ route }) => {
         })
     }
 
-    const btnSubmitTap = () => {
+    const btnSubmitTap  = async () => {
         if (optcode.length == 4) {
 
             if (Userdata.isFrom == "Login") {
                 Api_Login(true, Userdata)
+                crashlytics().log('User signed in.');
+                await Promise.all([
+                    crashlytics().setUserId("Aa0Bb1Cc2Dd3Ee4Ff5Gg6Hh7Ii8Jj9"),
+                    crashlytics().setAttribute('credits', String(48)),
+                    crashlytics().setAttributes({
+                      role: 'admin',
+                      followers: '13',
+                      email: "mike@example.com",
+                      username: "mike smith",
+                    }),
+                  ]);
             } else {
                 Api_Register(true, Userdata)
             }

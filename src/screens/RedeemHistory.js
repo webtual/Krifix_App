@@ -89,7 +89,7 @@ const RedeemHistory = () => {
           </View>
 
         </View>
-
+{redeemHistory &&
         <FlatList
           data={redeemHistory}
           scrollEnabled={false}
@@ -131,6 +131,7 @@ const RedeemHistory = () => {
             </View>
           )}
         />
+}
       </HeaderView>
     </>
 

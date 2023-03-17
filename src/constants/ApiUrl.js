@@ -13,5 +13,7 @@ export const GET_REDEEM_HISTORY = "get-transaction-history"
 export const ADD_REWARD = "add-rewards"
 export const GET_REWARD = "get-reward-item"
 export const REDEEM_REWARD = "redeem-rewards"
+export const GET_NOTIFICATIONS = "get-notification"
+export const READ_NOTIFICATIONS = "notification-read"
 
 

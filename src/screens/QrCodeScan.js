@@ -33,6 +33,7 @@ const QrCodeScan = () => {
     const [qrvalue, setQrvalue] = useState('');
     const [opneScanner, setOpneScanner] = useState(false);
     const [point, setPoint] = useState();
+    const [qrValue, setQrValue] = useState();
 
 
     useEffect(() => {
@@ -80,7 +81,7 @@ const QrCodeScan = () => {
     const Api_Add_Reward = (isLoad, data) => {
         setIsLoading(isLoad)
         ApiManager.post(ADD_REWARD, {
-            unique_id: 'GOLD10012',
+            unique_id: qrValue,
         }).then((response) => {
             console.log("Api_Add_Reward : ", response)
             setIsLoading(false)
@@ -92,7 +93,7 @@ const QrCodeScan = () => {
             } else {
                 Alert.alert(
                     Translate.t('alert'),
-                    data.message,
+                    Translate.t('already_used'),
                     [
                     { text: 'Ok', onPress: () => setOpneScanner(true), style: 'default' },
                 ]
@@ -108,6 +109,7 @@ const QrCodeScan = () => {
     const rewardManage = (data) => {
         let response = data.nativeEvent
         console.log("response : ", response)
+        setQrValue(response.codeStringValue)
         Api_Add_Reward(true)
     }
 
