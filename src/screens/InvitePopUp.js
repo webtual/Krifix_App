@@ -1,4 +1,4 @@
-import { View, Text, Share, StyleSheet, Pressable } from 'react-native'
+import { View, Text, Share, StyleSheet, Pressable, Platform } from 'react-native'
 import React from 'react'
 import { black, greenPrimary, offWhite, paleGreen, white } from '../constants/Color'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -10,15 +10,14 @@ import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import Modal from "react-native-modal";
 
 
-const InvitePopUp = ({isInviteVisible, toggleInvite}) => {
-
+const InvitePopUp = ({isInviteVisible, toggleInvite,referralcode}) => {
 
      // Action Methods
   const btnShareTap = () => {
     const result = Share.share({
-      title: Translate.t('appName'),
-      message: 'Check this out amazing app ' + Translate.t('appName') + ', Download & join to this app.',
-      url: Platform.OS == 'ios' ? IOS_APP_LINK : ANDROID_APP_LINK
+      title: Translate.t('app_name'),
+      message: 'Check this out amazing app ' + Translate.t('app_name') + ', Download & join to this app.' + " Here's my code ( "+ JSON.stringify(referralcode) +' ) just enter it when you register the app and you got refferal points. \n\n Download app now: '+ (Platform.OS == 'ios' ? IOS_APP_LINK : ANDROID_APP_LINK),
+      // url: Platform.OS == 'ios' ? IOS_APP_LINK : ANDROID_APP_LINK
     });
 
     if (result.action === Share.sharedAction) {
@@ -51,9 +50,7 @@ const InvitePopUp = ({isInviteVisible, toggleInvite}) => {
       />
 
       <View style={{ backgroundColor: paleGreen, padding: pixelSizeHorizontal(10), borderRadius: widthPixel(50) }}>
-        <Text style={[styles.textModalTitle, { color: black }]}>
-          UMNG8511
-        </Text>
+        <Text style={[styles.textModalTitle, { color: black }]}>{referralcode}</Text>
       </View>
 
 

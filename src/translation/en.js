@@ -73,5 +73,6 @@ export default {
 	redeem_desc:"Savings %{name} to your wallet",
 	no_data_found:"No data found",
 	already_used:"This QR Code already used",
-	date:"Date : "
+	date:"Date : ",
+	referralcode:"Referral Code",
 }

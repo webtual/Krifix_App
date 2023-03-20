@@ -9,8 +9,8 @@ import FastImage from 'react-native-fast-image'
 import { CallImg, HelpImg, HomeFillImg, InfoImg, LogoutImg, NotificationImg, PrivacyImg, ShareBoxImg, ShareImg } from '../constants/Images'
 import { removeAllData } from '../commonComponents/AsyncManager'
 import { navigate, resetScreen } from '../navigations/RootNavigation'
-import { storeUserData } from '../redux/reducers/userReducer'
-import { useDispatch } from 'react-redux'
+import { storeUserData, user_data } from '../redux/reducers/userReducer'
+import { useDispatch, useSelector } from 'react-redux'
 import Modal from "react-native-modal";
 import { ANDROID_APP_LINK, IOS_APP_LINK } from '../constants/ConstantKey'
 import InvitePopUp from './InvitePopUp'
@@ -20,7 +20,7 @@ const Settings = () => {
 
   const dispatch = useDispatch()
   const [isModalVisible, setModalVisible] = useState(false);
-
+  const userData = useSelector(user_data)
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -93,7 +93,6 @@ const Settings = () => {
       navigate("PrivacyPolicy")
     }
     else if (item.screenName == "notifications"){
-      console.log("ok")
       navigate("Notification")
     }
     else if (item.screenName == "logout") {
@@ -160,7 +159,7 @@ const Settings = () => {
       />
 
 
-      <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} />
+      <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code} />
 
     </HeaderView>
   )

@@ -7,7 +7,7 @@ import { black, greenPrimary, iceBlue, offWhite, paleGreen, white } from '../con
 import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg } from '../constants/Images'
-import { ANDROID_APP_LINK, BANNER_DATA, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
+import { ANDROID_APP_LINK, BANNER_DATA, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 
 import { navigate } from '../navigations/RootNavigation'
 import InvitePopUp from './InvitePopUp'
@@ -26,11 +26,14 @@ const Home = () => {
   const [bannerData, setBannerData] = useState([])
   const [totalPoints, setTotalPoints] = useState()
   const userData = useSelector(user_data)
-  // console.log("userData",userData)
+  // console.log("userData :::",userData.user.referral_code)
 
 
   useFocusEffect(
     useCallback(() => {
+    //   getData(FCM_TOKEN, (data) => {
+    //     console.log("FCM_TOKEN",data)
+    // })
       Api_Get_Home_Banner(true)
     Api_Get_Profile(true)
 
@@ -40,10 +43,11 @@ const Home = () => {
   const Api_Get_Profile = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_PROFILE).then((response) => {
-      // console.log("Api_Get_Profile : ", response)
+      console.log("Api_Get_Profile : ", response)
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
+        console.log("user_data",user_data)
         setTotalPoints(user_data.user.reward_point)
         console.log("GET PROFILE SUCCESSFULLY")
       } else {
@@ -189,7 +193,7 @@ const Home = () => {
 
 
 
-              <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()}/>
+              <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code}/>
 
       </HeaderView>
 

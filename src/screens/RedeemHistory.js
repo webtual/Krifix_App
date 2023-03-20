@@ -11,6 +11,7 @@ import { CoinImg, TrophyImg } from '../constants/Images'
 import ApiManager from '../commonComponents/ApiManager'
 import { GET_REDEEM_HISTORY } from '../constants/ApiUrl'
 import { useFocusEffect } from '@react-navigation/native'
+import LoadingView from '../commonComponents/LoadingView'
 
 const RedeemHistory = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -130,6 +131,7 @@ const RedeemHistory = () => {
         />
 }
       </HeaderView>
+      {isLoading && <LoadingView />}
     </>
 
   )

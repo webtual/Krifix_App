@@ -259,7 +259,7 @@ const Rewards = () => {
 
                 </View>
 
-                <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} />
+                <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code} />
                 <CongratulationsPopUp isWithDrawModel={true} Point={point}
                     isInviteVisible={isCongratulationModel} toggleInvite={() => {
                         Api_Get_Profile(true)

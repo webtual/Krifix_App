@@ -28,6 +28,7 @@ const Register = () => {
     const [city, setCity] = useState("")
     const [area, setArea] = useState("")
     const [pincode, setPincode] = useState("")
+    const [referralcode, serRefferalCode] = useState("")
     const [userData, setUserData] = useState()
 
 
@@ -92,6 +93,10 @@ const Register = () => {
         pincode: Yup.string()
             .min(6, '* Enter 6 digit pincode')
             .required('* Pincode cannot be empty'),
+        referralcode: Yup.string()
+            .min(6, '* Enter 6 character referral code')
+            .required('* Referral code cannot be empty'),
+
 
     });
     return (
@@ -106,7 +111,8 @@ const Register = () => {
                         mobile: mobile,
                         city: city,
                         area: area,
-                        pincode: pincode
+                        pincode: pincode,
+                        referralcode: referralcode,
                     }}
                     validationSchema={SignupSchema}
                     onSubmit={values => { btnSignUpTap(values) }
@@ -186,6 +192,21 @@ const Register = () => {
                             {(errors.pincode && touched.pincode) &&
                                 <Text style={styles.errorText}>{errors.pincode}</Text>
                             }
+
+                            <TextInputView
+                                imageSource={PhoneImg}
+                                containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
+                                value={values.referralcode}
+                                onChangeText={handleChange('referralcode')}
+                                onBlur={handleBlur('referralcode')}
+                                placeholder={Translate.t("referralcode")}
+                                maxLength={8}
+                            />
+                            {(errors.referralcode && touched.referralcode) &&
+                                <Text style={styles.errorText}>{errors.referralcode}</Text>
+                            }
+
+
                             <Pressable
                                 onPress={handleSubmit}
                                 style={styles.btnStyle}>

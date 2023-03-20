@@ -56,7 +56,7 @@ const Notification = () => {
             var data = response.data
             if (data.status == true) {
                 setNoificationData(data.data)
-                console.log("Api_Get_Notification data successfully")
+                console.log("GET NOTIFICATION SUCCEESSFULLY")
             } else {
                 alert(data.message)
             }
@@ -84,6 +84,7 @@ const Notification = () => {
                         { text: 'Done', onPress: () =>console.log("") , style: 'default' },
                     ]
                 );
+                console.log("READ NOTIFICATION SUCCEESSFULLY")
             } else {
 
             }

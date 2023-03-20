@@ -34,6 +34,7 @@ const OtpView = ({ route }) => {
     const GetFCM_TOKEN = () => {
 
 		getData(FCM_TOKEN, (data) => {
+            console.log("FCM_TOKEN",data)
             setFcmToken(data)
         })
     }
@@ -86,6 +87,7 @@ const OtpView = ({ route }) => {
         body.append('city', data.city)
         body.append('area', data.area)
         body.append('pincode', data.pincode)
+        body.append('referral_code', data.referralcode)
         body.append('avatar', null)
         body.append('device_id', fcm_token)
         body.append('device_type', Platform.OS === "android" ? 0 : 1)
@@ -124,17 +126,6 @@ const OtpView = ({ route }) => {
 
             if (Userdata.isFrom == "Login") {
                 Api_Login(true, Userdata)
-                crashlytics().log('User signed in.');
-                await Promise.all([
-                    crashlytics().setUserId("Aa0Bb1Cc2Dd3Ee4Ff5Gg6Hh7Ii8Jj9"),
-                    crashlytics().setAttribute('credits', String(48)),
-                    crashlytics().setAttributes({
-                      role: 'admin',
-                      followers: '13',
-                      email: "mike@example.com",
-                      username: "mike smith",
-                    }),
-                  ]);
             } else {
                 Api_Register(true, Userdata)
             }
