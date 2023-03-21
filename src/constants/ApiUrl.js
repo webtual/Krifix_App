@@ -15,5 +15,6 @@ export const GET_REWARD = "get-reward-item"
 export const REDEEM_REWARD = "redeem-rewards"
 export const GET_NOTIFICATIONS = "get-notification"
 export const READ_NOTIFICATIONS = "notification-read"
+export const GET_OTP = "auth/sent-otp"
 
 
