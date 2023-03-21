@@ -116,13 +116,13 @@ const QrCodeScan = () => {
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
-    const toggleFlash = () => {
+    // const toggleFlash = () => {
         // if(isFlash == 0){
         //     setIsFlash(RNCamera.Constants.FlashMode.torch)
         // }else{
         //     setIsFlash(RNCamera.Constants.FlashMode.off)
         // }
-    }
+    // }
 
     return (
         <>
@@ -151,15 +151,6 @@ const QrCodeScan = () => {
                         style={styles.closeImage}
                         resizeMode="contain"
                         source={CloseImg}
-                    />
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={styles.flashContainer}
-                >
-                    <FastImage
-                        style={styles.flashImage}
-                        resizeMode="contain"
-                        source={FlashImg}
                     />
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.scanBtn}

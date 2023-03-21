@@ -12,5 +12,5 @@ export const BANNER_DATA = "BANNER_DATA"
 
 export const GOOGLE_API_KEY = ''
 
-export const ANDROID_APP_LINK = 'https://play.google.com/store/apps/details?id=com.app.krifix'
+export const ANDROID_APP_LINK = 'https://play.google.com/store/apps/details?id=com.krifix.app'
 export const IOS_APP_LINK = ''
