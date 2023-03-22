@@ -7,7 +7,7 @@ import Translate from '../translation/Translate'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
 import { goBack, navigate, resetScreen } from '../navigations/RootNavigation'
-import { BuildingImg, LocationImg, PhoneImg, PinImg, SmileImg } from '../constants/Images'
+import { BuildingImg, FooterImage, LocationImg, PhoneImg, PinImg, SmileImg } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ApiManager from '../commonComponents/ApiManager'
@@ -17,6 +17,7 @@ import { storeUserData } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { CHECK_MOBILE, REGISTER } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
+import FastImage from 'react-native-fast-image'
 
 const Register = () => {
     const dispatch = useDispatch()
@@ -227,7 +228,13 @@ const Register = () => {
                         </View>
                     )}
                 </Formik>
-
+                <View style={{marginVertical:pixelSizeHorizontal(40), alignItems:"center"}}>
+                    <FastImage
+                        source={FooterImage}
+                        style={{ width: "40%", height: 30 }}
+                        resizeMode={'contain'}
+                    />
+                </View>
             </HeaderView>
             {isLoading && <LoadingView />}
         </>

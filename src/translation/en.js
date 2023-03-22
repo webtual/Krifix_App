@@ -30,7 +30,7 @@ export default {
 	refer_earn : "Refer & Earn",
 	contact_us : "Contact Us",
 	logout : "Logout",
-	redeem_history : "Redeem History",
+	redeem_history : "Transaction History",
 	krifix_point : "Krifix Point",
 	last_transaction : "Last Transaction",
 	total_voucher_redeem : "Total Voucher Redeem",

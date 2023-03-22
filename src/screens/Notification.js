@@ -149,7 +149,8 @@ const styles = StyleSheet.create({
         width: 42
     },
     titleContainer: {
-        marginHorizontal: pixelSizeHorizontal(12)
+        marginHorizontal: pixelSizeHorizontal(12),
+        flex:1
     },
     title: {
         fontFamily: SEMIBOLD,

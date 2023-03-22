@@ -49,7 +49,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access your camera for taking a picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access microsphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
@@ -61,6 +61,8 @@
 		<string>Montserrat-Medium.ttf</string>
 		<string>Montserrat-Regular.ttf</string>
 		<string>Montserrat-SemiBold.ttf</string>
+		<string>Montserrat-Italic.ttf</string>
+		<string>Montserrat-BoldItalic.ttf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>

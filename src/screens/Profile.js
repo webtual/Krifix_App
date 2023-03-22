@@ -35,6 +35,7 @@ const Profile = () => {
   const [city, setCity] = useState("")
   const [area, setArea] = useState("")
   const [pincode, setPincode] = useState("")
+  const [address, setAddress] = useState("")
   const [bankName, setBankName] = useState("")
   const [bankLocation, setBankLocation] = useState("")
   const [accountNumber, setAccountNumber] = useState("")
@@ -59,8 +60,9 @@ const Profile = () => {
         setFirstname(user_data.user.first_name)
         setLastName(user_data.user.last_name)
         setCity(user_data.user.city)
-        setArea(user_data.user.area)
+        setArea(user_data.user.area) 
         setPincode(user_data.user.pincode)
+        setAddress(user_data.user.address)
         setMobile(user_data.user.phone)
         setBankName(user_data.user.bank_name)
         setBankLocation(user_data.user.branch_name)
@@ -93,6 +95,7 @@ const Profile = () => {
     body.append('city', data.city)
     body.append('area', data.area)
     body.append('pincode', data.pincode)
+    body.append('address', data.address)
     body.append('bank_name', data.bankName)
     body.append('branch_name', data.bankLocation)
     body.append('account_no', data.accountNumber)
@@ -106,13 +109,13 @@ const Profile = () => {
           type: profileImg.mime
         });
     }
-    // console.log("body",JSON.stringify(body))
+    console.log("body", JSON.stringify(body))
     ApiManager.post(UPDATE_PROFILE, body, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }).then((response) => {
-      // console.log("Api_Update_Profile : ", response)
+      console.log("Api_Update_Profile : ", response)
       setIsLoading(false)
 
       var data = response.data;
@@ -123,8 +126,10 @@ const Profile = () => {
         Alert.alert(
           Translate.t('success'),
           Translate.t('profile_update_successfully'),
-          { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'destructive' },
-          { cancelable: true }
+          [
+            { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'destructive' },
+            // { cancelable: true }
+          ]
         );
         console.log("PROFILE DATA UPDATE SUCCEESSFULLY")
       } else {
@@ -133,7 +138,7 @@ const Profile = () => {
 
     }).catch((err) => {
       setIsLoading(false)
-      console.error("Api_Update_Profile Error ", err);
+      console.error("Api_Update_Profile Error ", err.message);
     })
   }
   // Action Methods
@@ -144,11 +149,6 @@ const Profile = () => {
 
   const btnSaveTap = (value) => {
     Api_Update_Profile(true, value)
-    setIsEdit(!isEdit)
-    seIsDisabled(false)
-  }
-
-  const btnCancleTap = () => {
     setIsEdit(!isEdit)
     seIsDisabled(false)
   }
@@ -176,6 +176,7 @@ const Profile = () => {
     pincode: Yup.string()
       .min(6, '* Enter 6 digit pincode')
       .required('* Pincode cannot be empty'),
+      address: Yup.string(),
     bankName: Yup.string()
       .min(2, '* Bank name too short!')
       .max(20, '* Bank name too long!')
@@ -185,10 +186,8 @@ const Profile = () => {
       .max(30, '* Bank location too long!')
       .required('* Bank location cannot be empty'),
     accountNumber: Yup.string()
-      .min(14, '* Enter your bank account number')
       .required('* Account number cannot be empty'),
     ifscCode: Yup.string()
-      .min(11, '* Enter IFSC code')
       .required('* IFSC code cannot be empty'),
 
   });
@@ -317,17 +316,21 @@ const Profile = () => {
               city: city,
               area: area,
               pincode: pincode,
+              address:address,
               mobile: mobile,
               bankName: bankName,
               bankLocation: bankLocation,
               accountNumber: accountNumber,
               ifscCode: ifscCode
             }}
+            validateOnBlur={false}
             validationSchema={Editschema}
-            onSubmit={values => { btnSaveTap(values) }
+            onSubmit={values => {
+              btnSaveTap(values)
+            }
             }
           >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, resetForm }) => (
               <View style={{ marginTop: pixelSizeHorizontal(30) }}>
 
                 <Text style={styles.textTitle}>
@@ -433,6 +436,22 @@ const Profile = () => {
                 }
 
 
+<Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
+                  {Translate.t("address")}
+                </Text>
+                <TextInputView
+                multiline={true}
+                  editable={isDisabled}
+                  imageSource={PinImg}
+                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
+                  value={values.address}
+                  onChangeText={handleChange('address')}
+                  onBlur={handleBlur('address')}
+                  placeholder={Translate.t("address")}
+                />
+                {(errors.address && touched.address) &&
+                  <Text style={styles.errorText}>{errors.address}</Text>
+                }
 
                 <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(40) }]}>
                   {Translate.t("bank_details")}
@@ -484,6 +503,7 @@ const Profile = () => {
                   onChangeText={handleChange('accountNumber')}
                   onBlur={handleBlur('accountNumber')}
                   placeholder={Translate.t("account_number")}
+                  keyboardType={'number-pad'}
                 />
                 {(errors.accountNumber && touched.accountNumber) &&
                   <Text style={styles.errorText}>{errors.accountNumber}</Text>
@@ -510,7 +530,11 @@ const Profile = () => {
                   <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', marginTop: pixelSizeHorizontal(40) }}>
 
                     <Pressable
-                      onPress={() => btnCancleTap()}
+                      onPress={() => {
+                        setIsEdit(false)
+                        seIsDisabled(false)
+                        resetForm()
+                      }}
                       style={[styles.btnSaveStyle, { backgroundColor: disableColor, marginRight: pixelSizeHorizontal(20) }]}>
                       <Text style={styles.btnSaveText} >{Translate.t("cancel")}</Text>
 

@@ -15,6 +15,8 @@ import { BEARER_TOKEN, FCM_TOKEN, USER_DATA } from '../constants/ConstantKey'
 import { storeUserData } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import crashlytics from '@react-native-firebase/crashlytics';
+import { FooterImage } from '../constants/Images'
+import FastImage from 'react-native-fast-image'
 
 const OtpView = ({ route }) => {
     const dispatch = useDispatch()
@@ -30,10 +32,13 @@ const OtpView = ({ route }) => {
     const [isResendCode, setIsResendCode] = useState(true)
     const timerRef = useRef(count);
     var timerId;
+
     useEffect(() => {
+
         GetFCM_TOKEN()
         crashlytics().log('App mounted.');
         Api_Otp(true)
+        return () => {clearTimer()}
     }, [])
 
     const GetFCM_TOKEN = () => {
@@ -57,20 +62,21 @@ const OtpView = ({ route }) => {
             if (data.status == true) {
                 console.log("API OTP", data.otp_val)
                 setOtp(data.otp_val)
-                // setCount(60)
-                // timerRef.current = 60
-                // setIsResendCode(false)
-                // timerId = setInterval(() => {
-                //     timerRef.current -= 1;
-                //     console.log("count : " + timerRef.current)
-                //     if (timerRef.current < 0) {
-                //         console.log("timerId",timerId)
-                //         clearInterval(timerId);
-                //         setIsResendCode(true)
-                //     } else {
-                //         setCount(timerRef.current);
-                //     }
-                // }, 1000);
+                setCount(60)
+                timerRef.current = 60
+                setIsResendCode(false)
+                timerId = setInterval(() => {
+                    timerRef.current -= 1;
+                    console.log("count : " + timerRef.current)
+                    if (timerRef.current < 0) {
+                        console.log("timerId",timerId)
+                        clearInterval(timerId);
+                        setIsResendCode(true)
+                        clearTimer()
+                    } else {
+                        setCount(timerRef.current);
+                    }
+                }, 1000);
 
             } else {
                 alert(data.message)
@@ -202,12 +208,13 @@ const OtpView = ({ route }) => {
         setOptcode('')
     }
 
-    // const clearTimer = (i) => {
-    //     console.log("intialvalue",timerId)
-    //     for (i = timerId; i < 1000; i++) {
-    //         console.log("i2",i)
-    //     }
-    // }
+    const clearTimer = () => {
+        console.log("intialvalue",timerId)
+        for (var i = 0; i < 10000; i++) {
+            clearInterval(i)
+        }
+    }
+
     return (
         <>
             <HeaderView title={Translate.t("enter_otp")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
@@ -254,23 +261,29 @@ const OtpView = ({ route }) => {
                         <Text style={styles.textDesc}>
                             {Translate.t("otp_desc")}
                         </Text>
+                        {isResendCode ?
                         <TouchableOpacity style={{ marginTop: pixelSizeHorizontal(12) }}
-                            onPress={() => btnResendTap()} >
-                            {console.log("isResendCode", isResendCode)}
-                            {isResendCode ?
+                            onPress={() => { btnResendTap()}} >
+                           
                                 <Text style={styles.textResend}>
                                     {Translate.t("resend_otp")}
                                 </Text>
-                                :
-                                <Text style={styles.textResend}>
-                                    {count}
-                                </Text>
-                            }
+                               
                         </TouchableOpacity>
+                        :
+                        <Text style={[styles.textResend,{color:warmGrey,marginTop: pixelSizeHorizontal(10) }]}>
+                            Resend OTP in 00:{count}
+                        </Text>}
                     </View>
 
                 </View>
-
+                <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40) ,left:0,right:0,alignItems:"center"}}>
+                    <FastImage
+                        source={FooterImage}
+                        style={{ width: "40%", height: 30 }}
+                        resizeMode={'contain'}
+                    />
+                </View>
 
             </HeaderView>
             {isLoading && <LoadingView />}

@@ -6,7 +6,7 @@ import { pixelSizeHorizontal, widthPixel } from './ResponsiveScreen'
 import { FontSize, MEDIUM } from '../constants/Fonts'
 import { black, greenPrimary, seprator, warmGrey } from '../constants/Color'
 
-const TextInputView = ({ value = "",imageSource, onChangeText, placeholder = "", editable = true,containerStyle={}, ...props }) => {
+const TextInputView = ({ value = "",imageSource, onChangeText, placeholder = "", editable = true, multiline ,containerStyle={}, ...props }) => {
 
     const [isFocused, setIsFocused] = useState(false)
 
@@ -25,6 +25,7 @@ const TextInputView = ({ value = "",imageSource, onChangeText, placeholder = "",
                 onChangeText={onChangeText}
                 placeholder={placeholder}
                 editable={editable}
+                multiline={multiline}
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 style={{

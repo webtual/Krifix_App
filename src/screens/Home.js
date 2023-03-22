@@ -1,10 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, ImageBackground } from 'react-native'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
-import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
+import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { black, greenPrimary, iceBlue, offWhite, paleGreen, white } from '../constants/Color'
-import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
+import { BOLD, FontSize, ITALIC, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg } from '../constants/Images'
 import { ANDROID_APP_LINK, BANNER_DATA, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
@@ -31,11 +31,11 @@ const Home = () => {
 
   useFocusEffect(
     useCallback(() => {
-    //   getData(FCM_TOKEN, (data) => {
-    //     console.log("FCM_TOKEN",data)
-    // })
+      //   getData(FCM_TOKEN, (data) => {
+      //     console.log("FCM_TOKEN",data)
+      // })
       Api_Get_Home_Banner(true)
-    Api_Get_Profile(true)
+      Api_Get_Profile(true)
 
     }, [])
   );
@@ -47,7 +47,7 @@ const Home = () => {
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
-        console.log("user_data",user_data)
+        console.log("user_data", user_data)
         setTotalPoints(user_data.user.reward_point)
         console.log("GET PROFILE SUCCESSFULLY")
       } else {
@@ -67,7 +67,7 @@ const Home = () => {
       var data = response.data
       if (data.status == true) {
         setBannerData(data.data)
-       console.log("GET HOME BANNER SUCCESSFULLY")
+        console.log("GET HOME BANNER SUCCESSFULLY")
       } else {
         alert(data.message)
       }
@@ -80,19 +80,21 @@ const Home = () => {
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
- 
 
-  
+
+
 
   return (
     <>
-      <HeaderView title={Translate.t("welcome", { name: userData.user.first_name+"!" })} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}>
+      <HeaderView title={Translate.t("welcome", { name: userData.user.first_name + "!" })} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}>
 
         <View style={[styles.viewInvite, {
           alignItems: 'center', paddingVertical: pixelSizeHorizontal(25),
           borderBottomLeftRadius: 0, borderBottomRightRadius: 0
-        }]}>
-          <View style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+        }]}>                                                                                                                                                                               
+          <TouchableOpacity activeOpacity={0.5}
+            onPress={() => navigate('RedeemHistory')}
+            style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
 
             <FastImage
               source={CoinImg}
@@ -107,20 +109,22 @@ const Home = () => {
             </View>
 
 
-          </View>
+          </TouchableOpacity>
 
 
-          <View style={{
-            width: widthPixel(80), height: widthPixel(80), borderRadius: widthPixel(80), backgroundColor: iceBlue,
-            borderWidth: widthPixel(2), borderColor: greenPrimary, marginTop: pixelSizeHorizontal(-45),
-            alignItems: 'center', justifyContent: 'center'
-          }}>
+          <TouchableOpacity activeOpacity={0.5}
+            onPress={() => navigate('Profile')}
+            style={{
+              width: widthPixel(80), height: widthPixel(80), borderRadius: widthPixel(80), backgroundColor: iceBlue,
+              borderWidth: widthPixel(2), borderColor: greenPrimary, marginTop: pixelSizeHorizontal(-45),
+              alignItems: 'center', justifyContent: 'center'
+            }}>
 
             <Text style={styles.textBigName}>
               {userData.user.first_name.charAt(0)}
             </Text>
 
-          </View>
+          </TouchableOpacity>
 
           <View style={{ alignItems: 'flex-end', flex: 1 }}>
             <FastImage
@@ -132,11 +136,46 @@ const Home = () => {
 
 
         </View>
-        <FastImage
-          source={{ uri: "https://efm49dcbc97.exactdn.com/wp-content/uploads/2020/01/referral-program-banner-scaled.jpg?strip=all&lossy=1&ssl=1" }}
-          style={{ height: widthPixel(125), borderBottomLeftRadius: widthPixel(10), borderBottomRightRadius: widthPixel(10) }}
+        <ImageBackground
+          imageStyle={{ borderBottomLeftRadius: widthPixel(10), borderBottomRightRadius: widthPixel(10) }}
+          source={require("../assets/images/Banner.png")}
+          style={{ height: widthPixel(124), }}
 
-        />
+        >
+          <View style={{ alignItems: "center", marginVertical: pixelSizeVertical(10) }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <FastImage
+                source={require("../assets/images/krifix_trans.png")}
+                style={{ width: "40%", height: 30 }}
+                resizeMode={'contain'}
+              />
+              <Text style={{
+                fontFamily: ITALIC,
+                fontSize: 26,
+                color: black,
+              }}>Club</Text>
+            </View>
+            <Text style={{
+              fontFamily: MEDIUM,
+              fontSize: FontSize.FS_16,
+              color: black,
+            }}>Invite Friend And</Text>
+            <View style={{ flexDirection: "row", alignItems: "center", }}>
+              <Text style={{
+                fontFamily: BOLD,
+                fontSize: FontSize.FS_23,
+                color: black,
+                textAlign: "center"
+              }}>Earn 100</Text>
+              <FastImage
+                source={CoinImg}
+                style={{ width: widthPixel(26), height: widthPixel(26), marginLeft: 6 }}
+                resizeMode={'contain'}
+              />
+            </View>
+          </View>
+
+        </ImageBackground>
 
 
 
@@ -184,7 +223,7 @@ const Home = () => {
               <View style={{ borderRadius: widthPixel(10), width: SCREEN_WIDTH - 100, height: widthPixel(160), }}>
                 <FastImage
                   style={{ flex: 1, borderRadius: widthPixel(10) }}
-                  source={{ uri: userData.asset_url+item.banner_image }}
+                  source={{ uri: userData.asset_url + item.banner_image }}
                 />
               </View>
             )}
@@ -193,12 +232,12 @@ const Home = () => {
 
 
 
-              <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code}/>
+        <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code} />
 
       </HeaderView>
 
       <Pressable
-        onPress={() =>  navigate("QrCodeScan")}
+        onPress={() => navigate("QrCodeScan")}
         style={[styles.btnScanStyle]}>
 
         <FastImage

@@ -7,7 +7,7 @@ import Translate from '../translation/Translate'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
 import { navigate, resetScreen } from '../navigations/RootNavigation'
-import { PhoneImg } from '../constants/Images'
+import { FooterImage, PhoneImg } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ApiManager from '../commonComponents/ApiManager'
@@ -20,6 +20,7 @@ import LoadingView from '../commonComponents/LoadingView'
 
 import messaging from '@react-native-firebase/messaging';
 import { useFocusEffect } from '@react-navigation/native'
+import FastImage from 'react-native-fast-image'
 
 
 const Login = () => {
@@ -42,37 +43,37 @@ const Login = () => {
     );
 
 
-// useEffect(() =>{
-//     messaging().onNotificationOpenedApp(remoteMessage => {
-			
-//         console.log("remoteMessage 1",remoteMessage);
-        
-//         let data = remoteMessage.data
-//         console.log("data".data)
-//                 navigate("Notification");
-//     })
+    // useEffect(() =>{
+    //     messaging().onNotificationOpenedApp(remoteMessage => {
 
-//     messaging().getInitialNotification()
-//     .then(remoteMessage => {
-//         console.log("remoteMessage 2",remoteMessage)
-//         if (remoteMessage) {
-//             let data = remoteMessage.data
-//             console.log("data",data)
-//                 navigate("Notification");
+    //         console.log("remoteMessage 1",remoteMessage);
 
+    //         let data = remoteMessage.data
+    //         console.log("data".data)
+    //                 navigate("Notification");
+    //     })
 
-//         }
-//     });
+    //     messaging().getInitialNotification()
+    //     .then(remoteMessage => {
+    //         console.log("remoteMessage 2",remoteMessage)
+    //         if (remoteMessage) {
+    //             let data = remoteMessage.data
+    //             console.log("data",data)
+    //                 navigate("Notification");
 
 
-//     const unsubscribe = messaging().onMessage(async remoteMessage => {
-//         console.log("remoteMessage 3"+ JSON.stringify(remoteMessage));
-//     });
+    //         }
+    //     });
 
 
-//     return unsubscribe
+    //     const unsubscribe = messaging().onMessage(async remoteMessage => {
+    //         console.log("remoteMessage 3"+ JSON.stringify(remoteMessage));
+    //     });
 
-// },[])
+
+    //     return unsubscribe
+
+    // },[])
 
 
     const requestUserPermission = async () => {
@@ -147,7 +148,7 @@ const Login = () => {
         })
     }
 
- 
+
 
     return (
         <>
@@ -192,9 +193,18 @@ const Login = () => {
                                     </Text>
                                 </TouchableOpacity>
                             </View>
+
+
                         </View>
                     )}
                 </Formik>
+                <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40) ,left:0,right:0,alignItems:"center"}}>
+                    <FastImage
+                        source={FooterImage}
+                        style={{ width: "40%", height: 30 }}
+                        resizeMode={'contain'}
+                    />
+                </View>
             </HeaderView>
 
             {isLoading && <LoadingView />}

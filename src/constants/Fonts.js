@@ -5,6 +5,7 @@ export const LIGHT = 'Montserrat-Light'
 export const MEDIUM = 'Montserrat-Medium'
 export const SEMIBOLD = 'Montserrat-SemiBold'
 export const BOLD = 'Montserrat-Bold'
+export const ITALIC = 'Montserrat-BoldItalic'
 // export const EXTRABOLD = 'Montserrat-Black'
 
 export const FontSize = {
