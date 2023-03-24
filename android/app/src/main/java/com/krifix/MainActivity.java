@@ -1,9 +1,14 @@
 package com.krifix.app;
 
+import android.content.Intent;
+
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
 import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactActivityDelegate;
+import io.branch.rnbranch.RNBranchModule;
+import io.branch.rnbranch.*; // <-- add this
+import android.content.Intent; // <-- and this
 
 public class MainActivity extends ReactActivity {
 
@@ -16,6 +21,17 @@ public class MainActivity extends ReactActivity {
     return "Krifix";
   }
 
+  @Override
+  protected void onStart() {
+    super.onStart();
+    RNBranchModule.initSession(getIntent().getData(), this);
+  }
+  @Override
+  public void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+    RNBranchModule.onNewIntent(intent);
+  }
   /**
    * Returns the instance of the {@link ReactActivityDelegate}. Here we use a util class {@link
    * DefaultReactActivityDelegate} which allows you to easily enable Fabric and Concurrent React

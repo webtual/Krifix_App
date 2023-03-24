@@ -2,6 +2,8 @@
 #import "IQKeyboardManager.h"
 #import <React/RCTBundleURLProvider.h>
 #import <Firebase.h>
+#import <React/RCTLinkingManager.h>
+#import <RNBranch/RNBranch.h>
 
 @implementation AppDelegate
 
@@ -13,9 +15,17 @@
   // They will be passed down to the ViewController used by React Native.
   self.initialProps = @{};
   
-  
+//  [RNBranch initSessionWithLaunchOptions:launchOptions isReferrable:YES];
   [[IQKeyboardManager sharedManager] setEnable:true];
-
+  
+  // if you are using the TEST key
+      [Branch setUseTestBranchKey:NO];
+      // listener for Branch Deep Link data
+      [[Branch getInstance] initSessionWithLaunchOptions:launchOptions andRegisterDeepLinkHandler:^(NSDictionary * _Nonnull params, NSError * _Nullable error) {
+        // do stuff with deep link data (nav to page, display content, etc)
+        NSLog(@"%@", params);
+      }];
+    
   return [super application:application didFinishLaunchingWithOptions:launchOptions];
 }
 
@@ -38,4 +48,17 @@
   return true;
 }
 
+- (BOOL)application:(UIApplication *)app openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+  [[Branch getInstance] application:app openURL:url options:options];
+  return YES;
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler{
+  [[Branch getInstance] continueUserActivity:userActivity];
+  return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler{
+  [[Branch getInstance] handlePushNotification:userInfo];
+}
 @end

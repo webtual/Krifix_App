@@ -8,6 +8,10 @@ import com.facebook.react.defaults.DefaultNewArchitectureEntryPoint;
 import com.facebook.react.defaults.DefaultReactNativeHost;
 import com.facebook.soloader.SoLoader;
 import java.util.List;
+// import Branch and RNBranch
+import io.branch.rnbranch.RNBranchPackage;
+import io.branch.referral.Branch;
+import io.branch.rnbranch.RNBranchModule;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -53,6 +57,9 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+      // Branch logging for debugging
+      RNBranchModule.enableLogging();
+      RNBranchModule.getAutoInstance(this);
     if (BuildConfig.IS_NEW_ARCHITECTURE_ENABLED) {
       // If you opted-in for the New Architecture, we load the native entry point for this app.
       DefaultNewArchitectureEntryPoint.load();

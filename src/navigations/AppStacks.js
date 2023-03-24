@@ -33,6 +33,8 @@ import HelpCenter from '../screens/HelpCenter';
 import Rewards from '../screens/Rewards';
 import Notification from '../screens/Notification';
 import QrCodeScan from '../screens/QrCodeScan';
+import RewardStatus from '../screens/RewardStatus';
+import ReferralHistory from '../screens/ReferralHistory';
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
 
@@ -158,6 +160,8 @@ function AppStacks() {
 			<Stack.Screen name="Rewards" component={Rewards} />
 			<Stack.Screen name="Notification" component={Notification} />
 			<Stack.Screen name="QrCodeScan" component={QrCodeScan} />
+			<Stack.Screen name="RewardStatus" component={RewardStatus} />
+			<Stack.Screen name="ReferralHistory" component={ReferralHistory} />
 			
 		</Stack.Navigator>
 	)

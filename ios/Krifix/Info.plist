@@ -25,9 +25,11 @@
 		<dict>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>com.krifix.app</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.529235610678-mf57i1irotobash6da9bhqor0gdssrgo</string>
+				<string>krifix</string>
 			</array>
 		</dict>
 	</array>
@@ -49,11 +51,13 @@
 	<key>NSCameraUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access your camera for taking a picture</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access microsphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access your photo library for taking a picture</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Bold.ttf</string>
@@ -82,5 +86,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>branch_key</key>
+    <string>key_live_ktfilXg3AlhEZ6o27kbZIplczxfl3s7J</string>
+    <key>branch_app_domain</key>
+    <string>krifix.app.link</string>
 </dict>
 </plist>

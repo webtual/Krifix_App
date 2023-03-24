@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { black, greenPrimary, offWhite, warmGrey, white } from '../constants/Color'
 import HeaderView from '../commonComponents/HeaderView'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -7,12 +7,12 @@ import Translate from '../translation/Translate'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
 import { goBack, navigate, resetScreen } from '../navigations/RootNavigation'
-import { BuildingImg, FooterImage, LocationImg, PhoneImg, PinImg, SmileImg } from '../constants/Images'
+import { BuildingImg, FooterImage, LocationImg, PhoneImg, PinImg, ReferralImg, SmileImg } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ApiManager from '../commonComponents/ApiManager'
-import { storeData } from '../commonComponents/AsyncManager'
-import { USER_DATA } from '../constants/ConstantKey'
+import { getData, storeData } from '../commonComponents/AsyncManager'
+import { REFFERAL_KEY, USER_DATA } from '../constants/ConstantKey'
 import { storeUserData } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { CHECK_MOBILE, REGISTER } from '../constants/ApiUrl'
@@ -33,7 +33,19 @@ const Register = () => {
     const [userData, setUserData] = useState()
 
 
+useEffect(() =>{
+    Get_ReferralCode()
+},[])
 
+
+
+    const Get_ReferralCode = () => {
+
+        getData(REFFERAL_KEY, (data) => {
+            console.log("REFFERAL_KEY", data)
+            serRefferalCode(data)
+        })
+    }
 
     const Api_Check_mobile = (isLoad, data) => {
         setIsLoading(isLoad)
@@ -106,6 +118,7 @@ const Register = () => {
                 onPress={() => goBack()}>
 
                 <Formik
+                enableReinitialize
                     initialValues={{
                         firstname: firstName,
                         lastname: lastname,
@@ -195,7 +208,7 @@ const Register = () => {
                             }
 
                             <TextInputView
-                                imageSource={PhoneImg}
+                                imageSource={ReferralImg}
                                 containerStyle={{ marginTop: pixelSizeHorizontal(30) }}
                                 value={values.referralcode}
                                 onChangeText={handleChange('referralcode')}

@@ -3,6 +3,8 @@ export const ImgLogo = require('../assets/images/ic_logo.png')
 export const Intro1 = require('../assets/images/Intro1.png')
 export const Intro2 = require('../assets/images/Intro2.png')
 export const Intro3 = require('../assets/images/Intro3.png')
+export const NewIntro = require('../assets/images/NewIntro.png')
+export const Eye = require('../assets/images/eye.png')
 
 export const BackImg = require('../assets/images/ic_back.png')
 export const PhoneImg = require('../assets/images/ic_phone.png')
@@ -10,6 +12,7 @@ export const SmileImg = require('../assets/images/ic_smile.png')
 export const BuildingImg = require('../assets/images/ic_building.png')
 export const LocationImg = require('../assets/images/ic_location.png')
 export const PinImg = require('../assets/images/ic_pin.png')
+export const ReferralImg = require('../assets/images/referral.png')
 
 export const HomeImg = require('../assets/images/ic_home.png')
 export const HomeFillImg = require('../assets/images/ic_home_fill.png')
@@ -52,4 +55,16 @@ export const CongratsImg = require('../assets/images/congratulation_box.png')
 export const WithdrawImg = require('../assets/images/withdraw_congratulations.png')
 export const Camera = require('../assets/images/ic_camera.png')
 export const FooterImage = require('../assets/images/krifix_footer.png')
+
+export const Success = require('../assets/images/checked.png')
+export const Error = require('../assets/images/close.png')
+export const Warning = require('../assets/images/warning.png')
+
+export const Bank = require('../assets/images/bank.png')
+export const Branch = require('../assets/images/branch.png')
+export const Ifsc = require('../assets/images/ifsc.png')
+export const Account = require('../assets/images/account.png')
+export const Upi = require('../assets/images/upi.png')
+
+
 

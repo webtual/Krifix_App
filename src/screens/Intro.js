@@ -4,7 +4,7 @@ import { black, disableColor, greenPrimary, offWhite, white } from '../constants
 import { FontSize, SEMIBOLD } from '../constants/Fonts';
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen';
 import FastImage from 'react-native-fast-image';
-import { Intro1, Intro2, Intro3 } from '../constants/Images';
+import { Intro1, Intro2, Intro3, NewIntro } from '../constants/Images';
 import { SCREEN_WIDTH } from '../constants/ConstantKey';
 import Translate from '../translation/Translate';
 import { ExpandingDot } from 'react-native-animated-pagination-dots';
@@ -18,16 +18,12 @@ const Intro = () => {
 
     const SliderData = [
         {
-            title: 'Find QR in bag',
+            title: 'Find QR In Bag',
             image: Intro1
         },
         {
-            title: 'Scan a QR code',
-            image: Intro2
-        },
-        {
-            title: 'Earn exciting loyalty points',
-            image: Intro3
+            title: 'Scan QR & Get Rewards',
+            image: NewIntro
         },
     ]
 

@@ -7,7 +7,7 @@ import FastImage from 'react-native-fast-image'
 import { black, disableColor, greenPrimary, paleGreen, warmGrey, white } from '../constants/Color'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
-import { BuildingImg, Camera, LocationImg, PhoneImg, PinImg, PrivacyImg, SmileImg } from '../constants/Images'
+import { Account, Bank, Branch, BuildingImg, Camera, Ifsc, LocationImg, PhoneImg, PinImg, PrivacyImg, SmileImg, Upi } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -40,6 +40,7 @@ const Profile = () => {
   const [bankLocation, setBankLocation] = useState("")
   const [accountNumber, setAccountNumber] = useState("")
   const [ifscCode, setIfscCode] = useState("")
+  const [upiId, setUpiID] = useState("")
   const [profileImg, setProfileImg] = useState({ path: "" })
   const [isImageUpdate, setIsImageUpdate] = useState(false)
 
@@ -60,7 +61,7 @@ const Profile = () => {
         setFirstname(user_data.user.first_name)
         setLastName(user_data.user.last_name)
         setCity(user_data.user.city)
-        setArea(user_data.user.area) 
+        setArea(user_data.user.area)
         setPincode(user_data.user.pincode)
         setAddress(user_data.user.address)
         setMobile(user_data.user.phone)
@@ -68,6 +69,7 @@ const Profile = () => {
         setBankLocation(user_data.user.branch_name)
         setAccountNumber(user_data.user.account_no)
         setIfscCode(user_data.user.ifsc_code)
+        setUpiID(user_data.user.upi_id)
         setProfileImg({ path: userData.asset_url + user_data.user.avatar })
 
         storeData(USER_DATA, user_data, () => {
@@ -100,6 +102,7 @@ const Profile = () => {
     body.append('branch_name', data.bankLocation)
     body.append('account_no', data.accountNumber)
     body.append('ifsc_code', data.ifscCode)
+    body.append('upi_id', data.upiId)
 
     if (isImageUpdate == true) {
       body.append('avatar',
@@ -176,7 +179,8 @@ const Profile = () => {
     pincode: Yup.string()
       .min(6, '* Enter 6 digit pincode')
       .required('* Pincode cannot be empty'),
-      address: Yup.string(),
+    address: Yup.string()
+      .required('* Address cannot be empty'),
     bankName: Yup.string()
       .min(2, '* Bank name too short!')
       .max(20, '* Bank name too long!')
@@ -189,6 +193,8 @@ const Profile = () => {
       .required('* Account number cannot be empty'),
     ifscCode: Yup.string()
       .required('* IFSC code cannot be empty'),
+    upiId: Yup.string()
+      .required('* UPI id cannot be empty'),
 
   });
 
@@ -316,12 +322,13 @@ const Profile = () => {
               city: city,
               area: area,
               pincode: pincode,
-              address:address,
+              address: address,
               mobile: mobile,
               bankName: bankName,
               bankLocation: bankLocation,
               accountNumber: accountNumber,
-              ifscCode: ifscCode
+              ifscCode: ifscCode,
+              upiId: upiId,
             }}
             validateOnBlur={false}
             validationSchema={Editschema}
@@ -436,11 +443,11 @@ const Profile = () => {
                 }
 
 
-<Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
+                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
                   {Translate.t("address")}
                 </Text>
                 <TextInputView
-                multiline={true}
+                  multiline={true}
                   editable={isDisabled}
                   imageSource={PinImg}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
@@ -465,7 +472,7 @@ const Profile = () => {
                   editable={isDisabled}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.bankName}
-                  imageSource={PhoneImg}
+                  imageSource={Bank}
                   onChangeText={handleChange('bankName')}
                   onBlur={handleBlur('bankName')}
                   placeholder={Translate.t("bank_name")}
@@ -482,7 +489,7 @@ const Profile = () => {
                   editable={isDisabled}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.bankLocation}
-                  imageSource={PhoneImg}
+                  imageSource={Branch}
                   onChangeText={handleChange('bankLocation')}
                   onBlur={handleBlur('bankLocation')}
                   placeholder={Translate.t("branch_location")}
@@ -499,7 +506,7 @@ const Profile = () => {
                   editable={isDisabled}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.accountNumber}
-                  imageSource={PhoneImg}
+                  imageSource={Account}
                   onChangeText={handleChange('accountNumber')}
                   onBlur={handleBlur('accountNumber')}
                   placeholder={Translate.t("account_number")}
@@ -517,13 +524,30 @@ const Profile = () => {
                   editable={isDisabled}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10), }}
                   value={values.ifscCode}
-                  imageSource={PhoneImg}
+                  imageSource={Ifsc}
                   onChangeText={handleChange('ifscCode')}
                   onBlur={handleBlur('ifscCode')}
                   placeholder={Translate.t("ifsc_code")}
                 />
                 {(errors.ifscCode && touched.ifscCode) &&
                   <Text style={styles.errorText}>{errors.ifscCode}</Text>
+                }
+
+                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
+                  {Translate.t("upi_id")}
+                </Text>
+
+                <TextInputView
+                  editable={isDisabled}
+                  containerStyle={{ marginTop: pixelSizeHorizontal(10), }}
+                  value={values.upiId}
+                  imageSource={Upi}
+                  onChangeText={handleChange('upiId')}
+                  onBlur={handleBlur('upiId')}
+                  placeholder={Translate.t("upi_id")}
+                />
+                {(errors.upiId && touched.upiId) &&
+                  <Text style={styles.errorText}>{errors.upiId}</Text>
                 }
 
                 {isEdit &&

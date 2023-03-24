@@ -16,38 +16,22 @@ import ApiManager from '../commonComponents/ApiManager'
 import { GET_NOTIFICATIONS, READ_NOTIFICATIONS } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
 import moment from 'moment'
+import AlertView from '../commonComponents/AlertView'
+import { DisplayAlert } from '../commonComponents/AlertManager'
 
 const Notification = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [notificationData, setNoificationData] = useState()
-    const NotificationData = [
-        {
-            title: 'you have successfully earn',
-            desc: 'Savings Credited to your wallet',
-        },
-        {
-            title: 'you have successfully earn',
-            desc: 'Savings Credited to your wallet',
-        },
-        {
-            title: 'you have successfully earn',
-            desc: 'Savings Credited to your wallet',
-        },
-        {
-            title: 'you have successfully earn',
-            desc: 'Savings Credited to your wallet',
-        },
-        {
-            title: 'you have successfully earn',
-            desc: 'Savings Credited to your wallet',
-        },
-    ];
+    const [AlertShow, setAlertShow] = useState(false)
+   
 
     useEffect(() => {
         Api_Get_Notification(true)
     }, [])
 
-
+    const AlertActive = () => {
+        setAlertShow(!AlertShow);
+      };
     const Api_Get_Notification = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_NOTIFICATIONS).then((response) => {
@@ -68,6 +52,7 @@ const Notification = () => {
     }
 
     const Api_Read_Notifications = (isLoad, item) => {
+        //  DisplayAlert({ show:true,title:"add",description:"ok",type:1,onSucess:true,onCancel:true})
         setIsLoading(isLoad)
         ApiManager.post(READ_NOTIFICATIONS, {
             id: item.id,
@@ -77,6 +62,7 @@ const Notification = () => {
             var data = response.data;
             if (data.status == true) {
                 Api_Get_Notification(true)
+                // AlertActive()
                 Alert.alert(
                     item.title,
                     item.body,
@@ -132,6 +118,7 @@ const Notification = () => {
                     />
                 }
             </HeaderView>
+            {/* <AlertView isAlertVisible={AlertShow} toggleAlert={() => AlertActive()}  title="Success" body=""/> */}
             {isLoading && <LoadingView />}
         </>
     )

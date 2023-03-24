@@ -35,7 +35,7 @@ const Splash = (props) => {
 		setTimeout(() => {
 			// resetScreen('Login')
 			GetUserData()
-		}, 2500);
+		}, 2000);
 	}, [])
 
 	/* Get User Data from Async Storage */

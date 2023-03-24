@@ -14,9 +14,10 @@ const InvitePopUp = ({isInviteVisible, toggleInvite,referralcode}) => {
 
      // Action Methods
   const btnShareTap = () => {
+      var message = `Check this out amazing app ${Translate.t('app_name')}, Download & join to this app. Here's my code ${JSON.stringify(referralcode)} just enter it when you register the app and you got referral points. \n\n Download app now: https://krifix.app.link?referral_code=${referralcode}` 
     const result = Share.share({
       title: Translate.t('app_name'),
-      message: 'Check this out amazing app ' + Translate.t('app_name') + ', Download & join to this app.' + " Here's my code ( "+ JSON.stringify(referralcode) +' ) just enter it when you register the app and you got refferal points. \n\n Download app now: '+ (Platform.OS == 'ios' ? IOS_APP_LINK : ANDROID_APP_LINK),
+      message: message,
       // url: Platform.OS == 'ios' ? IOS_APP_LINK : ANDROID_APP_LINK
     });
 

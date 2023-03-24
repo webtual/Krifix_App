@@ -49,6 +49,7 @@ target 'Krifix' do
     # An absolute path to your application root.
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
+  pod "react-native-branch", path: "../node_modules/react-native-branch"
   pod 'RNFBCrashlytics', :path => '../node_modules/@react-native-firebase/crashlytics'
   target 'KrifixTests' do
     inherit! :complete

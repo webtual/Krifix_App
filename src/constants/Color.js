@@ -12,7 +12,7 @@ export const greenPrimary = "rgb(77,184,72)"
 export const disableColor = 'rgb(212,212,212)'
 export const midGreen = 'rgb(64,155,59)'
 export const warmGrey = 'rgb(113,113,113)'
-
+export const grey = '#717171'
 export const paleGreen = "rgb(213,253,213)"
 
 export const offWhite = "rgb(248,255,248)"

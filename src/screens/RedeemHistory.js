@@ -3,15 +3,16 @@ import React, { useCallback, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
-import { black, disableColor, greenPrimary, iceBlue, warmGrey, yellow } from '../constants/Color'
+import { black, disableColor, greenPrimary, iceBlue, warmGrey, white, yellow } from '../constants/Color'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import moment from 'moment'
 import FastImage from 'react-native-fast-image'
-import { CoinImg, TrophyImg } from '../constants/Images'
+import { CoinImg, Eye, TrophyImg } from '../constants/Images'
 import ApiManager from '../commonComponents/ApiManager'
 import { GET_REDEEM_HISTORY } from '../constants/ApiUrl'
 import { useFocusEffect } from '@react-navigation/native'
 import LoadingView from '../commonComponents/LoadingView'
+import { navigate } from '../navigations/RootNavigation'
 
 const RedeemHistory = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -76,60 +77,114 @@ const RedeemHistory = () => {
             <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{moment(headerData?.last_transation_date).format("DD MMM YYYY")}</Text>
           </View>
 
-          <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(10) }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: pixelSizeHorizontal(10)
+            }}>
             <Text style={styles.textItem}>{Translate.t("total_voucher_redeem") + " : "}</Text>
-            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{headerData?.total_voucher_redeem}</Text>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigate("RewardStatus")}
+              style={{
+                backgroundColor: greenPrimary,
+                paddingHorizontal: 5,
+                paddingVertical:3,
+                borderRadius: 6,
+                flexDirection: "row",
+                alignItems: "center",
+              }}>
+              <Text style={[styles.textValue, {  color: white }]}>{headerData?.total_voucher_redeem} Vouchers </Text>
+              <View onPress={() => navigate("RewardStatus")}
+                style={{ marginLeft: 6 }}>
+
+                <FastImage tintColor={white}
+                  source={Eye}
+                  style={{ width: widthPixel(20), height: widthPixel(20) }}
+                  resizeMode={'contain'}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
 
-          <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(10) }}>
+
+
+
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginTop: pixelSizeHorizontal(10)
+            }}>
             <Text style={styles.textItem}>{Translate.t("total_referral") + " : "}</Text>
-            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{headerData?.total_referral}</Text>
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigate("ReferralHistory")}
+              style={{
+                backgroundColor: greenPrimary,
+                paddingHorizontal: 5,
+                paddingVertical:3,
+                borderRadius: 6,
+                flexDirection: "row",
+                alignItems: "center",
+              }}>
+              <Text style={[styles.textValue, {  color: white }]}>{headerData?.total_referral} People </Text>
+              <View onPress={() => navigate("ReferralHistory")}
+                style={{ marginLeft: 6 }}>
+
+                <FastImage tintColor={white}
+                  source={Eye}
+                  style={{ width: widthPixel(20), height: widthPixel(20) }}
+                  resizeMode={'contain'}
+                />
+              </View>
+            </TouchableOpacity>
           </View>
+
+
+       
 
         </View>
-{redeemHistory &&
-        <FlatList
-          data={redeemHistory}
-          scrollEnabled={false}
-          ListEmptyComponent={() =>(<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-          <Text style={{textTransform:"capitalize"}}>{Translate.t("no_data_found")}</Text>
-      </View>)}
-          ListHeaderComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-          ItemSeparatorComponent={() => (<View style={{ height: widthPixel(1), backgroundColor: disableColor, marginHorizontal: pixelSizeHorizontal(25) }}></View>)}
-          ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-          renderItem={({ item, index }) => (
-            <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: pixelSizeHorizontal(8), paddingHorizontal: pixelSizeHorizontal(25) }}>
+        {redeemHistory &&
+          <FlatList
+            data={redeemHistory}
+            scrollEnabled={false}
+            ListEmptyComponent={() => (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+              <Text style={{ textTransform: "capitalize" }}>{Translate.t("no_data_found")}</Text>
+            </View>)}
+            ListHeaderComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+            ItemSeparatorComponent={() => (<View style={{ height: widthPixel(1), backgroundColor: disableColor, marginHorizontal: pixelSizeHorizontal(25) }}></View>)}
+            ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+            renderItem={({ item, index }) => (
+              <View style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: pixelSizeHorizontal(8), paddingHorizontal: pixelSizeHorizontal(25) }}>
 
-              <View style={{ width: widthPixel(40), height: widthPixel(40) }}>
+                <View style={{ width: widthPixel(40), height: widthPixel(40) }}>
 
-                <FastImage
-                  style={{ flex: 1 }}
-                  resizeMode="contain"
-                  source={TrophyImg}
-                />
+                  <FastImage
+                    style={{ flex: 1 }}
+                    resizeMode="contain"
+                    source={TrophyImg}
+                  />
+
+                </View>
+
+                <View style={{ flex: 1, marginHorizontal: pixelSizeHorizontal(10) }}>
+                  <Text
+                    style={[styles.textTitle, { textTransform: "capitalize" }]}>{item?.transaction_title}</Text>
+
+                  <Text style={[styles.textDesc, { textTransform: "capitalize" }]}>{Translate.t("redeem_desc", { name: item?.type == "credit" ? "credited" : "debited" })}
+                  </Text>
+                </View>
+
+                <View>
+                  <Text style={[styles.textTitle, { color: item?.type == "credit" ? greenPrimary : yellow, textAlign: 'right', }]}>{item?.type == "credit" ? "+" : "-"}{item?.reward_sale_point}</Text>
+
+                  <Text style={styles.textDate}>
+                    {moment(item?.created_at).format("DD MMM YYYY")}
+                  </Text>
+                </View>
 
               </View>
-
-              <View style={{ flex: 1, marginHorizontal: pixelSizeHorizontal(10) }}>
-                <Text 
-                  style={[styles.textTitle, { textTransform: "capitalize" }]}>{item?.transaction_title}</Text>
-
-                <Text style={[styles.textDesc, { textTransform: "capitalize" }]}>{Translate.t("redeem_desc", { name: item?.type == "credit" ? "credited" : "debited" })}
-                </Text>
-              </View>
-
-              <View>
-                <Text style={[styles.textTitle, { color: item?.type == "credit" ? greenPrimary : yellow, textAlign: 'right', }]}>{item?.type == "credit" ? "+" : "-"}{item?.reward_sale_point}</Text>
-
-                <Text style={styles.textDate}>
-                  {moment(item?.created_at).format("DD MMM YYYY")}
-                </Text>
-              </View>
-
-            </View>
-          )}
-        />
-}
+            )}
+          />
+        }
       </HeaderView>
       {isLoading && <LoadingView />}
     </>
@@ -156,7 +211,7 @@ const styles = StyleSheet.create({
   },
   textValue: {
     fontFamily: SEMIBOLD,
-    fontSize: FontSize.FS_16,
+    fontSize: FontSize.FS_15,
     color: greenPrimary,
   },
   textPoint: {

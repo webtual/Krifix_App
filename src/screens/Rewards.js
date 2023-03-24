@@ -7,14 +7,14 @@ import { goBack, navigate } from '../navigations/RootNavigation'
 import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, warmGrey, white, } from '../constants/Color'
-import { BOLD, FontSize, ITALIC, MEDIUM, SEMIBOLD } from '../constants/Fonts'
+import { BOLD, FontSize, ITALIC, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import InvitePopUp from './InvitePopUp'
 import { RUPEE, SCREEN_WIDTH } from '../constants/ConstantKey'
 import CongratulationsPopUp from './CongratulationsPopUp'
 import { useSelector } from 'react-redux'
 import { user_data } from '../redux/reducers/userReducer'
 import ApiManager from '../commonComponents/ApiManager'
-import { GET_PROFILE, GET_REWARD, REDEEM_REWARD } from '../constants/ApiUrl'
+import { GET_CONTACT_DETAILS, GET_PROFILE, GET_REWARD, REDEEM_REWARD } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
 import { useFocusEffect } from '@react-navigation/native'
 
@@ -26,10 +26,13 @@ const Rewards = () => {
     const [totalPoints, setTotalPoints] = useState()
     const [voucherData, setVoucherData] = useState()
     const [point, setPoint] = useState()
+    const [BannerPoints, setBannerPoints] = useState()
+    const [message, setMessage] = useState("")
 
     useEffect(() => {
         Api_Get_Profile(true)
         Api_Get_Reward_item(true)
+        Api_Get_Contact_details(true)
     }, [])
 
 
@@ -48,6 +51,7 @@ const Rewards = () => {
         setIsLoading(isLoad)
         ApiManager.get(GET_REWARD).then((response) => {
             console.log("Api_Get_Reward_item : ", response)
+            setMessage(response?.data?.message)
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
@@ -57,6 +61,7 @@ const Rewards = () => {
             }
 
         }).catch((err) => {
+           
             setIsLoading(false)
             console.error("Api_Get_Reward_item Error ", err);
         })
@@ -106,6 +111,25 @@ const Rewards = () => {
             console.error("Api_Get_Profile Error ", err);
         })
     }
+    const Api_Get_Contact_details = (isLoad) => {
+        setIsLoading(isLoad)
+        ApiManager.get(GET_CONTACT_DETAILS).then((response) => {
+            console.log("Api_Get_Contact_details : ", response)
+            setIsLoading(false)
+            var data = response.data
+            if (data.status == true) {
+                // setBannerPoints(data.data)
+                setBannerPoints(1000)
+                console.log("GET CONTACT DATA SUCCESSFULLY")
+            } else {
+                alert(data.message)
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Get_Contact_details Error ", err);
+        })
+    }
 
 
     const redeem_cards = (item) => {
@@ -126,6 +150,8 @@ const Rewards = () => {
         }
         // Api_Redeeem(true, item)
     }
+
+
     return (
         <>
             <HeaderView title={Translate.t("krifix_reward")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}
@@ -136,9 +162,9 @@ const Rewards = () => {
                         alignItems: 'center', paddingVertical: pixelSizeHorizontal(25),
                         borderBottomLeftRadius: 0, borderBottomRightRadius: 0
                     }]}>
-                      <TouchableOpacity activeOpacity={0.5}
-                    onPress={() => navigate('RedeemHistory')}
-                    style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
+                    <TouchableOpacity activeOpacity={0.5}
+                        onPress={() => navigate('RedeemHistory')}
+                        style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
 
                         <FastImage
                             source={CoinImg}
@@ -209,7 +235,7 @@ const Rewards = () => {
                                 fontSize: FontSize.FS_23,
                                 color: black,
                                 textAlign: "center"
-                            }}>Earn 100</Text>
+                            }}>Earn {BannerPoints}</Text>
                             <FastImage
                                 source={CoinImg}
                                 style={{ width: widthPixel(26), height: widthPixel(26), marginLeft: 6 }}
@@ -250,99 +276,106 @@ const Rewards = () => {
                     </TouchableOpacity>
 
                 </View>
+                {/* {voucherData && */}
+                    <View style={{ marginVertical: pixelSizeHorizontal(20) }}>
+                       { console.log("voucherData",message)}
+                        <FlatList
+                            data={voucherData}
+                            // numColumns={1}
+                            numColumns={2}
+                            scrollEnabled={false}
+                            ItemSeparatorComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+                            ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+                            ListEmptyComponent={() => (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{
+                                    fontSize: FontSize.FS_14,
+                                    color: black,
+                                    fontFamily: REGULAR,
+                                }}>{message}</Text>
+                            </View>)}
+                            renderItem={({ item, index }) => (
+                                // <>
+                                //     <View style={{ flexDirection: "row", flex: 1, backgroundColor: iceBlue, borderRadius: 8, padding: widthPixel(8), }}>
 
+                                //         <FastImage
+                                //             source={{ uri: userData.asset_url + item.item_image }}
+                                //             style={{ flex: 0.25 }}
+                                //             resizeMode={'contain'}
+                                //         />
 
-                <View style={{ marginVertical: pixelSizeHorizontal(20) }}>
-                    <FlatList
-                        data={voucherData}
-                        // numColumns={1}
-                        numColumns={2}
-                        scrollEnabled={false}
-                        ItemSeparatorComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-                        ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-                        ListEmptyComponent={() => (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={styles.textItem}>{Translate.t("no_data_found")}</Text>
-                        </View>)}
-                        renderItem={({ item, index }) => (
-                            // <>
-                            //     <View style={{ flexDirection: "row", flex: 1, backgroundColor: iceBlue, borderRadius: 8, padding: widthPixel(8), }}>
+                                //         <View style={{ backgroundColor: iceBlue, flex: 0.75, marginLeft: pixelSizeHorizontal(10) }}>
+                                //             <Text style={[styles.textItem]}>{item.item_name}
+                                //             </Text>
+                                //             <Text style={[styles.textItem, { marginTop: pixelSizeVertical(6), color: warmGrey }]}>{item.item_desc}
+                                //             </Text>
+                                //             <View style={{
+                                //                 alignItems: 'center', flexDirection: 'row',
+                                //                 marginVertical: pixelSizeHorizontal(6), flex: 1
+                                //             }}>
+                                //                 <FastImage
+                                //                     source={CoinImg}
+                                //                     style={{ width: widthPixel(18), height: widthPixel(18) }}
+                                //                     resizeMode={'contain'}
+                                //                 />
+                                //                 <Text style={[styles.textItem, { marginLeft: pixelSizeHorizontal(5), fontFamily: SEMIBOLD }]}>{item.item_point}</Text>
+                                //             </View>
 
-                            //         <FastImage
-                            //             source={{ uri: userData.asset_url + item.item_image }}
-                            //             style={{ flex: 0.25 }}
-                            //             resizeMode={'contain'}
-                            //         />
-
-                            //         <View style={{ backgroundColor: iceBlue, flex: 0.75, marginLeft: pixelSizeHorizontal(10) }}>
-                            //             <Text style={[styles.textItem]}>{item.item_name}
-                            //             </Text>
-                            //             <Text style={[styles.textItem, { marginTop: pixelSizeVertical(6), color: warmGrey }]}>{item.item_desc}
-                            //             </Text>
-                            //             <View style={{
-                            //                 alignItems: 'center', flexDirection: 'row',
-                            //                 marginVertical: pixelSizeHorizontal(6), flex: 1
-                            //             }}>
-                            //                 <FastImage
-                            //                     source={CoinImg}
-                            //                     style={{ width: widthPixel(18), height: widthPixel(18) }}
-                            //                     resizeMode={'contain'}
-                            //                 />
-                            //                 <Text style={[styles.textItem, { marginLeft: pixelSizeHorizontal(5), fontFamily: SEMIBOLD }]}>{item.item_point}</Text>
-                            //             </View>
-
-                            //         </View>
-                            //     </View>
-                            //     <TouchableOpacity onPress={() => { redeem_cards(item) }}
-                            //         style={{
-                            //             width: "100%",
-                            //             backgroundColor: black, paddingVertical: pixelSizeHorizontal(8),
-                            //             borderBottomRightRadius: widthPixel(8), borderBottomLeftRadius: widthPixel(8)
-                            //         }}>
-                            //         <Text style={styles.textRedeemIt}>
-                            //             {Translate.t("redeem_it")}
-                            //         </Text>
-                            //     </TouchableOpacity>
-                            // </>
-                            <>
-                                <View style={{ width: "46%", backgroundColor: iceBlue, margin: "2%", borderRadius: 8, paddingTop: pixelSizeVertical(12), }} >
-                                    <FastImage
-                                        source={{ uri: userData.asset_url + item.item_image }}
-                                        style={{ width: 150, height: 100 }}
-                                        resizeMode={'contain'}
-                                    />
-                                    <View style={{ flex: 1, alignItems: "center", marginTop: pixelSizeVertical(12), }}>
-                                        <Text style={[styles.textItem]}>{item.item_name}
-                                        </Text>
-                                        <Text style={[styles.textItem, { marginTop: pixelSizeVertical(6), color: warmGrey }]}>{item.item_desc}
-                                        </Text>
-                                        <View style={{
-                                            alignItems: 'center', flexDirection: 'row',
-                                            marginVertical: pixelSizeHorizontal(6),
-                                        }}>
-                                            <FastImage
-                                                source={CoinImg}
-                                                style={{ width: widthPixel(18), height: widthPixel(18) }}
-                                                resizeMode={'contain'}
-                                            />
-                                            <Text style={[styles.textItem, { marginLeft: pixelSizeHorizontal(5), fontFamily: SEMIBOLD }]}>{item.item_point}</Text>
+                                //         </View>
+                                //     </View>
+                                //     <TouchableOpacity onPress={() => { redeem_cards(item) }}
+                                //         style={{
+                                //             width: "100%",
+                                //             backgroundColor: black, paddingVertical: pixelSizeHorizontal(8),
+                                //             borderBottomRightRadius: widthPixel(8), borderBottomLeftRadius: widthPixel(8)
+                                //         }}>
+                                //         <Text style={styles.textRedeemIt}>
+                                //             {Translate.t("redeem_it")}
+                                //         </Text>
+                                //     </TouchableOpacity>
+                                // </>
+                                <>
+                                    <View style={{ width: "46%", backgroundColor: iceBlue, margin: "2%", borderRadius: 8, paddingTop: pixelSizeVertical(12), }} >
+                                        <FastImage
+                                            source={{ uri: userData.asset_url + item.item_image }}
+                                            style={{ width: 150, height: 100 }}
+                                            resizeMode={'contain'}
+                                        />
+                                        <View style={{ flex: 1, alignItems: "center", marginTop: pixelSizeVertical(12), }}>
+                                            <Text style={[styles.textItem]}>{item.item_name}
+                                            </Text>
+                                            <Text style={[styles.textItem, { marginTop: pixelSizeVertical(6), color: warmGrey }]}>{item.item_desc}
+                                            </Text>
+                                            <View style={{
+                                                alignItems: 'center', flexDirection: 'row',
+                                                marginVertical: pixelSizeHorizontal(6),
+                                            }}>
+                                                <FastImage
+                                                    source={CoinImg}
+                                                    style={{ width: widthPixel(18), height: widthPixel(18) }}
+                                                    resizeMode={'contain'}
+                                                />
+                                                <Text style={[styles.textItem, { marginLeft: pixelSizeHorizontal(5), fontFamily: SEMIBOLD }]}>{item.item_point}</Text>
+                                            </View>
                                         </View>
+                                        <TouchableOpacity onPress={() => { redeem_cards(item) }}
+                                            style={{
+                                                width: "100%",
+                                                backgroundColor: black, paddingVertical: pixelSizeHorizontal(8),
+                                                borderBottomRightRadius: widthPixel(8), borderBottomLeftRadius: widthPixel(8)
+                                            }}>
+                                            <Text style={styles.textRedeemIt}>
+                                                {Translate.t("redeem_it")}
+                                            </Text>
+                                        </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity onPress={() => { redeem_cards(item) }}
-                                        style={{
-                                            width: "100%",
-                                            backgroundColor: black, paddingVertical: pixelSizeHorizontal(8),
-                                            borderBottomRightRadius: widthPixel(8), borderBottomLeftRadius: widthPixel(8)
-                                        }}>
-                                        <Text style={styles.textRedeemIt}>
-                                            {Translate.t("redeem_it")}
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </>
-                        )}
-                    />
+                                </>
+                            )}
+                        />
 
-                </View>
+                    </View>
+                {/* } */}
+
+
 
                 <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code} />
                 <CongratulationsPopUp isWithDrawModel={true} Point={point}

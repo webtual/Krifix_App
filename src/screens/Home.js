@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, ImageBackground } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, ImageBackground, Linking } from 'react-native'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
@@ -13,7 +13,7 @@ import { navigate } from '../navigations/RootNavigation'
 import InvitePopUp from './InvitePopUp'
 import { useDispatch, useSelector } from 'react-redux'
 import { storeUserData, user_data } from '../redux/reducers/userReducer'
-import { GET_HOME_BANNER, GET_PROFILE } from '../constants/ApiUrl'
+import { GET_CONTACT_DETAILS, GET_HOME_BANNER, GET_PROFILE } from '../constants/ApiUrl'
 import ApiManager from '../commonComponents/ApiManager'
 import LoadingView from '../commonComponents/LoadingView'
 import { getData, storeData } from '../commonComponents/AsyncManager'
@@ -25,6 +25,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [bannerData, setBannerData] = useState([])
   const [totalPoints, setTotalPoints] = useState()
+  const [BannerPoints, setBannerPoints] = useState()
   const userData = useSelector(user_data)
   // console.log("userData :::",userData.user.referral_code)
 
@@ -36,6 +37,7 @@ const Home = () => {
       // })
       Api_Get_Home_Banner(true)
       Api_Get_Profile(true)
+      Api_Get_Contact_details(true)
 
     }, [])
   );
@@ -77,6 +79,27 @@ const Home = () => {
       console.error("Api_Get_Home_Banner Error ", err);
     })
   }
+  const Api_Get_Contact_details = (isLoad) => {
+    setIsLoading(isLoad)
+    ApiManager.get(GET_CONTACT_DETAILS).then((response) => {
+      console.log("Api_Get_Contact_details : ", response)
+      setIsLoading(false)
+      var data = response.data
+      if (data.status == true) {
+        // setBannerPoints(data.data)
+        setBannerPoints(1000)
+        console.log("GET CONTACT DATA SUCCESSFULLY")
+      } else {
+        alert(data.message)
+      }
+
+    }).catch((err) => {
+      setIsLoading(false)
+      console.error("Api_Get_Contact_details Error ", err);
+    })
+  }
+
+
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -91,7 +114,7 @@ const Home = () => {
         <View style={[styles.viewInvite, {
           alignItems: 'center', paddingVertical: pixelSizeHorizontal(25),
           borderBottomLeftRadius: 0, borderBottomRightRadius: 0
-        }]}>                                                                                                                                                                               
+        }]}>
           <TouchableOpacity activeOpacity={0.5}
             onPress={() => navigate('RedeemHistory')}
             style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
@@ -166,7 +189,7 @@ const Home = () => {
                 fontSize: FontSize.FS_23,
                 color: black,
                 textAlign: "center"
-              }}>Earn 100</Text>
+              }}>Earn {BannerPoints}</Text>
               <FastImage
                 source={CoinImg}
                 style={{ width: widthPixel(26), height: widthPixel(26), marginLeft: 6 }}

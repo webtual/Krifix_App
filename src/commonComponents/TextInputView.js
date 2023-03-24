@@ -14,9 +14,9 @@ const TextInputView = ({ value = "",imageSource, onChangeText, placeholder = "",
         <View style={[{ flexDirection: 'row', alignItems: 'center' },{...containerStyle}]}>
 
             {imageSource &&
-            <FastImage
+            <FastImage tintColor={warmGrey}
                 source={imageSource}
-                style={{ width: widthPixel(25), height: widthPixel(25) }}
+                style={{ width: widthPixel(25), height: widthPixel(25),}}
                 resizeMode={'contain'}
             /> }
 
