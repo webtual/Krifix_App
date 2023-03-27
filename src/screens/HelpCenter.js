@@ -11,6 +11,7 @@ import { BackImg } from '../constants/Images'
 import { GET_FAQS } from '../constants/ApiUrl'
 import ApiManager from '../commonComponents/ApiManager'
 import LoadingView from '../commonComponents/LoadingView'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const HelpCenter = () => {
 
@@ -37,7 +38,12 @@ const HelpCenter = () => {
 
                 console.log("Api_Get_Faq data successfully")
             } else {
-                alert(data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: data.message,
+                    button: 'Ok',
+                  })
             }
 
         }).catch((err) => {

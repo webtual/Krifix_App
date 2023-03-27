@@ -5,6 +5,7 @@ import axios from "axios";
 /** Constant Files */
 import { BEARER_TOKEN, USER_DATA } from '../constants/ConstantKey';
 import { BASE_URL } from "../constants/ApiUrl";
+import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 
 
 const ApiManager = axios.create({
@@ -47,11 +48,22 @@ ApiManager.interceptors.response.use(response => {
 	console.log("Axios interceptors err : " + JSON.stringify(error))
 
 	if (error.hasOwnProperty("code") && error.code == "ECONNABORTED") {
-		alert("Request Timeout")
+		Dialog.show({
+			type: ALERT_TYPE.DANGER,
+			title: Translate.t('alert'),
+			textBody: "Request Timeout",
+			button: 'Ok',
+		  })
+		
 	}
 	else if (error.hasOwnProperty("code") && error.code == 'ERR_NETWORK') {
 
-		alert("No Internet Connection")
+		Dialog.show({
+			type: ALERT_TYPE.DANGER,
+			title: Translate.t('alert'),
+			textBody: "No Internet Connection",
+			button: 'Ok',
+		  })
 	}
 	else {
 

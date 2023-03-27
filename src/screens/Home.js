@@ -18,6 +18,7 @@ import ApiManager from '../commonComponents/ApiManager'
 import LoadingView from '../commonComponents/LoadingView'
 import { getData, storeData } from '../commonComponents/AsyncManager'
 import { useFocusEffect } from '@react-navigation/native'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const Home = () => {
   const dispatch = useDispatch()
@@ -53,7 +54,12 @@ const Home = () => {
         setTotalPoints(user_data.user.reward_point)
         console.log("GET PROFILE SUCCESSFULLY")
       } else {
-        alert(response.data.message)
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: Translate.t('alert'),
+          textBody: response.data.message,
+          button: 'Ok',
+        })
       }
 
     }).catch((err) => {
@@ -71,7 +77,12 @@ const Home = () => {
         setBannerData(data.data)
         console.log("GET HOME BANNER SUCCESSFULLY")
       } else {
-        alert(data.message)
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: Translate.t('alert'),
+          textBody: data.message,
+          button: 'Ok',
+        })
       }
 
     }).catch((err) => {
@@ -90,7 +101,12 @@ const Home = () => {
         setBannerPoints(1000)
         console.log("GET CONTACT DATA SUCCESSFULLY")
       } else {
-        alert(data.message)
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: Translate.t('alert'),
+          textBody: data.message,
+          button: 'Ok',
+        })
       }
 
     }).catch((err) => {

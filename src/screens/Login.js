@@ -21,6 +21,8 @@ import LoadingView from '../commonComponents/LoadingView'
 import messaging from '@react-native-firebase/messaging';
 import { useFocusEffect } from '@react-navigation/native'
 import FastImage from 'react-native-fast-image'
+import AlertView from '../commonComponents/AlertView'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 
 const Login = () => {
@@ -30,6 +32,8 @@ const Login = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [mobile, setMobile] = useState("")
     const [fcm_token, setFcmToken] = useState("")
+    const [AlertShow, setAlertShow] = useState(false)
+    const [alerMessage, setAlertMessage] = useState(false)
 
     useFocusEffect(
         useCallback(() => {
@@ -139,7 +143,14 @@ const Login = () => {
                 navigate("OtpView", { data: dict })
 
             } else {
-                alert(response.data.message)
+                setAlertMessage(response.data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: alerMessage,
+                    button: 'Ok',
+                  })
+                // AlertActive()
             }
 
         }).catch((err) => {
@@ -148,7 +159,9 @@ const Login = () => {
         })
     }
 
-
+    // const AlertActive = () => {
+    //     setAlertShow(!AlertShow);
+    // };
 
     return (
         <>
@@ -198,7 +211,7 @@ const Login = () => {
                         </View>
                     )}
                 </Formik>
-                <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40) ,left:0,right:0,alignItems:"center"}}>
+                <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40), left: 0, right: 0, alignItems: "center" }}>
                     <FastImage
                         source={FooterImage}
                         style={{ width: "40%", height: 30 }}
@@ -206,7 +219,15 @@ const Login = () => {
                     />
                 </View>
             </HeaderView>
-
+            {/* <AlertView
+                isAlertVisible={AlertShow}
+                toggleAlert={() => AlertActive()}
+                title={Translate.t('alert')}
+                description={alerMessage}
+                type="error"
+                cancleText="Ok"
+                onCancel={() => { setAlertShow(false) }}
+            /> */}
             {isLoading && <LoadingView />}
         </>
     )

@@ -137,7 +137,6 @@ const App = () => {
 			console.log("lastParams : "+JSON.stringify(lastParams))
 			console.log("installParams : "+JSON.stringify(installParams))
 
-			// alert("lastParams : "+JSON.stringify(lastParams) + "installParams : "+JSON.stringify(installParams))
 
 			if(lastParams.hasOwnProperty('referral_code')){
 
@@ -167,7 +166,7 @@ const App = () => {
 
 			if(Object.keys(params).length != 0){
 
-				alert("Params : "+JSON.stringify(params))
+				console.log("Params : "+JSON.stringify(params))
 
 				if(params.hasOwnProperty('referral_code')){
 

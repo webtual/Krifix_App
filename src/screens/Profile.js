@@ -19,6 +19,8 @@ import { storeData } from '../commonComponents/AsyncManager'
 import { storeUserData, user_data } from '../redux/reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
+import AlertView from '../commonComponents/AlertView'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 
 const Profile = () => {
@@ -43,6 +45,7 @@ const Profile = () => {
   const [upiId, setUpiID] = useState("")
   const [profileImg, setProfileImg] = useState({ path: "" })
   const [isImageUpdate, setIsImageUpdate] = useState(false)
+  // const [AlertShow, setAlertShow] = useState(false)
 
   useFocusEffect(
     useCallback(() => {
@@ -57,19 +60,19 @@ const Profile = () => {
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
-        // console.log("user_data", user_data)
+        console.log("user_data", user_data.user.branch_name)
         setFirstname(user_data.user.first_name)
         setLastName(user_data.user.last_name)
         setCity(user_data.user.city)
         setArea(user_data.user.area)
         setPincode(user_data.user.pincode)
         setAddress(user_data.user.address)
-        setMobile(user_data.user.phone)
-        setBankName(user_data.user.bank_name)
-        setBankLocation(user_data.user.branch_name)
-        setAccountNumber(user_data.user.account_no)
-        setIfscCode(user_data.user.ifsc_code)
-        setUpiID(user_data.user.upi_id)
+        setMobile(user_data.user.phone )
+        setBankName(user_data.user.bank_name == null ? " " : user_data.user.bank_name)
+        setBankLocation(user_data.user.branch_name == null ? " " : user_data.user.branch_name)
+        setAccountNumber(user_data.user.account_no == null ? " " : user_data.user.account_no)
+        setIfscCode(user_data.user.ifsc_code == null ? " " : user_data.user.ifsc_code)
+        setUpiID(user_data.user.upi_id == null ? " " : user_data.upi_id)
         setProfileImg({ path: userData.asset_url + user_data.user.avatar })
 
         storeData(USER_DATA, user_data, () => {
@@ -79,7 +82,12 @@ const Profile = () => {
         console.log("GET PROFILE DATA SUCCEESSFULLY")
 
       } else {
-        alert(response.data.message)
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: Translate.t('alert'),
+          textBody: response.data.message,
+          button: 'Ok',
+        })
       }
 
     }).catch((err) => {
@@ -126,17 +134,20 @@ const Profile = () => {
 
         Api_Get_Profile(true)
         setIsImageUpdate(false)
-        Alert.alert(
-          Translate.t('success'),
-          Translate.t('profile_update_successfully'),
-          [
-            { text: 'Ok', onPress: () => console.log('Cancel Pressed'), style: 'destructive' },
-            // { cancelable: true }
-          ]
-        );
+        Dialog.show({
+          type: ALERT_TYPE.SUCCESS,
+          title: Translate.t('success'),
+          textBody: Translate.t('profile_update_successfully'),
+          button: 'Ok',
+        })
         console.log("PROFILE DATA UPDATE SUCCEESSFULLY")
       } else {
-        alert(data.message)
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: Translate.t('alert'),
+          textBody: data.message,
+          button: 'Ok',
+        })
       }
 
     }).catch((err) => {
@@ -155,6 +166,10 @@ const Profile = () => {
     setIsEdit(!isEdit)
     seIsDisabled(false)
   }
+  // const AlertActive = () => {
+  //   setAlertShow(!AlertShow);
+  // };
+
 
   const Editschema = Yup.object().shape({
     firstName: Yup.string()
@@ -179,22 +194,21 @@ const Profile = () => {
     pincode: Yup.string()
       .min(6, '* Enter 6 digit pincode')
       .required('* Pincode cannot be empty'),
-    address: Yup.string()
-      .required('* Address cannot be empty'),
-    bankName: Yup.string()
-      .min(2, '* Bank name too short!')
-      .max(20, '* Bank name too long!')
-      .required('* Bank name cannot be empty'),
-    bankLocation: Yup.string()
-      .min(2, '* Bank location too short!')
-      .max(30, '* Bank location too long!')
-      .required('* Bank location cannot be empty'),
-    accountNumber: Yup.string()
-      .required('* Account number cannot be empty'),
-    ifscCode: Yup.string()
-      .required('* IFSC code cannot be empty'),
-    upiId: Yup.string()
-      .required('* UPI id cannot be empty'),
+    // address: Yup.string()
+    //   .required('* Address cannot be empty'),
+    // bankName: Yup.string(),
+      // .max(20, '* Bank name too long!')
+      // .required('* Bank name cannot be empty'),
+    // bankLocation: Yup.string()
+      // .min(2, '* Bank location too short!')
+      // .max(30, '* Bank location too long!')
+      // .required('* Bank location cannot be empty'),
+    // accountNumber: Yup.string(),
+      // .required('* Account number cannot be empty'),
+    // ifscCode: Yup.string(),
+      // .required('* IFSC code cannot be empty'),
+    // upiId: Yup.string(),
+      // .required('* UPI id cannot be empty'),
 
   });
 
@@ -581,7 +595,15 @@ const Profile = () => {
 
 
         </View>
-
+        {/* <AlertView
+          isAlertVisible={AlertShow}
+          toggleAlert={() => AlertActive()}
+          title={Translate.t('success')}
+          description={Translate.t('profile_update_successfully')}
+          type="success"
+          successText="OK"
+          onSucess={() => { setAlertShow(false) }}
+        /> */}
       </HeaderView>
       {isLoading && <LoadingView />}
     </KeyboardAvoidingView>

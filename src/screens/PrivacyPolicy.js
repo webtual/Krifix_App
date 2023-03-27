@@ -10,6 +10,7 @@ import RenderHtml from 'react-native-render-html';
 import LoadingView from '../commonComponents/LoadingView'
 import { GET_CMS } from '../constants/ApiUrl'
 import ApiManager from '../commonComponents/ApiManager'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const PrivacyPolicy = () => {
     const { width } = useWindowDimensions();
@@ -34,7 +35,13 @@ const PrivacyPolicy = () => {
 
 
             } else {
-                alert(data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: data.message,
+                    button: 'Ok',
+                  })
+                
             }
 
         }).catch((err) => {

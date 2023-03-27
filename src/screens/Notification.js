@@ -18,20 +18,24 @@ import LoadingView from '../commonComponents/LoadingView'
 import moment from 'moment'
 import AlertView from '../commonComponents/AlertView'
 import { DisplayAlert } from '../commonComponents/AlertManager'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const Notification = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [notificationData, setNoificationData] = useState()
-    const [AlertShow, setAlertShow] = useState(false)
-   
+    // const [AlertShow, setAlertShow] = useState(false)
+    const [title, setTitle] = useState("")
+    const [desc, setDesc] = useState("")
+
 
     useEffect(() => {
         Api_Get_Notification(true)
     }, [])
 
-    const AlertActive = () => {
-        setAlertShow(!AlertShow);
-      };
+    // const AlertActive = () => {
+    //     setAlertShow(!AlertShow);
+    //   };
+
     const Api_Get_Notification = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_NOTIFICATIONS).then((response) => {
@@ -42,7 +46,12 @@ const Notification = () => {
                 setNoificationData(data.data)
                 console.log("GET NOTIFICATION SUCCEESSFULLY")
             } else {
-                alert(data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: data.message,
+                    button: 'Ok',
+                })
             }
 
         }).catch((err) => {
@@ -52,7 +61,8 @@ const Notification = () => {
     }
 
     const Api_Read_Notifications = (isLoad, item) => {
-        //  DisplayAlert({ show:true,title:"add",description:"ok",type:1,onSucess:true,onCancel:true})
+        setTitle(item.title)
+        setDesc(item.body)
         setIsLoading(isLoad)
         ApiManager.post(READ_NOTIFICATIONS, {
             id: item.id,
@@ -63,13 +73,12 @@ const Notification = () => {
             if (data.status == true) {
                 Api_Get_Notification(true)
                 // AlertActive()
-                Alert.alert(
-                    item.title,
-                    item.body,
-                    [
-                        { text: 'Done', onPress: () =>console.log("") , style: 'default' },
-                    ]
-                );
+                Dialog.show({
+                    type: ALERT_TYPE.SUCCESS,
+                    title: title,
+                    textBody: desc,
+                    button: 'Ok',
+                })
                 console.log("READ NOTIFICATION SUCCEESSFULLY")
             } else {
 
@@ -80,7 +89,7 @@ const Notification = () => {
             console.error("Api_Read_Notifications Error ", err);
         })
     }
- 
+
     return (
         <>
             <HeaderView title={Translate.t("Notification")} onPress={() => goBack()}
@@ -97,10 +106,10 @@ const Notification = () => {
                         ItemSeparatorComponent={() => (<View style={{ height: widthPixel(1), backgroundColor: white, marginVertical: pixelSizeHorizontal(2) }}></View>)}
                         ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
                         renderItem={({ item }) => (
-                            <TouchableOpacity onPress={() =>  Api_Read_Notifications(true, item)}
+                            <TouchableOpacity onPress={() => Api_Read_Notifications(true, item)}
                                 style={[styles.notificationContainer,
                                 {
-                                    backgroundColor: item.is_read  === 0 ?light_grey: white,
+                                    backgroundColor: item.is_read === 0 ? light_grey : white,
                                     paddingHorizontal: 25,
                                     paddingVertical: 10
                                 }]}>
@@ -118,7 +127,14 @@ const Notification = () => {
                     />
                 }
             </HeaderView>
-            {/* <AlertView isAlertVisible={AlertShow} toggleAlert={() => AlertActive()}  title="Success" body=""/> */}
+            {/* <AlertView
+             isAlertVisible={AlertShow}
+              toggleAlert={() => AlertActive()}
+                title={title} description={desc}
+                 type="success" 
+                 successText="Read"
+                 onSucess={() =>{setAlertShow(false)}}
+                   /> */}
             {isLoading && <LoadingView />}
         </>
     )
@@ -137,7 +153,7 @@ const styles = StyleSheet.create({
     },
     titleContainer: {
         marginHorizontal: pixelSizeHorizontal(12),
-        flex:1
+        flex: 1
     },
     title: {
         fontFamily: SEMIBOLD,

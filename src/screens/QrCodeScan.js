@@ -21,6 +21,8 @@ import { PermissionsAndroid } from 'react-native'
 import LoadingView from '../commonComponents/LoadingView'
 import ApiManager from '../commonComponents/ApiManager'
 import { ADD_REWARD, GET_REWARD } from '../constants/ApiUrl'
+import AlertView from '../commonComponents/AlertView'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 
 const QrCodeScan = () => {
@@ -34,6 +36,7 @@ const QrCodeScan = () => {
     const [opneScanner, setOpneScanner] = useState(false);
     const [point, setPoint] = useState();
     const [qrValue, setQrValue] = useState();
+    const [AlertShow, setAlertShow] = useState(false)
 
 
     useEffect(() => {
@@ -62,11 +65,21 @@ const QrCodeScan = () => {
                         setOpneScanner(true);
 
                     } else {
-                        alert('CAMERA permission denied');
+                        Dialog.show({
+                            type: ALERT_TYPE.DANGER,
+                            title: Translate.t('alert'),
+                            textBody: "CAMERA permission denied",
+                            button: 'Ok',
+                          })
                     }
                 } catch {
                     (err) => {
-                        alert('Camera permission err', err);
+                        Dialog.show({
+                            type: ALERT_TYPE.DANGER,
+                            title: Translate.t('alert'),
+                            textBody: "Camera permission err",
+                            button: 'Ok',
+                          })
                         console.warn(err);
                     }
                 }
@@ -91,13 +104,17 @@ const QrCodeScan = () => {
                 setPoint(user_data)
                 toggleModal()
             } else {
-                Alert.alert(
-                    Translate.t('alert'),
-                    Translate.t('already_used'),
-                    [
-                    { text: 'Ok', onPress: () => setOpneScanner(true), style: 'default' },
-                ]
-                  );
+                Dialog.show({
+                    type: ALERT_TYPE.WARNING,
+                    title: Translate.t('warning'),
+                    textBody: Translate.t('already_used'),
+                    button: 'Ok',
+                    onPressButton: ()=> {
+                        Dialog.hide();
+                        setOpneScanner(true)
+                        console.log("ok presssed")},
+
+                  })
             }
 
         }).catch((err) => {
@@ -116,12 +133,15 @@ const QrCodeScan = () => {
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
+    // const AlertActive = () => {
+    //     setAlertShow(!AlertShow);
+    // };
     // const toggleFlash = () => {
-        // if(isFlash == 0){
-        //     setIsFlash(RNCamera.Constants.FlashMode.torch)
-        // }else{
-        //     setIsFlash(RNCamera.Constants.FlashMode.off)
-        // }
+    // if(isFlash == 0){
+    //     setIsFlash(RNCamera.Constants.FlashMode.torch)
+    // }else{
+    //     setIsFlash(RNCamera.Constants.FlashMode.off)
+    // }
     // }
 
     return (
@@ -169,6 +189,15 @@ const QrCodeScan = () => {
                     toggleModal()
                     goBack()
                 }} />
+            {/* <AlertView
+                isAlertVisible={AlertShow}
+                toggleAlert={() => AlertActive()}
+                title={Translate.t('alert')}
+                description={Translate.t('already_used')}
+                type="error"
+                successText="ok"
+                onSucess={() => { setAlertShow(false), setOpneScanner(true) }}
+            /> */}
             {isLoading && <LoadingView />}
         </>
     )

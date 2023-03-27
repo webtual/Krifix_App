@@ -17,6 +17,8 @@ import { useDispatch } from 'react-redux'
 import crashlytics from '@react-native-firebase/crashlytics';
 import { FooterImage } from '../constants/Images'
 import FastImage from 'react-native-fast-image'
+import AlertView from '../commonComponents/AlertView'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const OtpView = ({ route }) => {
     const dispatch = useDispatch()
@@ -30,6 +32,8 @@ const OtpView = ({ route }) => {
     const [fcm_token, setFcmToken] = useState("")
     const [count, setCount] = useState(60)
     const [isResendCode, setIsResendCode] = useState(true)
+    const [AlertShow, setAlertShow] = useState(false)
+    const [AlertShowSecond, setAlertShowSecond] = useState(false)
     const timerRef = useRef(count);
     var timerId;
 
@@ -38,7 +42,7 @@ const OtpView = ({ route }) => {
         GetFCM_TOKEN()
         crashlytics().log('App mounted.');
         Api_Otp(true)
-        return () => {clearTimer()}
+        return () => { clearTimer() }
     }, [])
 
     const GetFCM_TOKEN = () => {
@@ -48,6 +52,13 @@ const OtpView = ({ route }) => {
             setFcmToken(data)
         })
     }
+
+    // const AlertActive = () => {
+    //     setAlertShow(!AlertShow);
+    // };
+    // const AlertActiveSecond = () => {
+    //     setAlertShowSecond(!AlertShowSecond);
+    // };
 
     const Api_Otp = (isLoad) => {
         console.log("mobile", typeof Number(mobile))
@@ -69,7 +80,7 @@ const OtpView = ({ route }) => {
                     timerRef.current -= 1;
                     console.log("count : " + timerRef.current)
                     if (timerRef.current < 0) {
-                        console.log("timerId",timerId)
+                        console.log("timerId", timerId)
                         clearInterval(timerId);
                         setIsResendCode(true)
                         clearTimer()
@@ -79,7 +90,12 @@ const OtpView = ({ route }) => {
                 }, 1000);
 
             } else {
-                alert(data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: data.message,
+                    button: 'Ok',
+                  })
             }
 
         }).catch((err) => {
@@ -112,7 +128,12 @@ const OtpView = ({ route }) => {
                 })
 
             } else {
-                alert(data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: data.message,
+                    button: 'Ok',
+                  })
             }
 
         }).catch((err) => {
@@ -161,7 +182,12 @@ const OtpView = ({ route }) => {
 
 
             } else {
-                alert(data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: data.message,
+                    button: 'Ok',
+                  })
             }
 
         }).catch((err) => {
@@ -182,23 +208,23 @@ const OtpView = ({ route }) => {
                 }
             }
             else {
-                Alert.alert(
-                    "Alert",
-                    "Please Enter Valid OTP",
-                    [
-                        { text: 'Ok', onPress: () => console.log(""), style: 'default' },
-                    ]
-                );
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: "Please Enter Valid OTP",
+                    button: 'Ok',
+                  })
+                // AlertActive()
             }
         }
         else {
-            Alert.alert(
-                "Alert",
-                "Please enter OTP",
-                [
-                    { text: 'Ok', onPress: () => console.log(""), style: 'default' },
-                ]
-            );
+            Dialog.show({
+                type: ALERT_TYPE.DANGER,
+                title: Translate.t('alert'),
+                textBody: "Please Enter  OTP",
+                button: 'Ok',
+              })
+            // AlertActiveSecond()
         }
     }
     // Action Methods
@@ -209,7 +235,7 @@ const OtpView = ({ route }) => {
     }
 
     const clearTimer = () => {
-        console.log("intialvalue",timerId)
+        console.log("intialvalue", timerId)
         for (var i = 0; i < 10000; i++) {
             clearInterval(i)
         }
@@ -235,14 +261,6 @@ const OtpView = ({ route }) => {
                             onCodeFilled={(code) => {
 
                                 setOptcode(code)
-
-                                // if (code != OTP) {
-                                // 	alert("Please enter valid OTP")
-                                // } 
-                                // else {
-                                // 	// API_CHECK_MOBILE(true)
-                                // }
-
                                 console.log(`Code is ${code}, you are good to go!`)
                             }}
                         />
@@ -262,22 +280,22 @@ const OtpView = ({ route }) => {
                             {Translate.t("otp_desc")}
                         </Text>
                         {isResendCode ?
-                        <TouchableOpacity style={{ marginTop: pixelSizeHorizontal(12) }}
-                            onPress={() => { btnResendTap()}} >
-                           
+                            <TouchableOpacity style={{ marginTop: pixelSizeHorizontal(12) }}
+                                onPress={() => { btnResendTap() }} >
+
                                 <Text style={styles.textResend}>
                                     {Translate.t("resend_otp")}
                                 </Text>
-                               
-                        </TouchableOpacity>
-                        :
-                        <Text style={[styles.textResend,{color:warmGrey,marginTop: pixelSizeHorizontal(10) }]}>
-                            Resend OTP in 00:{count}
-                        </Text>}
+
+                            </TouchableOpacity>
+                            :
+                            <Text style={[styles.textResend, { color: warmGrey, marginTop: pixelSizeHorizontal(10) }]}>
+                                Resend OTP in 00:{count}
+                            </Text>}
                     </View>
 
                 </View>
-                <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40) ,left:0,right:0,alignItems:"center"}}>
+                <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40), left: 0, right: 0, alignItems: "center" }}>
                     <FastImage
                         source={FooterImage}
                         style={{ width: "40%", height: 30 }}
@@ -286,6 +304,24 @@ const OtpView = ({ route }) => {
                 </View>
 
             </HeaderView>
+            {/* <AlertView
+                isAlertVisible={AlertShow}
+                toggleAlert={() => AlertActive()}
+                title={Translate.t('alert')}
+                description={"Please Enter Valid OTP"}
+                type="error"
+                cancleText="Ok"
+                onCancel={() => { setAlertShow(false) }}
+            />
+            <AlertView
+                isAlertVisible={AlertShowSecond}
+                toggleAlert={() => AlertActiveSecond()}
+                title={Translate.t('alert')}
+                description={"Please Enter OTP"}
+                type="error"
+                cancleText="Ok"
+                onCancel={() => { setAlertShowSecond(false) }}
+            /> */}
             {isLoading && <LoadingView />}
         </>
     )

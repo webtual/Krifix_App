@@ -11,6 +11,7 @@ import { AtImg, BigPhoneImg, NavigateImg, PhoneImg } from '../constants/Images'
 import ApiManager from '../commonComponents/ApiManager'
 import { GET_CONTACT_DETAILS } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const ContactUs = () => {
     const [isLoading, setIsLoading] = useState(false)
@@ -32,7 +33,12 @@ const ContactUs = () => {
 
                 console.log("Api_Get_Contact_details data successfully")
             } else {
-                alert(data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: data.message,
+                    button: 'Ok',
+                  })
             }
 
         }).catch((err) => {

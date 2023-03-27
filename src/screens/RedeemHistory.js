@@ -13,6 +13,7 @@ import { GET_REDEEM_HISTORY } from '../constants/ApiUrl'
 import { useFocusEffect } from '@react-navigation/native'
 import LoadingView from '../commonComponents/LoadingView'
 import { navigate } from '../navigations/RootNavigation'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const RedeemHistory = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -39,7 +40,12 @@ const RedeemHistory = () => {
         setReddemHistory(data.data.transaction)
         console.log("DATA REDEEM HISTORY SUCCESSFULLY")
       } else {
-        alert(data.message)
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: Translate.t('alert'),
+          textBody: data.message,
+          button: 'Ok',
+        })
       }
 
     }).catch((err) => {

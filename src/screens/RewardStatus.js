@@ -18,6 +18,7 @@ import { GET_CONTACT_DETAILS, GET_PROFILE, GET_REWARD, GET_TRANSACTION_HISTORY, 
 import LoadingView from '../commonComponents/LoadingView'
 import { useFocusEffect } from '@react-navigation/native'
 import moment from 'moment'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const RewardStatus = () => {
   const userData = useSelector(user_data)
@@ -40,7 +41,12 @@ const RewardStatus = () => {
         setTransactionData(data.data)
         console.log("GET TRANSACTION DATA SUCCESSFULLY")
       } else {
-        alert(data.message)
+        Dialog.show({
+          type: ALERT_TYPE.DANGER,
+          title: Translate.t('alert'),
+          textBody: data.message,
+          button: 'Ok',
+        })
       }
 
     }).catch((err) => {

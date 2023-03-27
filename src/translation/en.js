@@ -71,6 +71,7 @@ export default {
 	withdraw_mail_text:"* Your Reward will be processed in 3-4 working day in your bank account",
 	profile_update_successfully:"Profile update successfully",
 	success:"Success",
+	warning:"Warning",
 	redeem_desc:"Savings %{name} to your wallet",
 	no_data_found:"No data found",
 	already_used:"This QR Code already used",

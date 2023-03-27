@@ -18,6 +18,7 @@ import { GET_CONTACT_DETAILS, GET_PROFILE, GET_REFERRAL, GET_REWARD, GET_TRANSAC
 import LoadingView from '../commonComponents/LoadingView'
 import { useFocusEffect } from '@react-navigation/native'
 import moment from 'moment'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const ReferralHistory = () => {
     const userData = useSelector(user_data)
@@ -38,7 +39,12 @@ const ReferralHistory = () => {
                 console.log("user_data", user_data)
                 setReferralData(user_data)
             } else {
-                alert(response.data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: response.data.message,
+                    button: 'Ok',
+                  })
             }
 
         }).catch((err) => {

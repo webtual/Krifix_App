@@ -14,12 +14,13 @@ import { useDispatch, useSelector } from 'react-redux'
 import Modal from "react-native-modal";
 import { ANDROID_APP_LINK, IOS_APP_LINK } from '../constants/ConstantKey'
 import InvitePopUp from './InvitePopUp'
-
-
+import AlertView from '../commonComponents/AlertView'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 const Settings = () => {
 
   const dispatch = useDispatch()
   const [isModalVisible, setModalVisible] = useState(false);
+  const [AlertShow, setAlertShow] = useState(false)
   const userData = useSelector(user_data)
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
@@ -63,6 +64,10 @@ const Settings = () => {
     },
   ]
 
+  // const AlertActive = () => {
+  //   setAlertShow(!AlertShow);
+  // };
+
   /* Clear all stored data & Logout  */
   const goToLogin = async () => {
     removeAllData(() => {
@@ -92,24 +97,22 @@ const Settings = () => {
     else if (item.screenName == "privacy") {
       navigate("PrivacyPolicy")
     }
-    else if (item.screenName == "notifications"){
+    else if (item.screenName == "notifications") {
       navigate("Notification")
     }
     else if (item.screenName == "logout") {
-      Alert.alert(
-        Translate.t('alert'),
-        Translate.t('are_you_sure_logout'),
-        [
-          { text: 'No', onPress: () => console.log('Cancel Pressed'), style: 'destructive' },
-          {
-            text: 'Yes',
-            onPress: () => {
-              goToLogin()
-            }
-          },
-        ],
-        { cancelable: true }
-      );
+      // AlertActive()
+      Dialog.show({
+        type: ALERT_TYPE.WARNING,
+        title: Translate.t('warning'),
+        textBody: Translate.t('are_you_sure_logout'),
+        button: 'Logout',
+        onPressButton: ()=> {
+            Dialog.hide();
+            goToLogin()
+            console.log("Logout successfully")},
+
+      })
     }
   }
 
@@ -160,6 +163,17 @@ const Settings = () => {
 
 
       <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code} />
+      {/* <AlertView
+      // show={AlertShow}
+        isAlertVisible={AlertShow}
+        toggleAlert={() => AlertActive()}
+        title={Translate.t('alert')}
+        description={Translate.t('are_you_sure_logout')}
+        type="warning"
+        successText="Yes"
+        cancleText="No"
+        onSucess={() => { goToLogin() }}
+        onCancel={() => { setAlertShow(false) }} /> */}
 
     </HeaderView>
   )

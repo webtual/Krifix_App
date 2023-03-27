@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux'
 import { CHECK_MOBILE, REGISTER } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
 import FastImage from 'react-native-fast-image'
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const Register = () => {
     const dispatch = useDispatch()
@@ -62,7 +63,12 @@ useEffect(() =>{
                 navigate("OtpView", { data: dict })
 
             } else {
-                alert(response.data.message)
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: response.data.message,
+                    button: 'Ok',
+                  })
             }
 
         }).catch((err) => {
@@ -106,9 +112,9 @@ useEffect(() =>{
         pincode: Yup.string()
             .min(6, '* Enter 6 digit pincode')
             .required('* Pincode cannot be empty'),
-        referralcode: Yup.string()
-            .min(6, '* Enter 6 character referral code')
-            .required('* Referral code cannot be empty'),
+        // referralcode: Yup.string()
+        //     .min(6, '* Enter 6 character referral code')
+        //     .required('* Referral code cannot be empty'),
 
 
     });
