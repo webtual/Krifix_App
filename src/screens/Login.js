@@ -147,7 +147,7 @@ const Login = () => {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
-                    textBody: alerMessage,
+                    textBody: response.data.message,
                     button: 'Ok',
                   })
                 // AlertActive()

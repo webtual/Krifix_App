@@ -122,8 +122,7 @@ const Rewards = () => {
             setIsLoading(false)
             var data = response.data
             if (data.status == true) {
-                // setBannerPoints(data.data)
-                setBannerPoints(1000)
+                setBannerPoints(data.data.refer_point)
                 console.log("GET CONTACT DATA SUCCESSFULLY")
             } else {                       
                 Dialog.show({                                                                                                                               
@@ -289,7 +288,6 @@ const Rewards = () => {
                 </View>
                 {/* {voucherData && */}
                 <View style={{ marginVertical: pixelSizeHorizontal(20) }}>
-                    {console.log("voucherData", message)}
                     <FlatList
                         data={voucherData}
                         // numColumns={1}

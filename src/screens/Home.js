@@ -97,8 +97,7 @@ const Home = () => {
       setIsLoading(false)
       var data = response.data
       if (data.status == true) {
-        // setBannerPoints(data.data)
-        setBannerPoints(1000)
+        setBannerPoints(data.data.refer_point)
         console.log("GET CONTACT DATA SUCCESSFULLY")
       } else {
         Dialog.show({
