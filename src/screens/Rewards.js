@@ -125,8 +125,8 @@ const Rewards = () => {
                 // setBannerPoints(data.data)
                 setBannerPoints(1000)
                 console.log("GET CONTACT DATA SUCCESSFULLY")
-            } else {
-                Dialog.show({
+            } else {                       
+                Dialog.show({                                                                                                                               
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: data.message,
@@ -137,7 +137,7 @@ const Rewards = () => {
         }).catch((err) => {
             setIsLoading(false)
             console.error("Api_Get_Contact_details Error ", err);
-        })
+        })                         
     }
 
 

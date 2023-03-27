@@ -59,25 +59,18 @@ const RedeemHistory = () => {
     <>
 
       <HeaderView title={Translate.t("redeem_history")} isBack={false} containerStyle={{}}>
-
-
         <View style={styles.pointView}>
-
           <Text style={styles.textKrifixPoint}>
             {Translate.t("krifix_point")}
           </Text>
-
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: pixelSizeHorizontal(10) }}>
-
             <FastImage
               source={CoinImg}
               style={{ width: widthPixel(30), height: widthPixel(30) }}
               resizeMode={'contain'}
             />
             <Text style={styles.textPoint}>{headerData?.total_point}</Text>
-
           </View>
-
           <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(20) }}>
             <Text style={styles.textItem}>{Translate.t("last_transaction") + " : "}</Text>
             <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{moment(headerData?.last_transation_date).format("DD MMM YYYY")}</Text>
@@ -98,6 +91,8 @@ const RedeemHistory = () => {
                 borderRadius: 6,
                 flexDirection: "row",
                 alignItems: "center",
+                justifyContent:"center",
+                flex:1
               }}>
               <Text style={[styles.textValue, {  color: white }]}>{headerData?.total_voucher_redeem} Vouchers </Text>
               <View onPress={() => navigate("RewardStatus")}
@@ -202,7 +197,7 @@ const styles = StyleSheet.create({
 
   pointView: {
     backgroundColor: iceBlue, borderTopLeftRadius: widthPixel(25), borderTopRightRadius: widthPixel(25),
-    paddingHorizontal: pixelSizeHorizontal(25), paddingVertical: pixelSizeHorizontal(30)
+    paddingHorizontal: pixelSizeHorizontal(22), paddingVertical: pixelSizeHorizontal(30)
   },
   textKrifixPoint: {
     fontFamily: SEMIBOLD,
@@ -212,12 +207,12 @@ const styles = StyleSheet.create({
   },
   textItem: {
     fontFamily: MEDIUM,
-    fontSize: FontSize.FS_16,
+    fontSize: FontSize.FS_14,
     color: warmGrey,
   },
   textValue: {
     fontFamily: SEMIBOLD,
-    fontSize: FontSize.FS_15,
+    fontSize: FontSize.FS_13,
     color: greenPrimary,
   },
   textPoint: {

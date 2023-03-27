@@ -142,7 +142,7 @@ const Home = () => {
             />
             <View style={{ marginLeft: pixelSizeHorizontal(8) }}>
               <Text style={styles.textPoint}>{totalPoints}</Text>
-              <Text style={[styles.textPoint, { fontSize: FontSize.FS_14 }]}>
+              <Text style={[styles.textPoint, { fontSize: FontSize.FS_13 }]}>
                 {Translate.t("krifix_point")}
               </Text>
             </View>

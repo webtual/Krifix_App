@@ -68,7 +68,7 @@ export default {
 	You_earned:"You earned",
 	Point:"Point",
 	Withdraw_desc:"We have received your withdraw reward request of",
-	withdraw_mail_text:"* Your Reward will be processed in 3-4 working day in your bank account",
+	withdraw_mail_text:"* Your reward will be processed in 3-4 working day in your bank account",
 	profile_update_successfully:"Profile update successfully",
 	success:"Success",
 	warning:"Warning",

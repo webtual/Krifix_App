@@ -44,7 +44,7 @@ const ReferralHistory = () => {
                     title: Translate.t('alert'),
                     textBody: response.data.message,
                     button: 'Ok',
-                  })
+                })
             }
 
         }).catch((err) => {
@@ -57,44 +57,43 @@ const ReferralHistory = () => {
         <>
             <HeaderView title={Translate.t("referral_history")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}
                 onPress={() => goBack()}>
-                {referralData &&
-                    <View style={{ marginVertical: pixelSizeHorizontal(20) }}>
-                        <FlatList
-                            data={referralData}
-                            scrollEnabled={false}
-                            ItemSeparatorComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-                            ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
-                            ListEmptyComponent={() => (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <Text style={styles.textItem}>{Translate.t("no_data_found")}</Text>
-                            </View>)}
-                            renderItem={({ item, index }) => (
-                                <>
-                                    <View style={{ paddingVertical: 5, backgroundColor: iceBlue, borderRadius: 8, paddingHorizontal: 10, flexDirection: "row", alignItems: "center" }}>
+                {referralData !== "" ?
+                    <FlatList
+                        data={referralData}
+                        style={{ marginVertical: 20 }}
+                        scrollEnabled={false}
+                        ItemSeparatorComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+                        ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
+                        renderItem={({ item, index }) => (
+                            <>
+                                <View style={{ paddingVertical: 5, backgroundColor: iceBlue, borderRadius: 8, paddingHorizontal: 10, flexDirection: "row", alignItems: "center" }}>
 
-                                        {(item.avatar == null && item.avatar == "" && item.avatar == undefined) ?
+                                    {(item.avatar == null && item.avatar == "" && item.avatar == undefined) ?
 
-                                            <View style={{ width: 40, height: 40, borderRadius: 25, alignItems: "center", justifyContent: "center", backgroundColor: greenPrimary, }}>
-                                                <Text style={{ color: white, fontFamily: BOLD, fontSize: 20 }}>{item.full_name.charAt(0)}</Text>
-                                            </View>
-                                            :
-                                            <FastImage
-                                                source={{ uri: userData.asset_url + item.avatar }}
-                                                style={{ width: widthPixel(40), height: widthPixel(40), borderRadius: 40 }}
-                                                resizeMode={'contain'}
-                                            />
-                                        }
-
-                                        <View style={{ marginHorizontal: 15 }}>
-                                            <Text style={{ fontFamily: BOLD, color: black }}>{parseInt(index + 1) + ". " + item.full_name}</Text>
-                                            <Text style={{ fontFamily: REGULAR, color: warmGrey, marginVertical: 2 }}>{moment(item?.created_at).format("DD MMM YYYY")}</Text>
-
+                                        <View style={{ width: 40, height: 40, borderRadius: 25, alignItems: "center", justifyContent: "center", backgroundColor: greenPrimary, }}>
+                                            <Text style={{ color: white, fontFamily: BOLD, fontSize: 20 }}>{item.full_name.charAt(0)}</Text>
                                         </View>
+                                        :
+                                        <FastImage
+                                            source={{ uri: userData.asset_url + item.avatar }}
+                                            style={{ width: widthPixel(40), height: widthPixel(40), borderRadius: 40 }}
+                                            resizeMode={'contain'}
+                                        />
+                                    }
+
+                                    <View style={{ marginHorizontal: 15 }}>
+                                        <Text style={{ fontFamily: BOLD, color: black }}>{parseInt(index + 1) + ". " + item.full_name}</Text>
+                                        <Text style={{ fontFamily: REGULAR, color: warmGrey, marginVertical: 2 }}>{moment(item?.created_at).format("DD MMM YYYY")}</Text>
+
                                     </View>
-                                </>
+                                </View>
+                            </>
 
-                            )}
-                        />
-
+                        )}
+                    />
+                    :
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={styles.textItem}>{Translate.t("no_data_found")}</Text>
                     </View>
                 }
 
