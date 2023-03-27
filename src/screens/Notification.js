@@ -24,8 +24,6 @@ const Notification = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [notificationData, setNoificationData] = useState()
     // const [AlertShow, setAlertShow] = useState(false)
-    const [title, setTitle] = useState("")
-    const [desc, setDesc] = useState("")
 
 
     useEffect(() => {
@@ -61,8 +59,6 @@ const Notification = () => {
     }
 
     const Api_Read_Notifications = (isLoad, item) => {
-        setTitle(item.title)
-        setDesc(item.body)
         setIsLoading(isLoad)
         ApiManager.post(READ_NOTIFICATIONS, {
             id: item.id,
@@ -72,11 +68,10 @@ const Notification = () => {
             var data = response.data;
             if (data.status == true) {
                 Api_Get_Notification(true)
-                // AlertActive()
                 Dialog.show({
                     type: ALERT_TYPE.SUCCESS,
-                    title: title,
-                    textBody: desc,
+                    title: item.title,
+                    textBody: item.body,
                     button: 'Ok',
                 })
                 console.log("READ NOTIFICATION SUCCEESSFULLY")
