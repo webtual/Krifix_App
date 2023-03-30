@@ -3,7 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
-import { goBack, navigate } from '../navigations/RootNavigation'
+import { goBack, navigate, resetScreen } from '../navigations/RootNavigation'
 import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, warmGrey, white, } from '../constants/Color'
@@ -36,6 +36,9 @@ const Rewards = () => {
         Api_Get_Profile(true)
         Api_Get_Reward_item(true)
         Api_Get_Contact_details(true)
+
+
+        
     }, [])
 
 
@@ -58,13 +61,12 @@ const Rewards = () => {
         setIsLoading(isLoad)
         ApiManager.get(GET_REWARD).then((response) => {
             console.log("Api_Get_Reward_item : ", response)
-            setMessage(response?.data?.message)
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
                 setVoucherData(user_data)
             } else {
-
+                setMessage(response?.data?.message)
             }
 
         }).catch((err) => {
@@ -86,6 +88,8 @@ const Rewards = () => {
             console.log("data", data)
             if (data.status == true) {
                 CongratulationModel()
+                Api_Get_Reward_item(false)
+                
             }
 
         }).catch((err) => {
@@ -150,8 +154,8 @@ const Rewards = () => {
             Dialog.show({
                 type: ALERT_TYPE.DANGER,
                 title: Translate.t('alert'),
-                textBody: "We don't have your bank account details. please add your bank details.",
-                button: 'Go to profile',
+                textBody: "Please enter bank details to redeem rewards.",
+                button: 'ADD BANK',
                 onPressButton: ()=> {
                     Dialog.hide();
                     navigate("Profile")
@@ -299,7 +303,7 @@ const Rewards = () => {
                             <Text style={{
                                 fontSize: FontSize.FS_14,
                                 color: black,
-                                fontFamily: REGULAR,
+                                fontFamily: SEMIBOLD,
                             }}>{message}</Text>
                         </View>)}
                         renderItem={({ item, index }) => (

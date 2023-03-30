@@ -18,5 +18,7 @@ export const READ_NOTIFICATIONS = "notification-read"
 export const GET_OTP = "auth/sent-otp"
 export const GET_TRANSACTION_HISTORY = "get-redeem-transaction-history"
 export const GET_REFERRAL = "get-referral"
+export const UPDATE_BANK = "update-bankdetails"
+export const UPDATE_UPI = "update-bankdetails"
 
 

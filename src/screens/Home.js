@@ -220,7 +220,7 @@ const Home = () => {
         <View style={styles.viewInvite}>
 
           <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-            onPress={() => toggleModal()}>
+            onPress={() => navigate("BankDetails")}>
 
             <FastImage
               source={InviteImg}

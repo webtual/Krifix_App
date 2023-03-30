@@ -173,7 +173,7 @@ const QrCodeScan = () => {
                         source={CloseImg}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.scanBtn}
+                {/* <TouchableOpacity style={styles.scanBtn}
                     onPress={() => refScan.current.reactivate()}>
                     <FastImage
                         style={styles.image}
@@ -181,7 +181,7 @@ const QrCodeScan = () => {
                         source={ScanImgBlack}
                     />
                     <Text style={styles.scanText}>{Translate.t("Scan_QR")} </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
             </View>
             <CongratulationsPopUp isWithDrawModel={false} Point={point}

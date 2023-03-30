@@ -116,8 +116,8 @@ const Login = () => {
     }
     const LoginSchema = Yup.object().shape({
         mobile: Yup.string()
-            .min(10, '* Phone number is not valid')
-            .required("* Mobile number cannot be empty"),
+            .min(10, '* Mobile number is not valid')
+            .required("* Please enter mobile number"),
     });
 
 
@@ -143,14 +143,15 @@ const Login = () => {
                 navigate("OtpView", { data: dict })
 
             } else {
-                setAlertMessage(response.data.message)
-                Dialog.show({
-                    type: ALERT_TYPE.DANGER,
-                    title: Translate.t('alert'),
-                    textBody: response.data.message,
-                    button: 'Ok',
-                  })
-                // AlertActive()
+                navigate("Register",{mobile:data.mobile})
+                // setAlertMessage(response.data.message)
+                // Dialog.show({
+                //     type: ALERT_TYPE.DANGER,
+                //     title: Translate.t('alert'),
+                //     textBody: response.data.message,
+                //     button: 'Ok',
+                //   })
+                // AlertActive()6my
             }
 
         }).catch((err) => {

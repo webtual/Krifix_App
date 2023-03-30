@@ -5,7 +5,7 @@ import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import FastImage from 'react-native-fast-image'
 import { black, disableColor, greenPrimary, paleGreen, warmGrey, white } from '../constants/Color'
-import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
+import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
 import { Account, Bank, Branch, BuildingImg, Camera, Ifsc, LocationImg, PhoneImg, PinImg, PrivacyImg, SmileImg, Upi } from '../constants/Images'
 import { Formik } from 'formik';
@@ -60,19 +60,19 @@ const Profile = () => {
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
-        console.log("user_data", user_data.user.branch_name)
+        console.log("user_data", user_data.user.upi_id)
         setFirstname(user_data.user.first_name)
         setLastName(user_data.user.last_name)
         setCity(user_data.user.city)
         setArea(user_data.user.area)
         setPincode(user_data.user.pincode)
-        setAddress(user_data.user.address)
-        setMobile(user_data.user.phone )
-        setBankName(user_data.user.bank_name == null ? " " : user_data.user.bank_name)
-        setBankLocation(user_data.user.branch_name == null ? " " : user_data.user.branch_name)
-        setAccountNumber(user_data.user.account_no == null ? " " : user_data.user.account_no)
-        setIfscCode(user_data.user.ifsc_code == null ? " " : user_data.user.ifsc_code)
-        setUpiID(user_data.user.upi_id == null ? " " : user_data.upi_id)
+        setAddress(user_data.user.address == null ? "" : user_data.user.address)
+        setMobile(user_data.user.phone)
+        setBankName(user_data.user.bank_name == null ? "" : user_data.user.bank_name)
+        setBankLocation(user_data.user.branch_name == null ? "" : user_data.user.branch_name)
+        setAccountNumber(user_data.user.account_no == null ? "" : user_data.user.account_no)
+        setIfscCode(user_data.user.ifsc_code == null ? "" : user_data.user.ifsc_code)
+        setUpiID(user_data.user.upi_id == null ? "" : user_data.user.upi_id)
         setProfileImg({ path: userData.asset_url + user_data.user.avatar })
 
         storeData(USER_DATA, user_data, () => {
@@ -175,40 +175,40 @@ const Profile = () => {
     firstName: Yup.string()
       .min(2, '* Too Short!')
       .max(50, '* Too Long!')
-      .required('* First name cannot be empty'),
+      .required('* Please enter first name'),
     lastName: Yup.string()
       .min(2, '* Too Short!')
       .max(50, '* Too Long!')
-      .required('* Last name cannot be empty'),
+      .required('* Please enter last name'),
     mobile: Yup.string()
-      .min(10, '* Phone number is not valid')
-      .required("* Mobile number cannot be empty"),
+      .min(10, '* Mobile number is not valid')
+      .required("* Please enter mobile name"),
     city: Yup.string()
       .min(2, '* Too Short!')
       .max(20, '* Too Long!')
-      .required('* City cannot be empty'),
+      .required('* Please enter city'),
     area: Yup.string()
       .min(2, '* Too Short!')
       .max(30, '* Too Long!')
-      .required('* Area cannot be empty'),
+      .required('* Please enter area'),
     pincode: Yup.string()
       .min(6, '* Enter 6 digit pincode')
-      .required('* Pincode cannot be empty'),
+      .required('* Please enter pincode'),
     // address: Yup.string()
     //   .required('* Address cannot be empty'),
     // bankName: Yup.string(),
-      // .max(20, '* Bank name too long!')
-      // .required('* Bank name cannot be empty'),
+    // .max(20, '* Bank name too long!')
+    // .required('* Bank name cannot be empty'),
     // bankLocation: Yup.string()
-      // .min(2, '* Bank location too short!')
-      // .max(30, '* Bank location too long!')
-      // .required('* Bank location cannot be empty'),
+    // .min(2, '* Bank location too short!')
+    // .max(30, '* Bank location too long!')
+    // .required('* Bank location cannot be empty'),
     // accountNumber: Yup.string(),
-      // .required('* Account number cannot be empty'),
+    // .required('* Account number cannot be empty'),
     // ifscCode: Yup.string(),
-      // .required('* IFSC code cannot be empty'),
+    // .required('* IFSC code cannot be empty'),
     // upiId: Yup.string(),
-      // .required('* UPI id cannot be empty'),
+    // .required('* UPI id cannot be empty'),
 
   });
 
@@ -362,7 +362,7 @@ const Profile = () => {
                   editable={isDisabled}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   onChangeText={handleChange('firstName')}
-                  onBlur={handleBlur('firstName')}
+                  onBlur={() => handleBlur('firstName')}
                   value={values.firstName}
                   imageSource={SmileImg}
                   placeholder={Translate.t("first_name")}
@@ -379,7 +379,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.lastName}
                   onChangeText={handleChange('lastName')}
-                  onBlur={handleBlur('lastName')}
+                  onBlur={() => handleBlur('lastName')}
                   placeholder={Translate.t("last_name")}
                 />
                 {(errors.lastName && touched.lastName) &&
@@ -395,7 +395,7 @@ const Profile = () => {
                   value={values.mobile}
                   imageSource={PhoneImg}
                   onChangeText={handleChange('mobile')}
-                  onBlur={handleBlur('mobile')}
+                  onBlur={() => handleBlur('mobile')}
                   placeholder={Translate.t("mobile")}
                   keyboardType={'number-pad'}
                   maxLength={10}
@@ -417,7 +417,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.city}
                   onChangeText={handleChange('city')}
-                  onBlur={handleBlur('city')}
+                  onBlur={() => handleBlur('city')}
                   placeholder={Translate.t("city")}
                 />
                 {(errors.city && touched.city) &&
@@ -432,7 +432,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.area}
                   onChangeText={handleChange('area')}
-                  onBlur={handleBlur('area')}
+                  onBlur={() => handleBlur('area')}
                   placeholder={Translate.t("area")}
                 />
                 {(errors.area && touched.area) &&
@@ -447,7 +447,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.pincode}
                   onChangeText={handleChange('pincode')}
-                  onBlur={handleBlur('pincode')}
+                  onBlur={() => handleBlur('pincode')}
                   placeholder={Translate.t("pincode")}
                   keyboardType={'number-pad'}
                   maxLength={6}
@@ -467,7 +467,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.address}
                   onChangeText={handleChange('address')}
-                  onBlur={handleBlur('address')}
+                  onBlurEffect={() => handleBlur('address')}
                   placeholder={Translate.t("address")}
                 />
                 {(errors.address && touched.address) &&
@@ -488,7 +488,7 @@ const Profile = () => {
                   value={values.bankName}
                   imageSource={Bank}
                   onChangeText={handleChange('bankName')}
-                  onBlur={handleBlur('bankName')}
+                  onBlurEffect={() => handleBlur('bankName')}
                   placeholder={Translate.t("bank_name")}
                 />
                 {(errors.bankName && touched.bankName) &&
@@ -505,7 +505,7 @@ const Profile = () => {
                   value={values.bankLocation}
                   imageSource={Branch}
                   onChangeText={handleChange('bankLocation')}
-                  onBlur={handleBlur('bankLocation')}
+                  onBlurEffect={() => handleBlur('bankLocation')}
                   placeholder={Translate.t("branch_location")}
                 />
                 {(errors.bankLocation && touched.bankLocation) &&
@@ -522,7 +522,7 @@ const Profile = () => {
                   value={values.accountNumber}
                   imageSource={Account}
                   onChangeText={handleChange('accountNumber')}
-                  onBlur={handleBlur('accountNumber')}
+                  onBlurEffect={() => handleBlur('accountNumber')}
                   placeholder={Translate.t("account_number")}
                   keyboardType={'number-pad'}
                 />
@@ -540,13 +540,17 @@ const Profile = () => {
                   value={values.ifscCode}
                   imageSource={Ifsc}
                   onChangeText={handleChange('ifscCode')}
-                  onBlur={handleBlur('ifscCode')}
+                  onBlurEffect={() => handleBlur('ifscCode')}
                   placeholder={Translate.t("ifsc_code")}
                 />
                 {(errors.ifscCode && touched.ifscCode) &&
                   <Text style={styles.errorText}>{errors.ifscCode}</Text>
                 }
-
+                <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(20), flex: 1 }}>
+                  <View style={{ borderBottomColor: disableColor, flex: 1, borderBottomWidth: 2, borderStyle: "dashed" }}></View>
+                  <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: disableColor, marginHorizontal: pixelSizeHorizontal(5) }}>OR</Text>
+                  <View style={{ borderBottomColor: disableColor, flex: 1, borderBottomWidth: 2, borderStyle: "dashed" }}></View>
+                </View>
                 <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
                   {Translate.t("upi_id")}
                 </Text>
@@ -557,8 +561,8 @@ const Profile = () => {
                   value={values.upiId}
                   imageSource={Upi}
                   onChangeText={handleChange('upiId')}
-                  onBlur={handleBlur('upiId')}
-                  placeholder={Translate.t("upi_id")}
+                  onBlurEffect={() => handleBlur('upiId')}
+                  placeholder={"Ex: 9016089923@icici"}
                 />
                 {(errors.upiId && touched.upiId) &&
                   <Text style={styles.errorText}>{errors.upiId}</Text>

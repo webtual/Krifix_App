@@ -33,7 +33,7 @@ export default {
 	redeem_history : "Transaction History",
 	krifix_point : "KRIFIX Point",
 	last_transaction : "Last Transaction",
-	total_voucher_redeem : "Total Voucher Redeem",
+	total_voucher_redeem : "Total Redeem",
 	total_referral : "Total Referral",
 	profile : "Profile",
 	edit_profile : "Edit Profile",

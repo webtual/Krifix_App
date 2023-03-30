@@ -23,7 +23,7 @@ import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 const RewardStatus = () => {
   const userData = useSelector(user_data)
   const [isLoading, setIsLoading] = useState(false)
-  const [transactionData, setTransactionData] = useState(false)
+  const [transactionData, setTransactionData] = useState([])
 
   useEffect(() => {
     Api_Get_Transaction_History(true)
@@ -59,8 +59,7 @@ const RewardStatus = () => {
     <>
       <HeaderView title={Translate.t("transaction_history")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}
         onPress={() => goBack()}>
-
-        {transactionData !== "" ?
+        {transactionData.length !== 0 ?
           <FlatList
             data={transactionData}
             style={{ marginVertical: pixelSizeHorizontal(15) }}
@@ -108,8 +107,9 @@ const RewardStatus = () => {
             )}
           />
           :
+          isLoading !== true &&
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={styles.textItem}>{Translate.t("no_data_found")}</Text>
+            <Text style={styles.textItem}>No redeem history found</Text>
           </View>
         }
 

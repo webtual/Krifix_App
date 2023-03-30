@@ -221,9 +221,9 @@ const OtpView = ({ route }) => {
             Dialog.show({
                 type: ALERT_TYPE.DANGER,
                 title: Translate.t('alert'),
-                textBody: "Please Enter  OTP",
+                textBody: "Please Enter OTP",
                 button: 'Ok',
-              })
+              })       
             // AlertActiveSecond()
         }
     }

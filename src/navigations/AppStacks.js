@@ -35,6 +35,11 @@ import Notification from '../screens/Notification';
 import QrCodeScan from '../screens/QrCodeScan';
 import RewardStatus from '../screens/RewardStatus';
 import ReferralHistory from '../screens/ReferralHistory';
+import BankDetails from '../screens/BankDetails';
+import KycIntro from '../screens/KycIntro';
+import UploadDocument from '../screens/UploadDocument';
+import TakeSelfie from '../screens/TakeSelfie';
+import KycVerify from './KycVerify';
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
 
@@ -162,6 +167,11 @@ function AppStacks() {
 			<Stack.Screen name="QrCodeScan" component={QrCodeScan} />
 			<Stack.Screen name="RewardStatus" component={RewardStatus} />
 			<Stack.Screen name="ReferralHistory" component={ReferralHistory} />
+			<Stack.Screen name="BankDetails" component={BankDetails} />
+			<Stack.Screen name="KycIntro" component={KycIntro} />
+			<Stack.Screen name="UploadDocument" component={UploadDocument} />
+			<Stack.Screen name="TakeSelfie" component={TakeSelfie} />
+			<Stack.Screen name="KycVerify" component={KycVerify} />
 			
 		</Stack.Navigator>
 	)

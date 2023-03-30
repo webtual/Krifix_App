@@ -65,6 +65,10 @@ export const Branch = require('../assets/images/branch.png')
 export const Ifsc = require('../assets/images/ifsc.png')
 export const Account = require('../assets/images/account.png')
 export const Upi = require('../assets/images/upi.png')
+export const CardId = require('../assets/images/card-id.png')
+export const Selfie = require('../assets/images/selfie.png')
+export const Check = require('../assets/images/checkd.png')
+export const ThankYou = require('../assets/images/thankyou.png')
 
 
 

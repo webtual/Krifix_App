@@ -73,7 +73,7 @@ const RedeemHistory = () => {
           </View>
           <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(20) }}>
             <Text style={styles.textItem}>{Translate.t("last_transaction") + " : "}</Text>
-            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}>{moment(headerData?.last_transation_date).format("DD MMM YYYY")}</Text>
+            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}> {moment(headerData?.last_transation_date).format("DD MMM YYYY")}</Text>
           </View>
 
           <View
@@ -82,65 +82,57 @@ const RedeemHistory = () => {
               alignItems: "center",
               marginTop: pixelSizeHorizontal(10)
             }}>
-            <Text style={styles.textItem}>{Translate.t("total_voucher_redeem") + " : "}</Text>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => navigate("RewardStatus")}
-              style={{
-                backgroundColor: greenPrimary,
-                paddingHorizontal: 5,
-                paddingVertical:3,
-                borderRadius: 6,
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent:"center",
-                flex:1
-              }}>
-              <Text style={[styles.textValue, {  color: white }]}>{headerData?.total_voucher_redeem} Vouchers </Text>
-              <View onPress={() => navigate("RewardStatus")}
-                style={{ marginLeft: 6 }}>
+            <View style={{ flex: 1 / 2 }}>
+              <Text style={[styles.textItem, {}]}>{Translate.t("total_voucher_redeem") + " : "}</Text>
+              <Text style={[styles.textItem, { marginTop: pixelSizeHorizontal(15) }]}>{Translate.t("total_referral") + " : "}</Text>
+            </View>
+            <View style={{}}>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate("RewardStatus")}
+                style={{
+                  backgroundColor: greenPrimary,
+                  paddingHorizontal: 5,
+                  paddingVertical: 3,
+                  borderRadius: 6,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}>
+                <Text style={[styles.textValue, { color: white }]}>{headerData?.total_voucher_redeem} Vouchers </Text>
+                <View onPress={() => navigate("RewardStatus")}
+                  style={{ marginLeft: 6 }}>
 
-                <FastImage tintColor={white}
-                  source={Eye}
-                  style={{ width: widthPixel(20), height: widthPixel(20) }}
-                  resizeMode={'contain'}
-                />
-              </View>
-            </TouchableOpacity>
+                  <FastImage tintColor={white}
+                    source={Eye}
+                    style={{ width: widthPixel(20), height: widthPixel(20) }}
+                    resizeMode={'contain'}
+                  />
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity activeOpacity={0.7} onPress={() => navigate("ReferralHistory")}
+                style={{
+                  backgroundColor: greenPrimary,
+                  paddingHorizontal: 5,
+                  paddingVertical: 3,
+                  borderRadius: 6,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  marginTop: pixelSizeHorizontal(10),
+                  justifyContent: "center"
+                }}>
+                <Text style={[styles.textValue, { color: white }]}>{headerData?.total_referral} People </Text>
+                <View onPress={() => navigate("ReferralHistory")}
+                  style={{ marginLeft: 6 }}>
+
+                  <FastImage tintColor={white}
+                    source={Eye}
+                    style={{ width: widthPixel(20), height: widthPixel(20) }}
+                    resizeMode={'contain'}
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
+
           </View>
-
-
-
-
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: pixelSizeHorizontal(10)
-            }}>
-            <Text style={styles.textItem}>{Translate.t("total_referral") + " : "}</Text>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => navigate("ReferralHistory")}
-              style={{
-                backgroundColor: greenPrimary,
-                paddingHorizontal: 5,
-                paddingVertical:3,
-                borderRadius: 6,
-                flexDirection: "row",
-                alignItems: "center",
-              }}>
-              <Text style={[styles.textValue, {  color: white }]}>{headerData?.total_referral} People </Text>
-              <View onPress={() => navigate("ReferralHistory")}
-                style={{ marginLeft: 6 }}>
-
-                <FastImage tintColor={white}
-                  source={Eye}
-                  style={{ width: widthPixel(20), height: widthPixel(20) }}
-                  resizeMode={'contain'}
-                />
-              </View>
-            </TouchableOpacity>
-          </View>
-
-
-       
 
         </View>
         {redeemHistory &&

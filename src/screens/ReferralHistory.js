@@ -23,7 +23,7 @@ import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 const ReferralHistory = () => {
     const userData = useSelector(user_data)
     const [isLoading, setIsLoading] = useState(false)
-    const [referralData, setReferralData] = useState(false)
+    const [referralData, setReferralData] = useState([])
     const array = []
     useEffect(() => {
         Api_Get_Referral(true)
@@ -39,12 +39,12 @@ const ReferralHistory = () => {
                 console.log("user_data", user_data)
                 setReferralData(user_data)
             } else {
-                Dialog.show({
-                    type: ALERT_TYPE.DANGER,
-                    title: Translate.t('alert'),
-                    textBody: response.data.message,
-                    button: 'Ok',
-                })
+                // Dialog.show({
+                //     type: ALERT_TYPE.DANGER,
+                //     title: Translate.t('alert'),
+                //     textBody: response.data.message,
+                //     button: 'Ok',
+                // })
             }
 
         }).catch((err) => {
@@ -57,7 +57,8 @@ const ReferralHistory = () => {
         <>
             <HeaderView title={Translate.t("referral_history")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}
                 onPress={() => goBack()}>
-                {referralData !== "" ?
+               
+                {referralData.length !== 0 ?
                     <FlatList
                         data={referralData}
                         style={{ marginVertical: 20 }}
@@ -92,8 +93,9 @@ const ReferralHistory = () => {
                         )}
                     />
                     :
+                    isLoading !== true &&
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.textItem}>{Translate.t("no_data_found")}</Text>
+                        <Text style={styles.textItem}>No referral history found</Text>
                     </View>
                 }
 
@@ -136,7 +138,7 @@ const styles = StyleSheet.create({
         marginTop: pixelSizeHorizontal(7)
     },
     textItem: {
-        fontSize: FontSize.FS_12,
+        fontSize: FontSize.FS_14,
         color: black,
         fontFamily: MEDIUM,
         // textAlign: 'center'

@@ -20,11 +20,12 @@ import LoadingView from '../commonComponents/LoadingView'
 import FastImage from 'react-native-fast-image'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
-const Register = () => {
+const Register = ({route}) => {
+    // console.log("route",route.params.mobile)
     const dispatch = useDispatch()
 
     const [isLoading, setIsLoading] = useState(false)
-    const [mobile, setMobile] = useState("")
+    const [mobile, setMobile] = useState(route?.params?.mobile || "")
     const [firstName, setFirstname] = useState("")
     const [lastname, setLastName] = useState("")
     const [city, setCity] = useState("")
@@ -66,7 +67,7 @@ useEffect(() =>{
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
-                    textBody: response.data.message,
+                    textBody: data.mobile + " is already registered with us",
                     button: 'Ok',
                   })
             }
@@ -93,25 +94,25 @@ useEffect(() =>{
         firstname: Yup.string()
             .min(2, '* Too Short!')
             .max(50, '* Too Long!')
-            .required('* First name cannot be empty'),
+            .required('* Please enter first name'),
         lastname: Yup.string()
             .min(2, '* Too Short!')
             .max(50, '* Too Long!')
-            .required('* Last name cannot be empty'),
+            .required('* Please enter last name'),
         mobile: Yup.string()
             .min(10, '* Phone number is not valid')
-            .required("* Mobile number cannot be empty"),
+            .required("* Please enter mobile number"),
         city: Yup.string()
             .min(2, '* Too Short!')
             .max(20, '* Too Long!')
-            .required('* City cannot be empty'),
+            .required('* Please enter city'),
         area: Yup.string()
             .min(2, '* Too Short!')
             .max(30, '* Too Long!')
-            .required('* Area cannot be empty'),
+            .required('* Please enter area'),
         pincode: Yup.string()
             .min(6, '* Enter 6 digit pincode')
-            .required('* Pincode cannot be empty'),
+            .required('* Please enter pincode'),
         // referralcode: Yup.string()
         //     .min(6, '* Enter 6 character referral code')
         //     .required('* Referral code cannot be empty'),
