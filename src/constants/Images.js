@@ -69,6 +69,9 @@ export const CardId = require('../assets/images/card-id.png')
 export const Selfie = require('../assets/images/selfie.png')
 export const Check = require('../assets/images/checkd.png')
 export const ThankYou = require('../assets/images/thankyou.png')
+export const Front = require('../assets/images/front.png')
+export const Back = require('../assets/images/back.png')
+export const Selfie1x = require('../assets/images/selfie1x.png')
 
 
 

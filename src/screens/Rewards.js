@@ -38,10 +38,8 @@ const Rewards = () => {
         Api_Get_Contact_details(true)
 
 
-        
+
     }, [])
-
-
 
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
@@ -60,7 +58,7 @@ const Rewards = () => {
     const Api_Get_Reward_item = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_REWARD).then((response) => {
-            console.log("Api_Get_Reward_item : ", response)
+            // console.log("Api_Get_Reward_item : ", response)
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
@@ -81,7 +79,7 @@ const Rewards = () => {
         ApiManager.post(REDEEM_REWARD, {
             item_id: item.id,
         }).then((response) => {
-            console.log("Api_Redeeem : ", response)
+            // console.log("Api_Redeeem : ", response)
             setIsLoading(false)
             setPoint(item.item_point)
             var data = response.data;
@@ -89,7 +87,7 @@ const Rewards = () => {
             if (data.status == true) {
                 CongratulationModel()
                 Api_Get_Reward_item(false)
-                
+
             }
 
         }).catch((err) => {
@@ -100,18 +98,19 @@ const Rewards = () => {
     const Api_Get_Profile = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_PROFILE).then((response) => {
-            console.log("Api_Get_Profile : ", response)
+            // console.log("Api_Get_Profile : ", response)
             setIsLoading(false)
             if (response.data.status == true) {
-                var user_data = response.data.data
-                setTotalPoints(user_data.user.reward_point)
+                var user_data = response?.data?.data
+                // console.log("get profile data"+user_data.user.is_kyc_verify )
+                setTotalPoints(user_data?.user?.reward_point)
             } else {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: response.data.message,
                     button: 'Ok',
-                  })
+                })
             }
 
         }).catch((err) => {
@@ -122,49 +121,86 @@ const Rewards = () => {
     const Api_Get_Contact_details = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_CONTACT_DETAILS).then((response) => {
-            console.log("Api_Get_Contact_details : ", response)
+            // console.log("Api_Get_Contact_details : ", response)
             setIsLoading(false)
             var data = response.data
             if (data.status == true) {
                 setBannerPoints(data.data.refer_point)
                 console.log("GET CONTACT DATA SUCCESSFULLY")
-            } else {                       
-                Dialog.show({                                                                                                                               
+            } else {
+                Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: data.message,
                     button: 'Ok',
-                  })
+                })
             }
 
         }).catch((err) => {
             setIsLoading(false)
             console.error("Api_Get_Contact_details Error ", err);
-        })                         
+        })
     }
 
 
     const redeem_cards = (item) => {
-        if (userData.user.bank_name !== null && userData.user.ifsc_code && userData.user.account_no) {
-            console.log(true)
-            Api_Redeeem(true, item)
+        console.log("userData.user.is_kyc_verify :", userData.user.is_kyc_verify)
+        if (userData.user.is_kyc_verify == 2) {
+            if (userData.user.bank_name !== null &&
+                userData.user.ifsc_code !== null &&
+                userData.user.account_no !== null &&
+                userData.user.branch_name !== null) {
+                Api_Redeeem(true, item)
+            }
+            else if (userData.user.upi_id !== null) {
+                Api_Redeeem(true, item)
+            }
+            else {
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: "Please enter bank details to redeem rewards.",
+                    button: 'ADD BANK',
+                    onPressButton: () => {
+                        Dialog.hide();
+                        navigate("BankDetails")
+                        console.log("go to Profile")
+                    },
+                })
+            }
+
         }
         else {
-            // AlertActive()
-            Dialog.show({
-                type: ALERT_TYPE.DANGER,
-                title: Translate.t('alert'),
-                textBody: "Please enter bank details to redeem rewards.",
-                button: 'ADD BANK',
-                onPressButton: ()=> {
-                    Dialog.hide();
-                    navigate("Profile")
-                    console.log("go to Profile")},
-              })
-        }
-        // Api_Redeeem(true, item)
-    }
+            if (userData.user.is_kyc_verify == 1) {
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: "Your KYC verification is pending, Please contact admin for approval",
+                    button: 'OK',
+                    onPressButton: () => {
+                        Dialog.hide();
+                    },
+                })
+            }
+            else {
+                var message = userData.user.is_kyc_verify == 0 ? " Your KYC is pending please complete your KYC and redeem rewards."
+                    : " Your KYC has been Rejected .Please complete your KYC."
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: message,
+                    button: 'ADD BANK',
+                    onPressButton: () => {
+                        Dialog.hide();
+                        navigate("BankDetails")
+                        console.log("go to Profile")
+                    },
+                })
+            }
 
+        }
+
+    }
 
     return (
         <>

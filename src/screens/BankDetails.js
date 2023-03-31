@@ -20,7 +20,7 @@ import { storeUserData, user_data } from '../redux/reducers/userReducer'
 import { useDispatch, useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
 import AlertView from '../commonComponents/AlertView'
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
+import { ALERT_TYPE, Dialog, Toast } from 'react-native-alert-notification'
 import { goBack, navigate } from '../navigations/RootNavigation'
 
 
@@ -38,6 +38,7 @@ const BankDetails = () => {
     const [accountNumber, setAccountNumber] = useState("")
     const [ifscCode, setIfscCode] = useState("")
     const [upiId, setUpiID] = useState("")
+    const [errorMsg, setErrorMsg] = useState()
 
     useFocusEffect(
         useCallback(() => {
@@ -89,7 +90,7 @@ const BankDetails = () => {
         body.append('account_no', data.accountNumber)
         body.append('ifsc_code', data.ifscCode)
 
-        console.log("body bank", JSON.stringify(body))
+        // console.log("body bank", JSON.stringify(body))
         ApiManager.post(UPDATE_BANK, body, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -99,14 +100,28 @@ const BankDetails = () => {
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
+                if (userData.user.is_kyc_verify == 2) {
+                    Api_Get_Profile(true)
+                    Toast.show({
+                        type: ALERT_TYPE.SUCCESS,
+                        title: Translate.t('success'),
+                        textBody: "Bank details save successfully",
+                        button: 'Ok',
+                    })
+                    goBack()
+                }
+                else {
+                    Api_Get_Profile(true)
+                    Toast.show({
+                        type: ALERT_TYPE.SUCCESS,
+                        title: Translate.t('success'),
+                        textBody: "Bank details add successfully",
+                        button: 'Ok',
+                    })
+                    navigate('KycIntro')
+                }
 
-                Api_Get_Profile(true)
-                Dialog.show({
-                    type: ALERT_TYPE.SUCCESS,
-                    title: Translate.t('success'),
-                    textBody: "Bank details save successfully",
-                    button: 'Ok',
-                })
+
             } else {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
@@ -124,8 +139,8 @@ const BankDetails = () => {
     const Api_Update_Upi = (isLoad, data) => {
         setIsLoading(isLoad)
         let body = new FormData();
-        body.append('upi_id', data.upiId)
-        console.log("body api", JSON.stringify(body))
+        body.append('upi_id', data)
+        // console.log("body api", JSON.stringify(body))
         ApiManager.post(UPDATE_UPI, body, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -135,13 +150,26 @@ const BankDetails = () => {
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
-                Api_Get_Profile(true)
-                Dialog.show({
-                    type: ALERT_TYPE.SUCCESS,
-                    title: Translate.t('success'),
-                    textBody: "UPI id save successfully",
-                    button: 'Ok',
-                })
+                if (userData.user.is_kyc_verify == 2) {
+                    Api_Get_Profile(true)
+                    Toast.show({
+                        type: ALERT_TYPE.SUCCESS,
+                        title: Translate.t('success'),
+                        textBody: "UPI id add successfully",
+                        button: 'Ok',
+                    })
+                    goBack()
+                }
+                else {
+                    Api_Get_Profile(true)
+                    Toast.show({
+                        type: ALERT_TYPE.SUCCESS,
+                        title: Translate.t('success'),
+                        textBody: "UPI id add successfully",
+                        button: 'Ok',
+                    })
+                    navigate('KycIntro')
+                }
             } else {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
@@ -159,41 +187,47 @@ const BankDetails = () => {
 
 
     const AddBank = (value) => {
-        
-        console.log('====================================');
-        console.log("AddBank",value);
-        console.log('====================================');
-        // Api_Update_Bank(true, value)
+        Api_Update_Bank(true, value)
+        // setIsEdit(!isEdit)
+        // seIsDisabled(false)
+        // navigate("KycIntro") 
+
+    }
+
+    const AddUpi = () => {
+        console.log("setUpiID : ", upiId)
+        var testUpi = /^[\w.-]+@[\w.-]+$/.test(upiId)
+        if (testUpi) {
+            console.log("Valid")
+            Api_Update_Upi(true, upiId)
+            setErrorMsg("")
+        }
+        else {
+            console.log("Invalid")
+            setErrorMsg("Please enter valid UPI id")
+
+        }
         // setIsEdit(!isEdit)
         // seIsDisabled(false)
     }
 
-    const AddUpi = (value) => {
-        console.log('====================================');
-        console.log("AddUpi",value);
-        console.log('====================================');
-        // Api_Update_Upi(true, value)
-        // setIsEdit(!isEdit)
-        // seIsDisabled(false)
-    }
- 
 
 
     const BankSchema = Yup.object().shape({
         bankName: Yup.string()
-        .required('* Please enter bank name'),
+            .required('* Please enter bank name'),
         bankLocation: Yup.string()
-        .required('* Please enter bank location'),
+            .required('* Please enter bank location'),
         accountNumber: Yup.string()
-        .required('* Please enter bank account number'),
+            .required('* Please enter bank account number'),
         ifscCode: Yup.string()
-        .required('* Please enter ifsc code'),
-        
+            .required('* Please enter ifsc code'),
+
 
     });
     const UpiSchema = Yup.object().shape({
         upiId: Yup.string()
-        .required('* Please enter UPI id'),
+            .required('* Please enter UPI id'),
     });
 
 
@@ -222,7 +256,7 @@ const BankDetails = () => {
                     >
                         <Text style={{
                             fontSize: FontSize.FS_15,
-                            fontFamily:index == 0 ? BOLD :SEMIBOLD,
+                            fontFamily: index == 0 ? BOLD : SEMIBOLD,
                             color: index == 0 ? white : warmGrey
                         }}>Bank</Text>
                     </TouchableOpacity>
@@ -236,7 +270,7 @@ const BankDetails = () => {
                         <Text
                             style={{
                                 fontSize: FontSize.FS_15,
-                                fontFamily: index == 1 ?BOLD :SEMIBOLD,
+                                fontFamily: index == 1 ? BOLD : SEMIBOLD,
                                 color: index == 1 ? white : warmGrey
                             }}>Upi id</Text>
                     </TouchableOpacity>
@@ -263,7 +297,7 @@ const BankDetails = () => {
                                 {({ handleChange, handleBlur, handleSubmit, values, errors, touched, resetForm }) => (
                                     <View>
 
-                                        <Text style={[styles.textTitle, { }]}>
+                                        <Text style={[styles.textTitle, {}]}>
                                             {Translate.t("bank_name")}
                                         </Text>
 
@@ -329,10 +363,9 @@ const BankDetails = () => {
                                         }
                                         <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', marginTop: pixelSizeHorizontal(40) }}>
                                             <Pressable
-                                                // onPress={handleSubmit}
-                                                onPress={() =>{navigate("KycIntro")}}
+                                                onPress={handleSubmit}
                                                 style={[styles.btnSaveStyle, { flex: 1 }]}>
-                                                <Text style={styles.btnSaveText} >{Translate.t("save_details")}</Text>
+                                                <Text style={styles.btnSaveText} >{userData.user.is_kyc_verify == 2 ? Translate.t("save_details") : Translate.t("next")}</Text>
 
                                             </Pressable>
                                         </View>
@@ -343,7 +376,7 @@ const BankDetails = () => {
                         </View>
                         :
                         <View >
-                            <Formik
+                            {/* <Formik
                                 enableReinitialize={true}
                                 initialValues={{
                                     upiId: upiId,
@@ -355,158 +388,39 @@ const BankDetails = () => {
                                 }
                                 }
                             >
-                                {({ handleChange, handleBlur, handleSubmit, values, errors, touched, resetForm }) => (
-                                    <View>
+                                {({ handleChange, handleBlur, handleSubmit, values, errors, touched, resetForm }) => ( */}
+                            <View>
 
-                                        <Text style={[styles.textTitle, {  }]}>
-                                            {Translate.t("upi_id")}
-                                        </Text>
+                                <Text style={[styles.textTitle, {}]}>
+                                    {Translate.t("upi_id")}
+                                </Text>
 
-                                        <TextInputView
-                                            containerStyle={{ marginTop: pixelSizeHorizontal(10), }}
-                                            value={values.upiId}
-                                            imageSource={Upi}
-                                            onChangeText={handleChange('upiId')}
-                                            onBlurEffect={() => handleBlur('upiId')}
-                                            placeholder={"Ex: 9016089923@icici"}
-                                        />
-                                        {(errors.upiId && touched.upiId) &&
-                                            <Text style={styles.errorText}>{errors.upiId}</Text>
-                                        }
+                                <TextInputView
+                                    containerStyle={{ marginTop: pixelSizeHorizontal(10), }}
+                                    value={upiId}
+                                    imageSource={Upi}
+                                    onChangeText={(text) => setUpiID(text)}
+                                    // onBlurEffect={(text) => setUpiID(text)}
+                                    placeholder={"Ex: 9016089923@icici"}
+                                />
+                                {/* {(errors.upiId && touched.upiId) && */}
+                                <Text style={styles.errorText}>{errorMsg}</Text>
+                                {/* } */}
 
-                                        <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', marginTop: pixelSizeHorizontal(40) }}>
-                                            <Pressable
-                                                onPress={handleSubmit}
-                                                style={[styles.btnSaveStyle, { flex: 1 }]}>
-                                                <Text style={styles.btnSaveText} >{Translate.t("save_details")}</Text>
+                                <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', marginTop: pixelSizeHorizontal(40) }}>
+                                    <Pressable
+                                        onPress={() => AddUpi()}
+                                        style={[styles.btnSaveStyle, { flex: 1 }]}>
+                                        <Text style={styles.btnSaveText} >{userData.user.is_kyc_verify == 2 ? Translate.t("save_details") : Translate.t("next")}</Text>
 
-                                            </Pressable>
-                                        </View>
+                                    </Pressable>
+                                </View>
 
-                                    </View>
-                                )}
-                            </Formik>
+                            </View>
+                            {/* )}
+                            </Formik> */}
                         </View>
                 }
-
-                {/* <View >
-          <Formik
-            enableReinitialize={true}
-            initialValues={{
-              bankName: bankName,
-              bankLocation: bankLocation,
-              accountNumber: accountNumber,
-              ifscCode: ifscCode,
-              upiId: upiId,
-            }}
-            validateOnBlur={false}
-            validationSchema={Editschema}
-            onSubmit={values => {
-              btnSaveTap(values)
-            }
-            }
-          >
-            {({ handleChange, handleBlur, handleSubmit, values, errors, touched, resetForm }) => (
-              <View>
-                
-                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
-                  {Translate.t("bank_name")}
-                </Text>
-
-                <TextInputView
-                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
-                  value={values.bankName}
-                  imageSource={Bank}
-                  onChangeText={handleChange('bankName')}
-                  onBlurEffect={() => handleBlur('bankName')}
-                  placeholder={Translate.t("bank_name")}
-                />
-                {(errors.bankName && touched.bankName) &&
-                  <Text style={styles.errorText}>{errors.bankName}</Text>
-                }
-
-                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
-                  {Translate.t("branch_location")}
-                </Text>
-
-                <TextInputView
-                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
-                  value={values.bankLocation}
-                  imageSource={Branch}
-                  onChangeText={handleChange('bankLocation')}
-                  onBlurEffect={() => handleBlur('bankLocation')}
-                  placeholder={Translate.t("branch_location")}
-                />
-                {(errors.bankLocation && touched.bankLocation) &&
-                  <Text style={styles.errorText}>{errors.bankLocation}</Text>
-                }
-
-                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
-                  {Translate.t("account_number")}
-                </Text>
-
-                <TextInputView
-                  containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
-                  value={values.accountNumber}
-                  imageSource={Account}
-                  onChangeText={handleChange('accountNumber')}
-                  onBlurEffect={() => handleBlur('accountNumber')}
-                  placeholder={Translate.t("account_number")}
-                  keyboardType={'number-pad'}
-                />
-                {(errors.accountNumber && touched.accountNumber) &&
-                  <Text style={styles.errorText}>{errors.accountNumber}</Text>
-                }
-
-                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
-                  {Translate.t("ifsc_code")}
-                </Text>
-
-                <TextInputView
-                  containerStyle={{ marginTop: pixelSizeHorizontal(10), }}
-                  value={values.ifscCode}
-                  imageSource={Ifsc}
-                  onChangeText={handleChange('ifscCode')}
-                  onBlurEffect={() => handleBlur('ifscCode')}
-                  placeholder={Translate.t("ifsc_code")}
-                />
-                {(errors.ifscCode && touched.ifscCode) &&
-                  <Text style={styles.errorText}>{errors.ifscCode}</Text>
-                }
-                <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(20), flex: 1 }}>
-                  <View style={{ borderBottomColor: disableColor, flex: 1, borderBottomWidth: 2, borderStyle: "dashed" }}></View>
-                  <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: disableColor, marginHorizontal: pixelSizeHorizontal(5) }}>OR</Text>
-                  <View style={{ borderBottomColor: disableColor, flex: 1, borderBottomWidth: 2, borderStyle: "dashed" }}></View>
-                </View>
-                <Text style={[styles.textTitle, { marginTop: pixelSizeHorizontal(20) }]}>
-                  {Translate.t("upi_id")}
-                </Text>
-
-                <TextInputView
-                  containerStyle={{ marginTop: pixelSizeHorizontal(10), }}
-                  value={values.upiId}
-                  imageSource={Upi}
-                  onChangeText={handleChange('upiId')}
-                  onBlurEffect={() => handleBlur('upiId')}
-                  placeholder={"Ex: 9016089923@icici"}
-                />
-                {(errors.upiId && touched.upiId) &&
-                  <Text style={styles.errorText}>{errors.upiId}</Text>
-                }
-
-                  <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', marginTop: pixelSizeHorizontal(40) }}>
-                    <Pressable
-                      onPress={handleSubmit}
-                      style={[styles.btnSaveStyle, { flex: 1 }]}>
-                      <Text style={styles.btnSaveText} >{Translate.t("save_details")}</Text>
-
-                    </Pressable>
-                  </View>
-
-              </View>
-            )}
-          </Formik>
-        </View> */}
             </HeaderView>
             {isLoading && <LoadingView />}
         </KeyboardAvoidingView>
@@ -538,7 +452,7 @@ const styles = StyleSheet.create({
         fontSize: FontSize.FS_20,
     },
     btnSaveStyle: {
-        backgroundColor: black,
+        backgroundColor: greenPrimary,
         padding: pixelSizeHorizontal(10),
         alignItems: 'center',
         justifyContent: 'center',
@@ -560,3 +474,8 @@ const styles = StyleSheet.create({
 })
 
 export default BankDetails
+
+
+
+
+

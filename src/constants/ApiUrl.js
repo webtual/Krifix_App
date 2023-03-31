@@ -19,6 +19,7 @@ export const GET_OTP = "auth/sent-otp"
 export const GET_TRANSACTION_HISTORY = "get-redeem-transaction-history"
 export const GET_REFERRAL = "get-referral"
 export const UPDATE_BANK = "update-bankdetails"
-export const UPDATE_UPI = "update-bankdetails"
+export const UPDATE_UPI = "update-upi"
+export const UPDATE_KYC = "update-kycdoc"
 
 
