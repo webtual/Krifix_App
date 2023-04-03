@@ -90,13 +90,10 @@ const Notification = () => {
             <HeaderView title={Translate.t("Notification")} onPress={() => goBack()}
                 containerStyle={{ paddingHorizontal: pixelSizeHorizontal(0) }}
             >
-                {notificationData &&
+                {notificationData.length !== 0 ?
                     <FlatList
                         data={notificationData}
                         scrollEnabled={false}
-                        ListEmptyComponent={() => (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={{ textTransform: "capitalize" }}>{Translate.t("no_data_found")}</Text>
-                        </View>)}
                         ListHeaderComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
                         ItemSeparatorComponent={() => (<View style={{ height: widthPixel(1), backgroundColor: white, marginVertical: pixelSizeHorizontal(2) }}></View>)}
                         ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
@@ -120,6 +117,10 @@ const Notification = () => {
                             </TouchableOpacity>
                         )}
                     />
+                    :
+                    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={{ alignItems: "center", justifyContent: "center", fontFamily: REGULAR, color: black }}>{"No notification"}</Text>
+                    </View>
                 }
             </HeaderView>
             {/* <AlertView

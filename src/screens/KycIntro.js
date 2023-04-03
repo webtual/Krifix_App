@@ -46,7 +46,7 @@ const KycIntro = () => {
                 <View style={{ alignItems: "center", marginVertical: pixelSizeHorizontal(15) }}>
                     <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_22, color: black }}>Submit Documents</Text>
                     <Text style={{ fontFamily: REGULAR, fontSize: FontSize.FS_14, color: black, textAlign: "center", marginTop: 20 }}>We need to verify your information</Text>
-                    <Text style={{ fontFamily: REGULAR, fontSize: FontSize.FS_14, color: black, textAlign: "center", marginTop: 5 }}>Please submit the documents bellow to process your information</Text>
+                    <Text style={{ fontFamily: REGULAR, fontSize: FontSize.FS_14, color: black, textAlign: "center", marginTop: 5 }}>Please submit the documents to process your information</Text>
                 </View>
 
                 <View style={{
@@ -72,7 +72,7 @@ const KycIntro = () => {
                     />
                     <View style={{ marginLeft: pixelSizeHorizontal(15) }}>
                         <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: warmGrey, }}>Step 1</Text>
-                        <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_17, color: black }}>Upload your document</Text>
+                        <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_17, color: black }}>Upload your documents</Text>
                     </View>
                 </View>
 
@@ -99,7 +99,7 @@ const KycIntro = () => {
                     />
                     <View style={{ marginLeft: pixelSizeHorizontal(15) }}>
                         <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: warmGrey, }}>Step 2</Text>
-                        <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_17, color: black }}>Take a selfie</Text>
+                        <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_17, color: black }}>Take your selfie</Text>
                     </View>
                 </View>
 

@@ -39,7 +39,7 @@ import BankDetails from '../screens/BankDetails';
 import KycIntro from '../screens/KycIntro';
 import UploadDocument from '../screens/UploadDocument';
 import TakeSelfie from '../screens/TakeSelfie';
-import KycVerify from './KycVerify';
+import KycVerify from '../screens/KycVerify';
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
 

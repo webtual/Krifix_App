@@ -7,7 +7,7 @@ import { goBack, navigate } from '../navigations/RootNavigation'
 import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, warmGrey, white, } from '../constants/Color'
-import { BOLD, FontSize, ITALIC, MEDIUM, SEMIBOLD } from '../constants/Fonts'
+import { BOLD, FontSize, ITALIC, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import InvitePopUp from './InvitePopUp'
 import { RUPEE, SCREEN_WIDTH } from '../constants/ConstantKey'
 import CongratulationsPopUp from './CongratulationsPopUp'
@@ -109,7 +109,8 @@ const RewardStatus = () => {
           :
           isLoading !== true &&
           <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={styles.textItem}>No redeem history found</Text>
+            <Text style={{ color: black,
+    fontFamily: REGULAR,}}>No redeem history found</Text>
           </View>
         }
 

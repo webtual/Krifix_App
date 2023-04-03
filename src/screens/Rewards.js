@@ -16,11 +16,11 @@ import { user_data } from '../redux/reducers/userReducer'
 import ApiManager from '../commonComponents/ApiManager'
 import { GET_CONTACT_DETAILS, GET_PROFILE, GET_REWARD, REDEEM_REWARD } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
-import { useFocusEffect } from '@react-navigation/native'
+import { TabActions, useFocusEffect } from '@react-navigation/native'
 import AlertView from '../commonComponents/AlertView'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
-const Rewards = () => {
+const Rewards = ({ navigation }) => {
     const userData = useSelector(user_data)
     const [isCongratulationModel, setCongratulationModel] = useState(false);
     const [isModalVisible, setModalVisible] = useState(false);
@@ -37,7 +37,7 @@ const Rewards = () => {
         Api_Get_Reward_item(true)
         Api_Get_Contact_details(true)
 
-
+        return () => { clearTimer() }
 
     }, [])
 
@@ -48,17 +48,27 @@ const Rewards = () => {
     // const AlertActive = () => {
     //     setAlertShow(!AlertShow);
     // };
-
+    var timerId;
     const CongratulationModel = () => {
         setCongratulationModel(!isCongratulationModel);
     };
+
+
+    const clearTimer = () => {
+        for (var i = 0; i < 10000; i++) {
+            clearTimeout(i)
+            // console.log("clearTimer", i);
+        }
+    }
+
     const btnScanTap = () => {
         navigate('QrCodeScan')
     }
+
     const Api_Get_Reward_item = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_REWARD).then((response) => {
-            // console.log("Api_Get_Reward_item : ", response)
+            console.log("Api_Get_Reward_item : ")
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
@@ -74,7 +84,6 @@ const Rewards = () => {
         })
     }
     const Api_Redeeem = (isLoad, item) => {
-        console.log("item", item)
         setIsLoading(isLoad)
         ApiManager.post(REDEEM_REWARD, {
             item_id: item.id,
@@ -86,7 +95,12 @@ const Rewards = () => {
             console.log("data", data)
             if (data.status == true) {
                 CongratulationModel()
+                timerId = setTimeout(() => {
+                    CongratulationModel()
+                    resetScreen("Dashboard")
+                }, 5000)
                 Api_Get_Reward_item(false)
+                Api_Get_Profile(false)
 
             }
 
@@ -98,7 +112,7 @@ const Rewards = () => {
     const Api_Get_Profile = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_PROFILE).then((response) => {
-            // console.log("Api_Get_Profile : ", response)
+            console.log("Api_Get_Profile : ")
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response?.data?.data
@@ -126,7 +140,7 @@ const Rewards = () => {
             var data = response.data
             if (data.status == true) {
                 setBannerPoints(data.data.refer_point)
-                console.log("GET CONTACT DATA SUCCESSFULLY")
+                // console.log("GET CONTACT DATA SUCCESSFULLY")
             } else {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
@@ -145,6 +159,8 @@ const Rewards = () => {
 
     const redeem_cards = (item) => {
         console.log("userData.user.is_kyc_verify :", userData.user.is_kyc_verify)
+
+
         if (userData.user.is_kyc_verify == 2) {
             if (userData.user.bank_name !== null &&
                 userData.user.ifsc_code !== null &&
@@ -160,11 +176,10 @@ const Rewards = () => {
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: "Please enter bank details to redeem rewards.",
-                    button: 'ADD BANK',
+                    button: 'UPDATE',
                     onPressButton: () => {
                         Dialog.hide();
                         navigate("BankDetails")
-                        console.log("go to Profile")
                     },
                 })
             }
@@ -183,17 +198,16 @@ const Rewards = () => {
                 })
             }
             else {
-                var message = userData.user.is_kyc_verify == 0 ? " Your KYC is pending please complete your KYC and redeem rewards."
-                    : " Your KYC has been Rejected .Please complete your KYC."
+                var message = userData.user.is_kyc_verify == 0 ? " Your KYC is pending please complete and redeem rewards."
+                    : " Your KYC has been Rejected. Please complete your KYC."
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: message,
-                    button: 'ADD BANK',
+                    button: 'UPDATE',
                     onPressButton: () => {
                         Dialog.hide();
                         navigate("BankDetails")
-                        console.log("go to Profile")
                     },
                 })
             }
@@ -429,8 +443,11 @@ const Rewards = () => {
                 <InvitePopUp isInviteVisible={isModalVisible} toggleInvite={() => toggleModal()} referralcode={userData?.user?.referral_code} />
                 <CongratulationsPopUp isWithDrawModel={true} Point={point}
                     isInviteVisible={isCongratulationModel} toggleInvite={() => {
-                        Api_Get_Profile(true)
+                        Api_Get_Profile(false)
+                        Api_Get_Reward_item(false)
                         CongratulationModel()
+                        clearTimer()
+                        resetScreen("Dashboard")
                     }} />
                 {/* <AlertView
                     isAlertVisible={AlertShow}

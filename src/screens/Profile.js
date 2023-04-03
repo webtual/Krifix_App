@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useFocusEffect } from '@react-navigation/native'
 import AlertView from '../commonComponents/AlertView'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
+import { navigate } from '../navigations/RootNavigation'
 
 
 const Profile = () => {
@@ -68,11 +69,11 @@ const Profile = () => {
         setPincode(user_data.user.pincode)
         setAddress(user_data.user.address == null ? "" : user_data.user.address)
         setMobile(user_data.user.phone)
-        setBankName(user_data.user.bank_name == null ? "" : user_data.user.bank_name)
-        setBankLocation(user_data.user.branch_name == null ? "" : user_data.user.branch_name)
-        setAccountNumber(user_data.user.account_no == null ? "" : user_data.user.account_no)
-        setIfscCode(user_data.user.ifsc_code == null ? "" : user_data.user.ifsc_code)
-        setUpiID(user_data.user.upi_id == null ? "" : user_data.user.upi_id)
+        // setBankName(user_data.user.bank_name == null ? "" : user_data.user.bank_name)
+        // setBankLocation(user_data.user.branch_name == null ? "" : user_data.user.branch_name)
+        // setAccountNumber(user_data.user.account_no == null ? "" : user_data.user.account_no)
+        // setIfscCode(user_data.user.ifsc_code == null ? "" : user_data.user.ifsc_code)
+        // setUpiID(user_data.user.upi_id == null ? "" : user_data.user.upi_id)
         setProfileImg({ path: userData.asset_url + user_data.user.avatar })
 
         storeData(USER_DATA, user_data, () => {
@@ -106,11 +107,11 @@ const Profile = () => {
     body.append('area', data.area)
     body.append('pincode', data.pincode)
     body.append('address', data.address)
-    body.append('bank_name', data.bankName)
-    body.append('branch_name', data.bankLocation)
-    body.append('account_no', data.accountNumber)
-    body.append('ifsc_code', data.ifscCode)
-    body.append('upi_id', data.upiId)
+    // body.append('bank_name', data.bankName)
+    // body.append('branch_name', data.bankLocation)
+    // body.append('account_no', data.accountNumber)
+    // body.append('ifsc_code', data.ifscCode)
+    // body.append('upi_id', data.upiId)
 
     if (isImageUpdate == true) {
       body.append('avatar',
@@ -338,11 +339,11 @@ const Profile = () => {
               pincode: pincode,
               address: address,
               mobile: mobile,
-              bankName: bankName,
-              bankLocation: bankLocation,
-              accountNumber: accountNumber,
-              ifscCode: ifscCode,
-              upiId: upiId,
+              // bankName: bankName,
+              // bankLocation: bankLocation,
+              // accountNumber: accountNumber,
+              // ifscCode: ifscCode,
+              // upiId: upiId,
             }}
             validateOnBlur={false}
             validationSchema={Editschema}
@@ -362,7 +363,7 @@ const Profile = () => {
                   editable={isDisabled}
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   onChangeText={handleChange('firstName')}
-                  onBlur={() => handleBlur('firstName')}
+                  onBlurEffect={() => handleBlur('firstName')}
                   value={values.firstName}
                   imageSource={SmileImg}
                   placeholder={Translate.t("first_name")}
@@ -379,7 +380,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.lastName}
                   onChangeText={handleChange('lastName')}
-                  onBlur={() => handleBlur('lastName')}
+                  onBlurEffect={() => handleBlur('lastName')}
                   placeholder={Translate.t("last_name")}
                 />
                 {(errors.lastName && touched.lastName) &&
@@ -395,7 +396,7 @@ const Profile = () => {
                   value={values.mobile}
                   imageSource={PhoneImg}
                   onChangeText={handleChange('mobile')}
-                  onBlur={() => handleBlur('mobile')}
+                  onBlurEffect={() => handleBlur('mobile')}
                   placeholder={Translate.t("mobile")}
                   keyboardType={'number-pad'}
                   maxLength={10}
@@ -417,7 +418,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.city}
                   onChangeText={handleChange('city')}
-                  onBlur={() => handleBlur('city')}
+                  onBlurEffect={() => handleBlur('city')}
                   placeholder={Translate.t("city")}
                 />
                 {(errors.city && touched.city) &&
@@ -432,7 +433,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.area}
                   onChangeText={handleChange('area')}
-                  onBlur={() => handleBlur('area')}
+                  onBlurEffect={() => handleBlur('area')}
                   placeholder={Translate.t("area")}
                 />
                 {(errors.area && touched.area) &&
@@ -447,7 +448,7 @@ const Profile = () => {
                   containerStyle={{ marginTop: pixelSizeHorizontal(10) }}
                   value={values.pincode}
                   onChangeText={handleChange('pincode')}
-                  onBlur={() => handleBlur('pincode')}
+                  onBlurEffect={() => handleBlur('pincode')}
                   placeholder={Translate.t("pincode")}
                   keyboardType={'number-pad'}
                   maxLength={6}
@@ -474,7 +475,7 @@ const Profile = () => {
                   <Text style={styles.errorText}>{errors.address}</Text>
                 }
 
-                <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(40) }]}>
+                {/* <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(40) }]}>
                   {Translate.t("bank_details")}
                 </Text>
 
@@ -566,6 +567,27 @@ const Profile = () => {
                 />
                 {(errors.upiId && touched.upiId) &&
                   <Text style={styles.errorText}>{errors.upiId}</Text>
+                } */}
+
+                {
+                  isDisabled !== true &&
+                <TouchableOpacity onPress={() => navigate("BankDetails")}
+                style={{
+                  borderColor: greenPrimary,
+                  borderWidth: 1,
+                  padding: pixelSizeHorizontal(10),
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  borderRadius: widthPixel(8),
+                  marginVertical: pixelSizeHorizontal(30)
+                }}>
+                  <Text style={{
+                    fontFamily: SEMIBOLD,
+                    color: greenPrimary,
+                    fontSize: FontSize.FS_16,
+                    textTransform: 'uppercase',
+                  }}>Update bank details</Text>
+                </TouchableOpacity>
                 }
 
                 {isEdit &&

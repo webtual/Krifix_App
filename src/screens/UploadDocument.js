@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView, Linking } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
@@ -68,7 +68,14 @@ const UploadDocument = () => {
                         setIsLoading(false)
                     }).catch((error) => {
                         setIsLoading(false)
-                        console.log(error)
+                        Dialog.show({
+                            type: ALERT_TYPE.DANGER,
+                            title: Translate.t('alert'),
+                            textBody: "Please allow permission for getting images from your mobile",
+                            onPressButton:  Linking.openSettings,
+                            button: 'GO TO SETTING',
+                          })
+                        console.log("error:",error)
                     });
                 }
             },
@@ -96,8 +103,14 @@ const UploadDocument = () => {
 
 
                     }).catch((error) => {
-
                         setIsLoading(false)
+                        Dialog.show({
+                            type: ALERT_TYPE.DANGER,
+                            title: Translate.t('alert'),
+                            textBody: "Please allow permission for getting images from your mobile",
+                            onPressButton: () => {Linking.openSettings},
+                            button: 'GO TO SETTING',
+                          })
                         console.log(error)
                     });
 
@@ -110,14 +123,14 @@ const UploadDocument = () => {
 
 
     const UploadButton = () => {
-        if (frontImg !== "" && backImg !== "" ) {
+        if (frontImg !== "" && backImg !== "") {
             navigate("TakeSelfie", { frontImg: frontImg, backImg: backImg })
         }
         else {
             Dialog.show({
                 type: ALERT_TYPE.DANGER,
                 title: Translate.t('alert'),
-                textBody: "Please upload front & back side of your document",
+                textBody: "Please upload your KYC documents",
                 button: 'Ok',
             })
         }
@@ -184,14 +197,13 @@ const UploadDocument = () => {
                             }}> Driving licence</Text>
                     </TouchableOpacity>
                 </View>
-
+                <Text style={{ marginTop: 25, marginBottom: 5, color: warmGrey, fontFamily: MEDIUM, fontSize: FontSize.FS_14 }}>1. Front side of your document</Text>
                 <TouchableOpacity onPress={() => { UploadImage(true) }}
                     style={{
                         width: "100%",
                         backgroundColor: transparent,
                         height: SCREEN_WIDTH / 2.2,
                         borderRadius: 8,
-                        marginTop: 25,
                         borderWidth: 1,
                         padding: 5,
                         borderColor: disableColor,
@@ -229,6 +241,7 @@ const UploadDocument = () => {
                         </>
                     }
                 </TouchableOpacity>
+                <Text style={{ marginTop: 20, marginBottom: 5, color: warmGrey, fontFamily: MEDIUM, fontSize: FontSize.FS_14 }}>2. Back side of your document</Text>
 
                 <TouchableOpacity onPress={() => { UploadImage() }}
                     style={{
@@ -236,7 +249,6 @@ const UploadDocument = () => {
                         backgroundColor: transparent,
                         height: SCREEN_WIDTH / 2,
                         borderRadius: 8,
-                        marginTop: 25,
                         padding: 5,
                         alignItems: "center",
                         justifyContent: "center",

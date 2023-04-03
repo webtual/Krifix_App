@@ -141,7 +141,7 @@ const TakeSelfie = ({ route }) => {
 
     return (
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}  >
-            <HeaderView title={"Take selfie"} onPress={() => goBack()} isBack={true} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
+            <HeaderView title={"Take your selfie"} onPress={() => goBack()} isBack={true} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
 
                 <View
                     style={{
@@ -207,7 +207,7 @@ const TakeSelfie = ({ route }) => {
                         borderRadius: widthPixel(8),
                         marginVertical: pixelSizeHorizontal(30)
                     }}>
-                    <Text style={styles.btnSaveText} >{takeImg == "" ? "Take Selfie" : "Verify"}</Text>
+                    <Text style={styles.btnSaveText} >{takeImg == "" ? "Take your selfie" : "Verify"}</Text>
 
                 </Pressable>
             </HeaderView>

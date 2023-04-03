@@ -35,7 +35,7 @@ const KycVerify = () => {
 
     return (
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}  >
-            <HeaderView title={"Success"} onPress={() => goBack()} isBack={true} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
+            <HeaderView title={"Congratulation!"} onPress={() => goBack()} isBack={true} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
             <View style={{ marginVertical: pixelSizeHorizontal(25), alignItems: "center" }}>
                     <FastImage
                         source={AppLogoImg}
@@ -45,22 +45,15 @@ const KycVerify = () => {
                 </View>
                 <FastImage
                     source={ThankYou}
-                    style={{ width: "100%", height: SCREEN_WIDTH/1.2 }}
+                    style={{ width: "100%", height: SCREEN_WIDTH/1.3 }}
                     resizeMode={'contain'}
                 />
                    <Text style={{ fontFamily: BOLD, fontSize: FontSize.FS_28, color: black,textAlign:"center" }}>Thank you!</Text>
-                   <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_20, color: black,textAlign:"center",marginVertical:20 }}>Your KYC verification compelete</Text>
+                   <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_16, color: warmGrey,textAlign:"center",marginTop:10 }}>{"Your KYC documents has been submitted."  }</Text>
                 <Pressable
                     onPress={() => { resetScreen("Dashboard") }}
-                    style={{
-                        backgroundColor: greenPrimary,
-                        padding: pixelSizeHorizontal(10),
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderRadius: widthPixel(8),
-                        marginVertical: pixelSizeHorizontal(30)
-                    }}>
-                    <Text style={styles.btnSaveText} >Go to home</Text>
+                    style={styles.KYCBtn}>
+                    <Text style={styles.btnSaveText} >complete KYC</Text>
 
                 </Pressable>
             </HeaderView>
@@ -70,6 +63,14 @@ const KycVerify = () => {
 }
 
 const styles = StyleSheet.create({
+  KYCBtn: {
+    backgroundColor: greenPrimary,
+    padding: pixelSizeHorizontal(10),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: widthPixel(8),
+    marginVertical: pixelSizeHorizontal(20),
+  },
     btnStyle: {
         backgroundColor: black,
         padding: pixelSizeHorizontal(10),

@@ -59,7 +59,7 @@ const ContactUs = () => {
                 {Translate.t("contact_us")}
             </Text>
 
-            <TouchableOpacity style={styles.viewItem}>
+            <View style={styles.viewItem}>
 
                 <FastImage
                     source={NavigateImg}
@@ -69,7 +69,7 @@ const ContactUs = () => {
 
                 <Text style={styles.textDesc}>{contactData?.contact_address}</Text>
 
-            </TouchableOpacity>
+            </View>
 
             <TouchableOpacity style={styles.viewItem}
                 onPress={() => Linking.openURL("tel:+91"+(contactData?.contact_no))}>

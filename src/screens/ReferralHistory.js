@@ -95,7 +95,8 @@ const ReferralHistory = () => {
                     :
                     isLoading !== true &&
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.textItem}>No referral history found</Text>
+                        <Text style={{ color: black,
+    fontFamily: REGULAR,}}>No referral history found</Text>
                     </View>
                 }
 

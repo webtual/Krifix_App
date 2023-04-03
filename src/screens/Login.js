@@ -116,7 +116,7 @@ const Login = () => {
     }
     const LoginSchema = Yup.object().shape({
         mobile: Yup.string()
-            .min(10, '* Mobile number is not valid')
+            .min(10, '* Please enter 10 digit mobile number')
             .required("* Please enter mobile number"),
     });
 

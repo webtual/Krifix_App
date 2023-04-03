@@ -6,6 +6,7 @@ import axios from "axios";
 import { BEARER_TOKEN, USER_DATA } from '../constants/ConstantKey';
 import { BASE_URL } from "../constants/ApiUrl";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
+import Translate from "../translation/Translate";
 
 
 const ApiManager = axios.create({
@@ -57,7 +58,6 @@ ApiManager.interceptors.response.use(response => {
 		
 	}
 	else if (error.hasOwnProperty("code") && error.code == 'ERR_NETWORK') {
-
 		Dialog.show({
 			type: ALERT_TYPE.DANGER,
 			title: Translate.t('alert'),

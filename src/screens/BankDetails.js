@@ -100,7 +100,8 @@ const BankDetails = () => {
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
-                if (userData.user.is_kyc_verify == 2) {
+                console.log("userData.user.is_kyc_verify",userData.user.is_kyc_verify)
+                if (userData.user.is_kyc_verify == 2 || userData.user.is_kyc_verify == 1) {
                     Api_Get_Profile(true)
                     Toast.show({
                         type: ALERT_TYPE.SUCCESS,
@@ -150,7 +151,7 @@ const BankDetails = () => {
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
-                if (userData.user.is_kyc_verify == 2) {
+                if (userData.user.is_kyc_verify == 2 || userData.user.is_kyc_verify == 1) {
                     Api_Get_Profile(true)
                     Toast.show({
                         type: ALERT_TYPE.SUCCESS,
@@ -365,7 +366,7 @@ const BankDetails = () => {
                                             <Pressable
                                                 onPress={handleSubmit}
                                                 style={[styles.btnSaveStyle, { flex: 1 }]}>
-                                                <Text style={styles.btnSaveText} >{userData.user.is_kyc_verify == 2 ? Translate.t("save_details") : Translate.t("next")}</Text>
+                                                <Text style={styles.btnSaveText} >{userData.user.is_kyc_verify == 2 || userData.user.is_kyc_verify == 1 ? Translate.t("save_details") : Translate.t("next")}</Text>
 
                                             </Pressable>
                                         </View>
@@ -411,7 +412,7 @@ const BankDetails = () => {
                                     <Pressable
                                         onPress={() => AddUpi()}
                                         style={[styles.btnSaveStyle, { flex: 1 }]}>
-                                        <Text style={styles.btnSaveText} >{userData.user.is_kyc_verify == 2 ? Translate.t("save_details") : Translate.t("next")}</Text>
+                                        <Text style={styles.btnSaveText} >{userData.user.is_kyc_verify == 2 || userData.user.is_kyc_verify == 1? Translate.t("save_details") : Translate.t("next")}</Text>
 
                                     </Pressable>
                                 </View>

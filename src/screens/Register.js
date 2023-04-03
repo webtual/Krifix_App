@@ -68,6 +68,10 @@ useEffect(() =>{
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: data.mobile + " is already registered with us",
+                    onPressButton: () => {
+                        Dialog.hide();
+                        navigate("Login")
+                    },
                     button: 'Ok',
                   })
             }
@@ -92,23 +96,15 @@ useEffect(() =>{
 
     const SignupSchema = Yup.object().shape({
         firstname: Yup.string()
-            .min(2, '* Too Short!')
-            .max(50, '* Too Long!')
             .required('* Please enter first name'),
         lastname: Yup.string()
-            .min(2, '* Too Short!')
-            .max(50, '* Too Long!')
             .required('* Please enter last name'),
         mobile: Yup.string()
-            .min(10, '* Phone number is not valid')
+            .min(10, '* Please enter 10 digit mobile number')
             .required("* Please enter mobile number"),
         city: Yup.string()
-            .min(2, '* Too Short!')
-            .max(20, '* Too Long!')
             .required('* Please enter city'),
         area: Yup.string()
-            .min(2, '* Too Short!')
-            .max(30, '* Too Long!')
             .required('* Please enter area'),
         pincode: Yup.string()
             .min(6, '* Enter 6 digit pincode')
