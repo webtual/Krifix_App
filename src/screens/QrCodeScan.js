@@ -104,10 +104,10 @@ const QrCodeScan = () => {
                 setPoint(user_data)
                 toggleModal()
             } else {
-                Dialog.show({
+                Dialog.show({   
                     type: ALERT_TYPE.WARNING,
                     title: Translate.t('warning'),
-                    textBody: Translate.t('already_used'),
+                    textBody: data.message,
                     button: 'Ok',
                     onPressButton: ()=> {
                         Dialog.hide();

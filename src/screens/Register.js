@@ -21,7 +21,7 @@ import FastImage from 'react-native-fast-image'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const Register = ({route}) => {
-    // console.log("route",route.params.mobile)
+    // console.log("route", typeof route.params.mobile)
     const dispatch = useDispatch()
 
     const [isLoading, setIsLoading] = useState(false)
@@ -64,13 +64,13 @@ useEffect(() =>{
                 navigate("OtpView", { data: dict })
 
             } else {
-                Dialog.show({
+                Dialog.show({ 
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: data.mobile + " is already registered with us",
                     onPressButton: () => {
                         Dialog.hide();
-                        navigate("Login")
+                        navigate("Login",{mobile:data.mobile})
                     },
                     button: 'Ok',
                   })
@@ -217,7 +217,9 @@ useEffect(() =>{
                                 onChangeText={handleChange('referralcode')}
                                 onBlur={handleBlur('referralcode')}
                                 placeholder={Translate.t("referralcode")}
-                                maxLength={8}
+                                autoCapitalize={'characters'}
+                                maxLength={6}
+                                // additionalStyle={{textTransform : 'uppercase'}}
                             />
                             {(errors.referralcode && touched.referralcode) &&
                                 <Text style={styles.errorText}>{errors.referralcode}</Text>

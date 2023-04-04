@@ -26,7 +26,8 @@ import ImageView from "react-native-image-viewing";
 
 
 const TakeSelfie = ({ route }) => {
-    console.log("data: " + JSON.stringify(route.params.frontImg.path))
+    // console.log("frontImg: " + JSON.stringify(route.params.frontImg.path))
+    // console.log("backImg: " + JSON.stringify(route.params.backImg.path))
     const dispatch = useDispatch()
     const userData = useSelector(user_data)
     const [isLoading, setIsLoading] = useState(false)
@@ -36,6 +37,39 @@ const TakeSelfie = ({ route }) => {
     const [viewImgData, setViewImgData] = useState("");
     const [imgView, setImgView] = useState(false);
 
+    useEffect(() => {
+        Api_Get_Profile(true)
+    }, [])
+
+
+    const Api_Get_Profile = (isLoad) => {
+        setIsLoading(isLoad)
+        ApiManager.get(GET_PROFILE).then((response) => {
+            // console.log("Api_Get_Profile : ", response)
+            setIsLoading(false)
+            if (response.data.status == true) {
+                var user_data = response.data.data
+                console.log("user_data", user_data.user.document_front_image)
+                setTakeImg({ path: user_data.user.selfie_image == null ? "" : userData.asset_url + user_data.user.selfie_image })
+                storeData(USER_DATA, user_data, () => {
+                    dispatch(storeUserData(user_data))
+                })
+                console.log("GET PROFILE DATA SUCCEESSFULLY")
+
+            } else {
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: response.data.message,
+                    button: 'Ok',
+                })
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Get_Profile Error ", err);
+        })
+    }
 
 
 
@@ -61,7 +95,7 @@ const TakeSelfie = ({ route }) => {
                 type: takeImg.mime
             });
 
-        // console.log("body api", JSON.stringify(body))
+        console.log("body api", JSON.stringify(body))
         ApiManager.post(UPDATE_KYC, body, {
             headers: {
                 'Content-Type': 'multipart/form-data'
@@ -73,33 +107,6 @@ const TakeSelfie = ({ route }) => {
             console.log("data", data)
             if (data.status == true) {
                 navigate("KycVerify")
-            //     if (userData.user.is_kyc_verify == 2) {
-            //         Api_Get_Profile(true)
-            //         Toast.show({
-            //             type: ALERT_TYPE.SUCCESS,
-            //             title: Translate.t('success'),
-            //             textBody: "UPI id add successfully",
-            //             button: 'Ok',
-            //         })
-            //         goBack()
-            //     }
-            //     else {
-            //         Api_Get_Profile(true)
-            //         Toast.show({
-            //             type: ALERT_TYPE.SUCCESS,
-            //             title: Translate.t('success'),
-            //             textBody: "UPI id add successfully",
-            //             button: 'Ok',
-            //         })
-            //         navigate('KycIntro')
-            //     }
-            // } else {
-            //     Dialog.show({
-            //         type: ALERT_TYPE.DANGER,
-            //         title: Translate.t('alert'),
-            //         textBody: data.message,
-            //         button: 'Ok',
-            //     })
             }
 
         }).catch((err) => {
@@ -109,11 +116,23 @@ const TakeSelfie = ({ route }) => {
     }
 
     const VerifyButton = () => {
-        if (frontImg !== "" && backIMg !== "" && takeImg !== "")
-            Api_Kyc_Process(true)
-        // navigate("KycVerify")
+        console.log("call verify")
+        if (frontImg.path !== "" && backIMg.path !== "" && takeImg.path !== "")
+
+            if (takeImg.path.includes('https')) {
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: "Take your selfie again",
+                    button: 'Ok',
+                })
+            }
+            else {
+                Api_Kyc_Process(true)
+                navigate("KycVerify")
+            }
     }
- 
+
 
     const takeImage = () => {
         ImagePicker.openCamera({
@@ -154,7 +173,7 @@ const TakeSelfie = ({ route }) => {
                         padding: 5,
                         borderColor: disableColor,
                     }}>
-                    {takeImg == "" ? <FastImage
+                    {takeImg?.path == "" ? <FastImage
                         source={Selfie1x}
                         style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
                         resizeMode={'cover'}
@@ -162,11 +181,11 @@ const TakeSelfie = ({ route }) => {
                         <>
                             <FastImage
                                 style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
-                                source={{ uri: takeImg.path }}
+                                source={{ uri: takeImg?.path }}
                             />
                             <TouchableOpacity onPress={() => {
                                 setImgView(true)
-                                setViewImgData(takeImg.path)
+                                setViewImgData(takeImg?.path)
                             }}
                                 style={{
                                     width: 30,
@@ -196,20 +215,21 @@ const TakeSelfie = ({ route }) => {
                     visible={imgView}
                     onRequestClose={() => setImgView(false)}
                 />
-
                 <Pressable
-                    onPress={() => { takeImg == "" ? takeImage() : VerifyButton() }}
+                    onPress={() => {  (takeImg?.path == "" || takeImg?.path?.includes('https')) ? takeImage() : VerifyButton() }}
                     style={{
-                        backgroundColor: takeImg == "" ? black : greenPrimary,
+                        backgroundColor: (takeImg?.path == "" || takeImg?.path?.includes('https')) ? black : greenPrimary,
                         padding: pixelSizeHorizontal(10),
                         alignItems: 'center',
                         justifyContent: 'center',
                         borderRadius: widthPixel(8),
                         marginVertical: pixelSizeHorizontal(30)
                     }}>
-                    <Text style={styles.btnSaveText} >{takeImg == "" ? "Take your selfie" : "Verify"}</Text>
+                    <Text style={styles.btnSaveText} >{ (takeImg?.path == "" || takeImg?.path?.includes('https')) ? "Take your selfie" : "Verify"}</Text>
 
                 </Pressable>
+                
+
             </HeaderView>
             {isLoading && <LoadingView />}
         </KeyboardAvoidingView>

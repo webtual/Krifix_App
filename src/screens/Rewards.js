@@ -190,7 +190,7 @@ const Rewards = ({ navigation }) => {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
-                    textBody: "Your KYC verification is pending, Please contact admin for approval",
+                    textBody: "Your bank details has been submitted. Our tean will check & verify.",
                     button: 'OK',
                     onPressButton: () => {
                         Dialog.hide();

@@ -11,7 +11,7 @@ import { Account, AppLogoImg, Bank, Branch, BuildingImg, Camera, CardId, Check, 
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ImagePicker from 'react-native-image-crop-picker';
-import { SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
+import { BEARER_TOKEN, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 import { GET_PROFILE, UPDATE_BANK, UPDATE_PROFILE, UPDATE_UPI } from '../constants/ApiUrl'
 import ApiManager from '../commonComponents/ApiManager'
 import LoadingView from '../commonComponents/LoadingView'
@@ -31,7 +31,34 @@ const KycVerify = () => {
     const [isLoading, setIsLoading] = useState(false)
 
 
-
+    const Api_Get_Profile = (isLoad) => {
+        setIsLoading(isLoad)
+        ApiManager.get(GET_PROFILE).then((response) => {
+          console.log("Api_Get_Profile : ", response)
+          setIsLoading(false)
+          if (response.data.status == true) {
+            var user_data = response.data.data
+            console.log("user_data ::::", user_data)
+            storeData(USER_DATA, user_data, () => {
+                storeData(BEARER_TOKEN, user_data.token)
+                dispatch(storeUserData(user_data))
+            })
+            resetScreen("Dashboard")
+            console.log("GET PROFILE SUCCESSFULLY")
+          } else {
+            Dialog.show({
+              type: ALERT_TYPE.DANGER,
+              title: Translate.t('alert'),
+              textBody: response.data.message,
+              button: 'Ok',
+            })
+          }
+    
+        }).catch((err) => {
+          setIsLoading(false)
+          console.error("Api_Get_Profile Error ", err);
+        })
+      }
 
     return (
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}  >
@@ -51,7 +78,7 @@ const KycVerify = () => {
                    <Text style={{ fontFamily: BOLD, fontSize: FontSize.FS_28, color: black,textAlign:"center" }}>Thank you!</Text>
                    <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_16, color: warmGrey,textAlign:"center",marginTop:10 }}>{"Your KYC documents has been submitted."  }</Text>
                 <Pressable
-                    onPress={() => { resetScreen("Dashboard") }}
+                    onPress={() => { Api_Get_Profile(true) }}
                     style={styles.KYCBtn}>
                     <Text style={styles.btnSaveText} >complete KYC</Text>
 

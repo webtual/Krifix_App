@@ -7,7 +7,7 @@ import { black, greenPrimary, iceBlue, offWhite, paleGreen, white } from '../con
 import { BOLD, FontSize, ITALIC, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg } from '../constants/Images'
-import { ANDROID_APP_LINK, BANNER_DATA, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
+import { ANDROID_APP_LINK, BANNER_DATA, BEARER_TOKEN, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 
 import { navigate } from '../navigations/RootNavigation'
 import InvitePopUp from './InvitePopUp'
@@ -36,7 +36,6 @@ const Home = () => {
       //   getData(FCM_TOKEN, (data) => {
       //     console.log("FCM_TOKEN",data)
       // })
-      console.log("Home Screen")
       Api_Get_Home_Banner(true)
       Api_Get_Profile(true)
       Api_Get_Contact_details(true)
@@ -53,6 +52,12 @@ const Home = () => {
         var user_data = response.data.data
         console.log("user_data", user_data)
         setTotalPoints(user_data.user.reward_point)
+
+        storeData(USER_DATA, user_data, () => {
+            storeData(BEARER_TOKEN, user_data.token)
+            dispatch(storeUserData(user_data))
+        })
+
         console.log("GET PROFILE SUCCESSFULLY")
       } else {
         Dialog.show({

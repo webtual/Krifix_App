@@ -22,7 +22,7 @@ import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const Notification = () => {
     const [isLoading, setIsLoading] = useState(false)
-    const [notificationData, setNoificationData] = useState()
+    const [notificationData, setNoificationData] = useState([])
     // const [AlertShow, setAlertShow] = useState(false)
 
 
@@ -90,7 +90,7 @@ const Notification = () => {
             <HeaderView title={Translate.t("Notification")} onPress={() => goBack()}
                 containerStyle={{ paddingHorizontal: pixelSizeHorizontal(0) }}
             >
-                {notificationData.length !== 0 ?
+                {notificationData?.length !== 0 ?
                     <FlatList
                         data={notificationData}
                         scrollEnabled={false}
@@ -118,6 +118,7 @@ const Notification = () => {
                         )}
                     />
                     :
+                    isLoading !== true &&
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={{ alignItems: "center", justifyContent: "center", fontFamily: REGULAR, color: black }}>{"No notification"}</Text>
                     </View>

@@ -25,18 +25,28 @@ import AlertView from '../commonComponents/AlertView'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 
-const Login = () => {
-
+const Login = ({route}) => {
+console.log("oute?.params?.mobile",route?.params?.mobile)
     const dispatch = useDispatch()
 
     const [isLoading, setIsLoading] = useState(false)
-    const [mobile, setMobile] = useState("")
+    const [mobile, setMobile] = useState(route?.params?.mobile)
     const [fcm_token, setFcmToken] = useState("")
     const [AlertShow, setAlertShow] = useState(false)
     const [alerMessage, setAlertMessage] = useState(false)
 
-    useFocusEffect(
-        useCallback(() => {
+
+ 
+      useFocusEffect(
+      useCallback(() => {
+        // console.log("useEffect",route?.params?.mobile)
+            if(route?.params?.mobile !== "" && route?.params?.mobile !== undefined){
+                console.log("setMobile",route?.params?.mobile)
+                setMobile(route?.params?.mobile)
+            }
+            else{
+                setMobile("")
+            }
             if (Platform.OS === "android") {
                 getFCMToken()
             }
@@ -44,7 +54,7 @@ const Login = () => {
                 requestUserPermission()
             }
         }, [])
-    );
+      );
 
 
     // useEffect(() =>{
@@ -168,6 +178,7 @@ const Login = () => {
         <>
             <HeaderView title={Translate.t("login")} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
                 <Formik
+                enableReinitialize
                     initialValues={{
                         mobile: mobile,
                     }}

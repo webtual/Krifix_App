@@ -37,6 +37,47 @@ const UploadDocument = () => {
     const [imgView, setImgView] = useState(false);
     const [viewImgData, setViewImgData] = useState("");
 
+
+
+    useEffect(() => {
+        Api_Get_Profile(true)
+    }, [])
+
+
+    const Api_Get_Profile = (isLoad) => {
+        setIsLoading(isLoad)
+        ApiManager.get(GET_PROFILE).then((response) => {
+            // console.log("Api_Get_Profile : ", response)
+            setIsLoading(false)
+            if (response.data.status == true) {
+                var user_data = response.data.data
+                console.log("user_data", user_data.user.document_front_image)
+                setFrontImg({ path: user_data.user.document_front_image == null ? "" : userData.asset_url + user_data.user.document_front_image })
+                setBackImg({ path: user_data.user.document_back_image == null ? "" : userData.asset_url + user_data.user.document_back_image })
+
+                storeData(USER_DATA, user_data, () => {
+                    dispatch(storeUserData(user_data))
+
+                })
+                console.log("GET PROFILE DATA SUCCEESSFULLY")
+
+            } else {
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: response.data.message,
+                    button: 'Ok',
+                })
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Get_Profile Error ", err);
+        })
+    }
+
+
+
     const UploadImage = (isFront) => {
         console.log("value", isFront)
         Alert.alert("Select from", "Upload your document", [
@@ -68,14 +109,14 @@ const UploadDocument = () => {
                         setIsLoading(false)
                     }).catch((error) => {
                         setIsLoading(false)
-                        Dialog.show({
-                            type: ALERT_TYPE.DANGER,
-                            title: Translate.t('alert'),
-                            textBody: "Please allow permission for getting images from your mobile",
-                            onPressButton:  Linking.openSettings,
-                            button: 'GO TO SETTING',
-                          })
-                        console.log("error:",error)
+                        // Dialog.show({
+                        //     type: ALERT_TYPE.DANGER,
+                        //     title: Translate.t('alert'),
+                        //     textBody: "Please allow permission for getting images from your mobile",
+                        //     onPressButton:  Linking.openSettings,
+                        //     button: 'GO TO SETTING',
+                        //   })
+                        console.log("error:", error)
                     });
                 }
             },
@@ -104,13 +145,13 @@ const UploadDocument = () => {
 
                     }).catch((error) => {
                         setIsLoading(false)
-                        Dialog.show({
-                            type: ALERT_TYPE.DANGER,
-                            title: Translate.t('alert'),
-                            textBody: "Please allow permission for getting images from your mobile",
-                            onPressButton: () => {Linking.openSettings},
-                            button: 'GO TO SETTING',
-                          })
+                        // Dialog.show({
+                        //     type: ALERT_TYPE.DANGER,
+                        //     title: Translate.t('alert'),
+                        //     textBody: "Please allow permission for getting images from your mobile",
+                        //     onPressButton: () => {Linking.openSettings},
+                        //     button: 'GO TO SETTING',
+                        //   })
                         console.log(error)
                     });
 
@@ -123,8 +164,19 @@ const UploadDocument = () => {
 
 
     const UploadButton = () => {
-        if (frontImg !== "" && backImg !== "") {
-            navigate("TakeSelfie", { frontImg: frontImg, backImg: backImg })
+        if (frontImg.path !== "" && backImg.path !== "") {
+            console.log("frontImg", typeof frontImg.path)
+            if (frontImg.path.includes('https') || backImg.path.includes('http')) {
+                Dialog.show({
+                    type: ALERT_TYPE.DANGER,
+                    title: Translate.t('alert'),
+                    textBody: "Please upload your documents again",
+                    button: 'Ok',
+                })
+            }
+            else {
+                navigate("TakeSelfie", { frontImg: frontImg, backImg: backImg })
+            }
         }
         else {
             Dialog.show({
@@ -146,7 +198,7 @@ const UploadDocument = () => {
                     <Text style={{ fontFamily: BOLD, fontSize: FontSize.FS_20, color: warmGrey }}>One time Verification</Text>
 
                 </View>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                {/* <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <TouchableOpacity onPress={() => setIndex(1)}
                         style={{
                             borderColor: greenPrimary,
@@ -196,8 +248,8 @@ const UploadDocument = () => {
                                 color: index === 3 ? white : black
                             }}> Driving licence</Text>
                     </TouchableOpacity>
-                </View>
-                <Text style={{ marginTop: 25, marginBottom: 5, color: warmGrey, fontFamily: MEDIUM, fontSize: FontSize.FS_14 }}>1. Front side of your document</Text>
+                </View> */}
+                <Text style={{ marginBottom: 5, color: warmGrey, fontFamily: MEDIUM, fontSize: FontSize.FS_14 }}>1. Front side of your document</Text>
                 <TouchableOpacity onPress={() => { UploadImage(true) }}
                     style={{
                         width: "100%",
@@ -208,8 +260,8 @@ const UploadDocument = () => {
                         padding: 5,
                         borderColor: disableColor,
                     }}>
-                    {frontImg == "" ? <FastImage
-                        source={Front}
+                    {frontImg.path == "" ? <FastImage
+                        source={Back}
                         style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
                         resizeMode={'cover'}
                     /> :
@@ -255,8 +307,8 @@ const UploadDocument = () => {
                         borderWidth: 1,
                         borderColor: disableColor,
                     }}>
-                    {backImg == "" ? <FastImage
-                        source={Back}
+                    {backImg.path == "" ? <FastImage
+                        source={Front}
                         style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
                         resizeMode={'cover'}
                     /> :

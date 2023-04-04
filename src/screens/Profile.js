@@ -4,7 +4,7 @@ import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import FastImage from 'react-native-fast-image'
-import { black, disableColor, greenPrimary, paleGreen, warmGrey, white } from '../constants/Color'
+import { black, disableColor, greenPrimary, grey, paleGreen, red, seprator, warmGrey, white, yellow } from '../constants/Color'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
 import { Account, Bank, Branch, BuildingImg, Camera, Ifsc, LocationImg, PhoneImg, PinImg, PrivacyImg, SmileImg, Upi } from '../constants/Images'
@@ -28,6 +28,7 @@ const Profile = () => {
 
   const dispatch = useDispatch()
   const userData = useSelector(user_data)
+  console.log("userData", userData)
   const [isLoading, setIsLoading] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [isDisabled, seIsDisabled] = useState(false)
@@ -568,27 +569,219 @@ const Profile = () => {
                 {(errors.upiId && touched.upiId) &&
                   <Text style={styles.errorText}>{errors.upiId}</Text>
                 } */}
+                {isDisabled !== true &&
+                  <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(20) }]}>KYC status</Text>}
 
-                {
-                  isDisabled !== true &&
-                <TouchableOpacity onPress={() => navigate("BankDetails")}
-                style={{
-                  borderColor: greenPrimary,
-                  borderWidth: 1,
-                  padding: pixelSizeHorizontal(10),
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  borderRadius: widthPixel(8),
-                  marginVertical: pixelSizeHorizontal(30)
-                }}>
-                  <Text style={{
-                    fontFamily: SEMIBOLD,
-                    color: greenPrimary,
-                    fontSize: FontSize.FS_16,
-                    textTransform: 'uppercase',
-                  }}>Update bank details</Text>
-                </TouchableOpacity>
+                {isDisabled !== true &&
+                  (userData.user.is_kyc_verify == 0 &&
+                    <View
+                      style={{
+                        borderColor: warmGrey,
+                        borderWidth: 1,
+                        marginVertical: pixelSizeHorizontal(20),
+                        padding: 15,
+                        borderRadius: 8,
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: MEDIUM,
+                          color: warmGrey,
+                          fontSize: FontSize.FS_16,
+                          textAlign: "center"
+                        }}>{"Your KYC verification has \n been pending. Please complete your KYC."}</Text>
+                      <TouchableOpacity onPress={() => navigate("BankDetails")}
+                        style={{
+                          backgroundColor: black,
+                          padding: pixelSizeHorizontal(5),
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: widthPixel(8),
+                          marginTop: pixelSizeHorizontal(15)
+                        }}>
+                        <Text style={{
+                          fontFamily: SEMIBOLD,
+                          color: white,
+                          fontSize: FontSize.FS_14,
+                          textTransform: 'uppercase',
+                        }}>Update bank details</Text>
+                      </TouchableOpacity>
+                    </View>
+
+                  )
+
                 }
+
+
+                {isDisabled !== true &&
+                  (userData.user.is_kyc_verify == 1 &&
+                    <View
+                      style={{
+                        borderColor: yellow,
+                        borderWidth: 1,
+                        marginVertical: pixelSizeHorizontal(20),
+                        padding: 10,
+                        borderRadius: 8,
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: MEDIUM,
+                          color: yellow,
+                          fontSize: FontSize.FS_16,
+                          textAlign: "center"
+                        }}>{"Your bank details has \n been submitted. Our team will check and verify."}</Text>
+                    </View>
+                  )
+                }
+
+                {isDisabled !== true &&
+                  (userData.user.is_kyc_verify == 2 &&
+                    <View
+                      style={{
+                        borderColor: greenPrimary,
+                        borderWidth: 1,
+                        marginVertical: pixelSizeHorizontal(20),
+                        padding: 10,
+                        borderRadius: 8,
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: MEDIUM,
+                          color: greenPrimary,
+                          fontSize: FontSize.FS_16,
+                          textAlign: "center"
+                        }}>{"Your KYC verification has \n been successfully completed."}</Text>
+                      <View style={{ flex: 1 }}>
+                        {userData.user.bank_name &&
+                          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+                            <Text style={{
+                              fontFamily: MEDIUM,
+                              color: black,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                              textAlign: "right"
+                            }}>Bank name : </Text>
+                            <Text style={{
+                              fontFamily: REGULAR,
+                              color: warmGrey,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                            }}>{userData.user.bank_name}</Text>
+                          </View>
+                        }
+                        {userData.user.account_no &&
+                          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+                            <Text style={{
+                              fontFamily: MEDIUM,
+                              color: black,
+                              fontSize: FontSize.FS_15,
+                              flex: 0.5,
+                              textAlign: "right"
+                            }}>Account number : </Text>
+                            <Text style={{
+                              fontFamily: REGULAR,
+                              color: warmGrey,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                              marginTop: 2
+                            }}>{userData.user.account_no}</Text>
+                          </View>
+                        }
+
+                        {userData.user.ifsc_code &&
+                          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+                            <Text style={{
+                              fontFamily: MEDIUM,
+                              color: black,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                              textAlign: "right"
+                            }}>IFSC code : </Text>
+                            <Text style={{
+                              fontFamily: REGULAR,
+                              color: warmGrey,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                              marginTop: 2
+                            }}>{userData.user.ifsc_code}</Text>
+                          </View>
+                        }
+                        {userData.user.branch_name &&
+                          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+                            <Text style={{
+                              fontFamily: MEDIUM,
+                              color: black,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                              textAlign: "right"
+                            }}>Branch name : </Text>
+                            <Text style={{
+                              fontFamily: REGULAR,
+                              color: warmGrey,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                            }}>{userData.user.branch_name}</Text>
+                          </View>
+                        }
+                        {userData.user.upi_id &&
+                          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+                            <Text style={{
+                              fontFamily: MEDIUM,
+                              color: black,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                              textAlign: "right"
+                            }}>UPI id : </Text>
+                            <Text style={{
+                              fontFamily: REGULAR,
+                              color: warmGrey,
+                              fontSize: FontSize.FS_14,
+                              flex: 0.5,
+                            }}>{userData.user.upi_id}</Text>
+                          </View>
+                        }
+                      </View>
+                    </View>
+                  )
+                }
+
+                {isDisabled !== true &&
+                  (userData.user.is_kyc_verify == 3 &&
+                    <View
+                      style={{
+                        borderColor: red,
+                        borderWidth: 1,
+                        marginVertical: pixelSizeHorizontal(20),
+                        padding: 10,
+                        borderRadius: 8,
+                      }}>
+                      <Text
+                        style={{
+                          fontFamily: MEDIUM,
+                          color: red,
+                          fontSize: FontSize.FS_16,
+                          textAlign: "center"
+                        }}>{"Your KYC verification has \n been rejected. Please complete your KYC."}</Text>
+                      <TouchableOpacity onPress={() => navigate("BankDetails")}
+                        style={{
+                          backgroundColor: black,
+                          padding: pixelSizeHorizontal(5),
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          borderRadius: widthPixel(8),
+                          marginTop: pixelSizeHorizontal(15)
+                        }}>
+                        <Text style={{
+                          fontFamily: SEMIBOLD,
+                          color: white,
+                          fontSize: FontSize.FS_14,
+                          textTransform: 'uppercase',
+                        }}>Update bank details</Text>
+                      </TouchableOpacity>
+                    </View>
+                  )
+                }
+
+
 
                 {isEdit &&
                   <View style={{ flexDirection: 'row', flex: 1, justifyContent: 'space-between', marginTop: pixelSizeHorizontal(40) }}>
