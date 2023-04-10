@@ -136,9 +136,9 @@ const TakeSelfie = ({ route }) => {
 
     const takeImage = () => {
         ImagePicker.openCamera({
-            useFrontCamera: false,
-            cropping: true,
-            freeStyleCropEnabled: true,
+            useFrontCamera: true,
+            cropping: false,
+            freeStyleCropEnabled: false,
             multiple: false,
             mediaType: 'photo',
             includeBase64: false,
