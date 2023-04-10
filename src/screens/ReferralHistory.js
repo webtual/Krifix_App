@@ -32,11 +32,11 @@ const ReferralHistory = () => {
     const Api_Get_Referral = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_REFERRAL).then((response) => {
-            console.log("Api_Get_Referral : ", response)
+            //console.log("Api_Get_Referral : ", response)
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
-                console.log("user_data", user_data)
+               // console.log("user_data", user_data)
                 setReferralData(user_data)
             } else {
                 // Dialog.show({
@@ -57,7 +57,7 @@ const ReferralHistory = () => {
         <>
             <HeaderView title={Translate.t("referral_history")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(20) }}
                 onPress={() => goBack()}>
-               
+
                 {referralData.length !== 0 ?
                     <FlatList
                         data={referralData}
@@ -95,8 +95,10 @@ const ReferralHistory = () => {
                     :
                     isLoading !== true &&
                     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={{ color: black,
-    fontFamily: REGULAR,}}>No referral history found</Text>
+                        <Text style={{
+                            color: black,
+                            fontFamily: REGULAR,
+                        }}>No referral found</Text>
                     </View>
                 }
 

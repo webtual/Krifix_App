@@ -5,7 +5,7 @@ import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { goBack, navigate, resetScreen } from '../navigations/RootNavigation'
 import FastImage from 'react-native-fast-image'
-import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, WithdrawImg } from '../constants/Images'
+import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, VerifiedGreen, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, warmGrey, white, } from '../constants/Color'
 import { BOLD, FontSize, ITALIC, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import InvitePopUp from './InvitePopUp'
@@ -68,7 +68,7 @@ const Rewards = ({ navigation }) => {
     const Api_Get_Reward_item = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_REWARD).then((response) => {
-            console.log("Api_Get_Reward_item : ")
+            //console.log("Api_Get_Reward_item : ")
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
@@ -92,7 +92,7 @@ const Rewards = ({ navigation }) => {
             setIsLoading(false)
             setPoint(item.item_point)
             var data = response.data;
-            console.log("data", data)
+            // console.log("data", data)
             if (data.status == true) {
                 CongratulationModel()
                 timerId = setTimeout(() => {
@@ -112,7 +112,7 @@ const Rewards = ({ navigation }) => {
     const Api_Get_Profile = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_PROFILE).then((response) => {
-            console.log("Api_Get_Profile : ")
+            // console.log("Api_Get_Profile : ")
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response?.data?.data
@@ -158,7 +158,7 @@ const Rewards = ({ navigation }) => {
 
 
     const redeem_cards = (item) => {
-        console.log("userData.user.is_kyc_verify :", userData.user.is_kyc_verify)
+        // console.log("userData.user.is_kyc_verify :", userData.user.is_kyc_verify)
 
 
         if (userData.user.is_kyc_verify == 2) {
@@ -190,7 +190,7 @@ const Rewards = ({ navigation }) => {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
-                    textBody: "Your bank details has been submitted. Our tean will check & verify.",
+                    textBody: "Your KYC is under review.",
                     button: 'OK',
                     onPressButton: () => {
                         Dialog.hide();
@@ -198,13 +198,13 @@ const Rewards = ({ navigation }) => {
                 })
             }
             else {
-                var message = userData.user.is_kyc_verify == 0 ? " Your KYC is pending please complete and redeem rewards."
-                    : " Your KYC has been Rejected. Please complete your KYC."
+                var message = userData.user.is_kyc_verify == 0 ? " Your KYC is pending, please complete to redeem rewards."
+                    : "Your KYC has been Rejected. Please complete your KYC."
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: message,
-                    button: 'UPDATE',
+                    button: 'SUBMIT KYC',
                     onPressButton: () => {
                         Dialog.hide();
                         navigate("BankDetails")
@@ -254,7 +254,17 @@ const Rewards = ({ navigation }) => {
                             borderWidth: widthPixel(2), borderColor: greenPrimary, marginTop: pixelSizeHorizontal(-45),
                             alignItems: 'center', justifyContent: 'center'
                         }}>
+                        {userData?.user?.is_kyc_verify == 2 && <View style={{
+                            position: "absolute",
+                            right: -3,
+                            top: -3,
 
+                            borderRadius: 28,
+                        }}>
+                            <FastImage
+                                style={{ width: 26, height: 26, }}
+                                source={VerifiedGreen} />
+                        </View>}
                         <Text style={styles.textBigName}>{userData.user.first_name.charAt(0)}</Text>
 
                     </TouchableOpacity>
@@ -351,9 +361,13 @@ const Rewards = ({ navigation }) => {
                         ListFooterComponent={() => (<View style={{ height: widthPixel(20) }}></View>)}
                         ListEmptyComponent={() => (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                             <Text style={{
-                                fontSize: FontSize.FS_14,
-                                color: black,
+                                marginTop: 15,
+                                fontSize: FontSize.FS_15,
+                                color: warmGrey,
                                 fontFamily: SEMIBOLD,
+                                paddingHorizontal: 25,
+                                borderRadius: 8,
+                                textAlign: "center",
                             }}>{message}</Text>
                         </View>)}
                         renderItem={({ item, index }) => (

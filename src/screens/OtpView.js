@@ -61,26 +61,26 @@ const OtpView = ({ route }) => {
     // };
 
     const Api_Otp = (isLoad) => {
-        console.log("mobile", typeof Number(mobile))
+        // console.log("mobile", typeof Number(mobile))
         setIsLoading(isLoad)
         ApiManager.post(GET_OTP, {
             phone: Number(mobile),
         }).then((response) => {
-            console.log("Api_Otp : ", response)
+            // console.log("Api_Otp : ", response)
             setIsLoading(false)
 
             var data = response.data;
             if (data.status == true) {
-                console.log("API OTP", data.otp_val)
+                // console.log("API OTP", data.otp_val)
                 setOtp(data.otp_val)
                 setCount(60)
                 timerRef.current = 60
                 setIsResendCode(false)
                 timerId = setInterval(() => {
                     timerRef.current -= 1;
-                    console.log("count : " + timerRef.current)
+                    // console.log("count : " + timerRef.current)
                     if (timerRef.current < 0) {
-                        console.log("timerId", timerId)
+                        // console.log("timerId", timerId)
                         clearInterval(timerId);
                         setIsResendCode(true)
                         clearTimer()
@@ -110,7 +110,7 @@ const OtpView = ({ route }) => {
             device_id: fcm_token,
             device_type: Platform.OS === "android" ? 0 : 1
         }).then((response) => {
-            console.log("Api_Login : ", response)
+            // console.log("Api_Login : ", response)
             setIsLoading(false)
 
             var data = response.data;
@@ -143,7 +143,7 @@ const OtpView = ({ route }) => {
     }
 
     const Api_Register = (isLoad, data) => {
-        console.log("data", data)
+        // console.log("data", data)
         setIsLoading(isLoad)
         let body = new FormData();
 
@@ -164,7 +164,7 @@ const OtpView = ({ route }) => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            console.log("Api_Register : ", JSON.stringify(response))
+            // console.log("Api_Register : ", JSON.stringify(response))
             setIsLoading(false)
 
             var data = response.data;
@@ -198,8 +198,8 @@ const OtpView = ({ route }) => {
 
     const btnSubmitTap = async () => {
         if (optcode.length == 6) {
-            console.log("otp api", otp)
-            console.log("optcode value", optcode)
+            // console.log("otp api", otp)
+            // console.log("optcode value", optcode)
             if (otp == optcode) {
                 if (Userdata.isFrom == "Login") {
                     Api_Login(true, Userdata)
@@ -235,7 +235,7 @@ const OtpView = ({ route }) => {
     }
 
     const clearTimer = () => {
-        console.log("intialvalue", timerId)
+        // console.log("intialvalue", timerId)
         for (var i = 0; i < 10000; i++) {
             clearInterval(i)
         }

@@ -44,7 +44,7 @@ const KycIntro = () => {
                     />
                 </View>
                 <View style={{ alignItems: "center", marginVertical: pixelSizeHorizontal(15) }}>
-                    <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_22, color: black }}>Submit Documents</Text>
+                    <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_20, color: black }}>Let's start KYC process</Text>
                     <Text style={{ fontFamily: REGULAR, fontSize: FontSize.FS_14, color: black, textAlign: "center", marginTop: 20 }}>We need to verify your information</Text>
                     <Text style={{ fontFamily: REGULAR, fontSize: FontSize.FS_14, color: black, textAlign: "center", marginTop: 5 }}>Please submit the documents to process your information</Text>
                 </View>
@@ -127,7 +127,7 @@ const KycIntro = () => {
                     />
                     <View style={{ marginLeft: pixelSizeHorizontal(15) }}>
                         <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: warmGrey, }}>Step 3</Text>
-                        <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_17, color: black }}>Success</Text>
+                        <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_17, color: black }}>Complete KYC</Text>
                     </View>
                 </View>
                 <Pressable

@@ -44,7 +44,7 @@ useEffect(() =>{
     const Get_ReferralCode = () => {
 
         getData(REFFERAL_KEY, (data) => {
-            console.log("REFFERAL_KEY", data)
+           // console.log("REFFERAL_KEY", data)
             serRefferalCode(data)
         })
     }
@@ -54,7 +54,7 @@ useEffect(() =>{
         ApiManager.post(CHECK_MOBILE, {
             phone: data.mobile,
         }).then((response) => {
-            console.log("Api_Check_mobile : ", response)
+            //console.log("Api_Check_mobile : ", response)
             setIsLoading(false)
 
             if (response.data.status == false) {
@@ -84,7 +84,7 @@ useEffect(() =>{
 
 
     const btnSignUpTap = (value) => {
-        console.log("User Data Register :", value)
+       // console.log("User Data Register :", value)
         setUserData(value)
         Api_Check_mobile(true, value)
     }

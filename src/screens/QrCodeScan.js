@@ -96,7 +96,7 @@ const QrCodeScan = () => {
         ApiManager.post(ADD_REWARD, {
             unique_id: qrValue,
         }).then((response) => {
-            console.log("Api_Add_Reward : ", response)
+            //console.log("Api_Add_Reward : ", response)
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
@@ -112,7 +112,8 @@ const QrCodeScan = () => {
                     onPressButton: ()=> {
                         Dialog.hide();
                         setOpneScanner(true)
-                        console.log("ok presssed")},
+                       // console.log("ok presssed")
+                    },
 
                   })
             }
@@ -125,7 +126,7 @@ const QrCodeScan = () => {
 
     const rewardManage = (data) => {
         let response = data.nativeEvent
-        console.log("response : ", response)
+       // console.log("response : ", response)
         setQrValue(response.codeStringValue)
         Api_Add_Reward(true)
     }

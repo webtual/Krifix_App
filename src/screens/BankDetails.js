@@ -53,7 +53,7 @@ const BankDetails = () => {
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
-                console.log("user_data", user_data.user.branch_name)
+                // console.log("user_data", user_data.user.branch_name)
                 setBankName(user_data.user.bank_name == null ? "" : user_data.user.bank_name)
                 setBankLocation(user_data.user.branch_name == null ? "" : user_data.user.branch_name)
                 setAccountNumber(user_data.user.account_no == null ? "" : user_data.user.account_no)
@@ -64,7 +64,7 @@ const BankDetails = () => {
                     dispatch(storeUserData(user_data))
 
                 })
-                console.log("GET PROFILE DATA SUCCEESSFULLY")
+                // console.log("GET PROFILE DATA SUCCEESSFULLY")
 
             } else {
                 Dialog.show({
@@ -96,7 +96,7 @@ const BankDetails = () => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            console.log("Api_Update_Bank : ", response)
+            // console.log("Api_Update_Bank : ", response)
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
@@ -146,7 +146,7 @@ const BankDetails = () => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            console.log("Api_Update_Upi : ", response)
+            // console.log("Api_Update_Upi : ", response)
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
@@ -155,7 +155,7 @@ const BankDetails = () => {
                     Toast.show({
                         type: ALERT_TYPE.SUCCESS,
                         title: Translate.t('success'),
-                        textBody: "UPI id add successfully",
+                        textBody: "UPI ID add successfully",
                         button: 'Ok',
                     })
                     goBack()
@@ -195,16 +195,16 @@ const BankDetails = () => {
     }
 
     const AddUpi = () => {
-        console.log("setUpiID : ", upiId)
+        // console.log("setUpiID : ", upiId)
         var testUpi = /^[\w.-]+@[\w.-]+$/.test(upiId)
         if (testUpi) {
-            console.log("Valid")
+            // console.log("Valid")
             Api_Update_Upi(true, upiId)
             setErrorMsg("")
         }
         else {
-            console.log("Invalid")
-            setErrorMsg("Please enter valid UPI id")
+            // console.log("Invalid")
+            setErrorMsg("Please enter valid UPI ID")
 
         }
         // setIsEdit(!isEdit)
@@ -227,7 +227,7 @@ const BankDetails = () => {
     });
     const UpiSchema = Yup.object().shape({
         upiId: Yup.string()
-            .required('* Please enter UPI id'),
+            .required('* Please enter UPI ID'),
     });
 
 
@@ -272,7 +272,7 @@ const BankDetails = () => {
                                 fontSize: FontSize.FS_15,
                                 fontFamily: index == 1 ? BOLD : SEMIBOLD,
                                 color: index == 1 ? white : warmGrey
-                            }}>Upi id</Text>
+                            }}>UPI ID</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -404,7 +404,7 @@ const BankDetails = () => {
                                     imageSource={Upi}
                                     onChangeText={(text) => setUpiID(text)}
                                     // onBlurEffect={(text) => setUpiID(text)}
-                                    placeholder={"Ex: 9016089923@icici"}
+                                    placeholder={"Ex: 123456789@icici"}
                                 />
                                 {/* {(errors.upiId && touched.upiId) && */}
                                 <Text style={styles.errorText}>{errorMsg}</Text>

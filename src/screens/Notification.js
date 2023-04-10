@@ -42,7 +42,7 @@ const Notification = () => {
             var data = response.data
             if (data.status == true) {
                 setNoificationData(data.data)
-                console.log("GET NOTIFICATION SUCCEESSFULLY")
+                // console.log("GET NOTIFICATION SUCCEESSFULLY",data.data)
             } else {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
@@ -74,7 +74,7 @@ const Notification = () => {
                     textBody: item.body,
                     button: 'Ok',
                 })
-                console.log("READ NOTIFICATION SUCCEESSFULLY")
+                // console.log("READ NOTIFICATION SUCCEESSFULLY")
             } else {
 
             }

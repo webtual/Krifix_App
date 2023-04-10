@@ -72,6 +72,9 @@ export const ThankYou = require('../assets/images/thankyou.png')
 export const Front = require('../assets/images/front.png')
 export const Back = require('../assets/images/back.png')
 export const Selfie1x = require('../assets/images/selfie1x.png')
+export const Verified = require('../assets/images/verified.png')
+export const VerifiedGreen = require('../assets/images/Verified_Green.png')
+
 
 
 

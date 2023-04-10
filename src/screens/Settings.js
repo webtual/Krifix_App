@@ -75,7 +75,7 @@ const Settings = () => {
       dispatch(storeUserData(null))
 
     }, (error) => {
-      console.log("Remove Data from Async Error : " + error)
+     // console.log("Remove Data from Async Error : " + error)
     })
   }
 
@@ -110,7 +110,8 @@ const Settings = () => {
         onPressButton: ()=> {
             Dialog.hide();
             goToLogin()
-            console.log("Logout successfully")},
+           //console.log("Logout successfully")
+          },
 
       })
     }

@@ -34,17 +34,17 @@ const KycVerify = () => {
     const Api_Get_Profile = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_PROFILE).then((response) => {
-          console.log("Api_Get_Profile : ", response)
+          // console.log("Api_Get_Profile : ", response)
           setIsLoading(false)
           if (response.data.status == true) {
             var user_data = response.data.data
-            console.log("user_data ::::", user_data)
+            // console.log("user_data ::::", user_data)
             storeData(USER_DATA, user_data, () => {
                 storeData(BEARER_TOKEN, user_data.token)
                 dispatch(storeUserData(user_data))
             })
             resetScreen("Dashboard")
-            console.log("GET PROFILE SUCCESSFULLY")
+            // console.log("GET PROFILE SUCCESSFULLY")
           } else {
             Dialog.show({
               type: ALERT_TYPE.DANGER,

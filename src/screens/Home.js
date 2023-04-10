@@ -6,7 +6,7 @@ import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonCom
 import { black, greenPrimary, iceBlue, offWhite, paleGreen, white } from '../constants/Color'
 import { BOLD, FontSize, ITALIC, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import FastImage from 'react-native-fast-image'
-import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg } from '../constants/Images'
+import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg, Verified, VerifiedGreen } from '../constants/Images'
 import { ANDROID_APP_LINK, BANNER_DATA, BEARER_TOKEN, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 
 import { navigate } from '../navigations/RootNavigation'
@@ -28,6 +28,7 @@ const Home = () => {
   const [totalPoints, setTotalPoints] = useState()
   const [BannerPoints, setBannerPoints] = useState()
   const userData = useSelector(user_data)
+
   // console.log("userData :::",userData.user.referral_code)
 
 
@@ -46,19 +47,19 @@ const Home = () => {
   const Api_Get_Profile = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_PROFILE).then((response) => {
-      console.log("Api_Get_Profile : ", response)
+      // console.log("Api_Get_Profile : ", response)
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
-        console.log("user_data", user_data)
+        // console.log("user_data", user_data)
         setTotalPoints(user_data.user.reward_point)
 
         storeData(USER_DATA, user_data, () => {
-            storeData(BEARER_TOKEN, user_data.token)
-            dispatch(storeUserData(user_data))
+          storeData(BEARER_TOKEN, user_data.token)
+          dispatch(storeUserData(user_data))
         })
 
-        console.log("GET PROFILE SUCCESSFULLY")
+        // console.log("GET PROFILE SUCCESSFULLY")
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
@@ -81,7 +82,7 @@ const Home = () => {
       var data = response.data
       if (data.status == true) {
         setBannerData(data.data)
-        console.log("GET HOME BANNER SUCCESSFULLY")
+        // console.log("GET HOME BANNER SUCCESSFULLY")
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
@@ -99,12 +100,12 @@ const Home = () => {
   const Api_Get_Contact_details = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_CONTACT_DETAILS).then((response) => {
-      console.log("Api_Get_Contact_details : ", response)
+      // console.log("Api_Get_Contact_details : ", response)
       setIsLoading(false)
       var data = response.data
       if (data.status == true) {
         setBannerPoints(data.data.refer_point)
-        console.log("GET CONTACT DATA SUCCESSFULLY")
+        // console.log("GET CONTACT DATA SUCCESSFULLY")
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
@@ -155,7 +156,6 @@ const Home = () => {
 
           </TouchableOpacity>
 
-
           <TouchableOpacity activeOpacity={0.5}
             onPress={() => navigate('Profile')}
             style={{
@@ -167,7 +167,17 @@ const Home = () => {
             <Text style={styles.textBigName}>
               {userData.user.first_name.charAt(0)}
             </Text>
+            {userData?.user?.is_kyc_verify == 2 && <View style={{
+              position: "absolute",
+              right: -3,
+              top: -3,
 
+              borderRadius: 28,
+            }}>
+              <FastImage
+                style={{ width: 26, height: 26, }}
+                source={VerifiedGreen} />
+            </View>}
           </TouchableOpacity>
 
           <View style={{ alignItems: 'flex-end', flex: 1 }}>

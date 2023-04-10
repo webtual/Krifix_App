@@ -25,13 +25,13 @@ const ContactUs = () => {
     const Api_Get_Contact_details = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_CONTACT_DETAILS).then((response) => {
-            console.log("Api_Get_Contact_details : ", response)
+            // console.log("Api_Get_Contact_details : ", response)
             setIsLoading(false)
             var data = response.data
             if (data.status == true) {
                 setContactData(data.data)
 
-                console.log("Api_Get_Contact_details data successfully")
+                // console.log("Api_Get_Contact_details data successfully")
             } else {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,

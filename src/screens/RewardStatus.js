@@ -33,13 +33,13 @@ const RewardStatus = () => {
   const Api_Get_Transaction_History = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.post(GET_TRANSACTION_HISTORY).then((response) => {
-      console.log("Api_Get_Transaction_History : ", response)
+     // console.log("Api_Get_Transaction_History : ", response)
       setIsLoading(false)
       var data = response.data
       if (data.status == true) {
-        console.log("image", data.data)
+       // console.log("image", data.data)
         setTransactionData(data.data)
-        console.log("GET TRANSACTION DATA SUCCESSFULLY")
+      //  console.log("GET TRANSACTION DATA SUCCESSFULLY")
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,

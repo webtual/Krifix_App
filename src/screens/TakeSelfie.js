@@ -49,12 +49,12 @@ const TakeSelfie = ({ route }) => {
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
-                console.log("user_data", user_data.user.document_front_image)
+               // console.log("user_data", user_data.user.document_front_image)
                 setTakeImg({ path: user_data.user.selfie_image == null ? "" : userData.asset_url + user_data.user.selfie_image })
                 storeData(USER_DATA, user_data, () => {
                     dispatch(storeUserData(user_data))
                 })
-                console.log("GET PROFILE DATA SUCCEESSFULLY")
+               // console.log("GET PROFILE DATA SUCCEESSFULLY")
 
             } else {
                 Dialog.show({
@@ -95,16 +95,16 @@ const TakeSelfie = ({ route }) => {
                 type: takeImg.mime
             });
 
-        console.log("body api", JSON.stringify(body))
+       // console.log("body api", JSON.stringify(body))
         ApiManager.post(UPDATE_KYC, body, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            console.log("Api_Kyc_Process : ", response)
+           // console.log("Api_Kyc_Process : ", response)
             setIsLoading(false)
             var data = response.data;
-            console.log("data", data)
+          //  console.log("data", data)
             if (data.status == true) {
                 navigate("KycVerify")
             }
@@ -116,7 +116,7 @@ const TakeSelfie = ({ route }) => {
     }
 
     const VerifyButton = () => {
-        console.log("call verify")
+       // console.log("call verify")
         if (frontImg.path !== "" && backIMg.path !== "" && takeImg.path !== "")
 
             if (takeImg.path.includes('https')) {
@@ -145,7 +145,7 @@ const TakeSelfie = ({ route }) => {
             multipleShot: false,
             compressImageQuality: 0.7
         }).then(images => {
-            console.log("Selected Image : " + JSON.stringify(images))
+           // console.log("Selected Image : " + JSON.stringify(images))
             setTakeImg(images)
 
             setIsLoading(false)

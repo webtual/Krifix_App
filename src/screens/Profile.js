@@ -7,7 +7,7 @@ import FastImage from 'react-native-fast-image'
 import { black, disableColor, greenPrimary, grey, paleGreen, red, seprator, warmGrey, white, yellow } from '../constants/Color'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
-import { Account, Bank, Branch, BuildingImg, Camera, Ifsc, LocationImg, PhoneImg, PinImg, PrivacyImg, SmileImg, Upi } from '../constants/Images'
+import { Account, Bank, Branch, BuildingImg, Camera, Ifsc, LocationImg, PhoneImg, PinImg, PrivacyImg, SmileImg, Upi, Verified } from '../constants/Images'
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import ImagePicker from 'react-native-image-crop-picker';
@@ -22,13 +22,13 @@ import { useFocusEffect } from '@react-navigation/native'
 import AlertView from '../commonComponents/AlertView'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 import { navigate } from '../navigations/RootNavigation'
-
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Profile = () => {
 
   const dispatch = useDispatch()
   const userData = useSelector(user_data)
-  console.log("userData", userData)
+  // console.log("userData", userData)
   const [isLoading, setIsLoading] = useState(false)
   const [isEdit, setIsEdit] = useState(false)
   const [isDisabled, seIsDisabled] = useState(false)
@@ -62,7 +62,7 @@ const Profile = () => {
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
-        console.log("user_data", user_data.user.upi_id)
+        //console.log("user_data", user_data.user.upi_id)
         setFirstname(user_data.user.first_name)
         setLastName(user_data.user.last_name)
         setCity(user_data.user.city)
@@ -81,7 +81,7 @@ const Profile = () => {
           dispatch(storeUserData(user_data))
 
         })
-        console.log("GET PROFILE DATA SUCCEESSFULLY")
+        //console.log("GET PROFILE DATA SUCCEESSFULLY")
 
       } else {
         Dialog.show({
@@ -122,13 +122,13 @@ const Profile = () => {
           type: profileImg.mime
         });
     }
-    console.log("body", JSON.stringify(body))
+    //console.log("body", JSON.stringify(body))
     ApiManager.post(UPDATE_PROFILE, body, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
     }).then((response) => {
-      console.log("Api_Update_Profile : ", response)
+     // console.log("Api_Update_Profile : ", response)
       setIsLoading(false)
 
       var data = response.data;
@@ -142,7 +142,7 @@ const Profile = () => {
           textBody: Translate.t('profile_update_successfully'),
           button: 'Ok',
         })
-        console.log("PROFILE DATA UPDATE SUCCEESSFULLY")
+       // console.log("PROFILE DATA UPDATE SUCCEESSFULLY")
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
@@ -564,48 +564,87 @@ const Profile = () => {
                   imageSource={Upi}
                   onChangeText={handleChange('upiId')}
                   onBlurEffect={() => handleBlur('upiId')}
-                  placeholder={"Ex: 9016089923@icici"}
+                  placeholder={"Ex: 123456789@icici"}
                 />
                 {(errors.upiId && touched.upiId) &&
                   <Text style={styles.errorText}>{errors.upiId}</Text>
                 } */}
-                {isDisabled !== true &&
-                  <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(20) }]}>KYC status</Text>}
+                {/* {isDisabled !== true &&
+                  <Text style={[styles.textHeader, { marginTop: pixelSizeHorizontal(20) }]}>KYC status</Text>} */}
 
                 {isDisabled !== true &&
                   (userData.user.is_kyc_verify == 0 &&
-                    <View
-                      style={{
-                        borderColor: warmGrey,
-                        borderWidth: 1,
-                        marginVertical: pixelSizeHorizontal(20),
-                        padding: 15,
-                        borderRadius: 8,
-                      }}>
-                      <Text
+                    <>
+                      <View
                         style={{
-                          fontFamily: MEDIUM,
-                          color: warmGrey,
-                          fontSize: FontSize.FS_16,
-                          textAlign: "center"
-                        }}>{"Your KYC verification has \n been pending. Please complete your KYC."}</Text>
-                      <TouchableOpacity onPress={() => navigate("BankDetails")}
+                          flexDirection: "row",
+                          alignItems: "center",
+                          marginTop: pixelSizeHorizontal(20),
+                          borderRadius: 8,
+                        }}>
+                        <Text style={styles.textHeader}>KYC Status : </Text>
+                        <Text
+                          style={{
+                            backgroundColor: warmGrey,
+                            paddingVertical: 3,
+                            paddingHorizontal:8,
+                            fontFamily: MEDIUM,
+                            color: white,
+                            fontSize: FontSize.FS_16,
+                            marginTop: 5,
+                            borderRadius: 8
+                          }}>{"Pending"}</Text>
+
+                      </View>
+                      <TouchableOpacity onPress={() => navigate("BankDetails")} activeOpacity={0.7}
                         style={{
                           backgroundColor: black,
                           padding: pixelSizeHorizontal(5),
                           alignItems: 'center',
                           justifyContent: 'center',
                           borderRadius: widthPixel(8),
-                          marginTop: pixelSizeHorizontal(15)
+                          marginVertical: pixelSizeHorizontal(15)
                         }}>
                         <Text style={{
                           fontFamily: SEMIBOLD,
                           color: white,
                           fontSize: FontSize.FS_14,
                           textTransform: 'uppercase',
-                        }}>Update bank details</Text>
+                        }}>complete KYC</Text>
                       </TouchableOpacity>
-                    </View>
+                    </>
+                    // <View
+                    //   style={{
+                    //     borderColor: warmGrey,
+                    //     borderWidth: 1,
+                    //     marginVertical: pixelSizeHorizontal(20),
+                    //     padding: 15,
+                    //     borderRadius: 8,
+                    //   }}>
+                    //   <Text
+                    //     style={{
+                    //       fontFamily: MEDIUM,
+                    //       color: warmGrey,
+                    //       fontSize: FontSize.FS_16,
+                    //       textAlign: "center"
+                    //     }}>{"Your KYC verification has \n been pending. Please complete your KYC."}</Text>
+                    //   <TouchableOpacity onPress={() => navigate("BankDetails")}
+                    //     style={{
+                    //       backgroundColor: black,
+                    //       padding: pixelSizeHorizontal(5),
+                    //       alignItems: 'center',
+                    //       justifyContent: 'center',
+                    //       borderRadius: widthPixel(8),
+                    //       marginTop: pixelSizeHorizontal(15)
+                    //     }}>
+                    //     <Text style={{
+                    //       fontFamily: SEMIBOLD,
+                    //       color: white,
+                    //       fontSize: FontSize.FS_14,
+                    //       textTransform: 'uppercase',
+                    //     }}>complete KYC</Text>
+                    //   </TouchableOpacity>
+                    // </View>
 
                   )
 
@@ -616,55 +655,68 @@ const Profile = () => {
                   (userData.user.is_kyc_verify == 1 &&
                     <View
                       style={{
-                        borderColor: yellow,
-                        borderWidth: 1,
+                        flexDirection: "row",
+                        alignItems: "center",
                         marginVertical: pixelSizeHorizontal(20),
-                        padding: 10,
                         borderRadius: 8,
                       }}>
+                         <Text style={styles.textHeader}>KYC Status : </Text>
                       <Text
                         style={{
+                          backgroundColor: warmGrey,
+                          paddingVertical: 3,
+                          paddingHorizontal:8,
                           fontFamily: MEDIUM,
-                          color: yellow,
+                          color: white,
                           fontSize: FontSize.FS_16,
-                          textAlign: "center"
-                        }}>{"Your bank details has \n been submitted. Our team will check and verify."}</Text>
+                          marginTop: 5,
+                          borderRadius: 6
+                        }}>{"Submitted"}</Text>
                     </View>
                   )
                 }
 
                 {isDisabled !== true &&
                   (userData.user.is_kyc_verify == 2 &&
+                    <>
                     <View
                       style={{
-                        borderColor: greenPrimary,
-                        borderWidth: 1,
-                        marginVertical: pixelSizeHorizontal(20),
-                        padding: 10,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        marginTop: pixelSizeHorizontal(20),
                         borderRadius: 8,
                       }}>
-                      <Text
+                         <Text style={styles.textHeader}>KYC Status : </Text>
+                         <View style={{flexDirection:"row",alignItems:"center", backgroundColor: warmGrey,   paddingVertical: 3,
+                          marginTop: 5,  borderRadius: 6,
+                          paddingHorizontal:8,}}>
+                         <Text
                         style={{
                           fontFamily: MEDIUM,
-                          color: greenPrimary,
+                          color: white,
                           fontSize: FontSize.FS_16,
-                          textAlign: "center"
-                        }}>{"Your KYC verification has \n been successfully completed."}</Text>
-                      <View style={{ flex: 1 }}>
+                        }}>{"Verified "}</Text>
+                       <FastImage 
+                        style={{ width: 20, height: 20,}}
+                        source={Verified}
+                    />
+                         </View>
+                     
+                    </View>
+                    <View style={{ marginTop:10,marginBottom:20 }}>
+                    <Text style={[styles.textHeader,{color:black,fontSize: FontSize.FS_18,}]}>Bank Details </Text>
                         {userData.user.bank_name &&
-                          <View style={{ flexDirection: "row", alignItems: "center", marginTop: 5 }}>
+                          <View style={{ flexDirection: "row",  marginTop: 10,  }}>
                             <Text style={{
                               fontFamily: MEDIUM,
                               color: black,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                               textAlign: "right"
-                            }}>Bank name : </Text>
+                            }}>Bank Name : </Text>
                             <Text style={{
                               fontFamily: REGULAR,
                               color: warmGrey,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                             }}>{userData.user.bank_name}</Text>
                           </View>
                         }
@@ -674,14 +726,12 @@ const Profile = () => {
                               fontFamily: MEDIUM,
                               color: black,
                               fontSize: FontSize.FS_15,
-                              flex: 0.5,
                               textAlign: "right"
-                            }}>Account number : </Text>
+                            }}>Account Number : </Text>
                             <Text style={{
                               fontFamily: REGULAR,
                               color: warmGrey,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                               marginTop: 2
                             }}>{userData.user.account_no}</Text>
                           </View>
@@ -693,14 +743,12 @@ const Profile = () => {
                               fontFamily: MEDIUM,
                               color: black,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                               textAlign: "right"
-                            }}>IFSC code : </Text>
+                            }}>IFSC Code : </Text>
                             <Text style={{
                               fontFamily: REGULAR,
                               color: warmGrey,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                               marginTop: 2
                             }}>{userData.user.ifsc_code}</Text>
                           </View>
@@ -711,14 +759,12 @@ const Profile = () => {
                               fontFamily: MEDIUM,
                               color: black,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                               textAlign: "right"
-                            }}>Branch name : </Text>
+                            }}>Branch Name : </Text>
                             <Text style={{
                               fontFamily: REGULAR,
                               color: warmGrey,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                             }}>{userData.user.branch_name}</Text>
                           </View>
                         }
@@ -728,39 +774,51 @@ const Profile = () => {
                               fontFamily: MEDIUM,
                               color: black,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                               textAlign: "right"
-                            }}>UPI id : </Text>
+                            }}>UPI ID : </Text>
                             <Text style={{
                               fontFamily: REGULAR,
                               color: warmGrey,
                               fontSize: FontSize.FS_14,
-                              flex: 0.5,
                             }}>{userData.user.upi_id}</Text>
                           </View>
                         }
                       </View>
-                    </View>
+                    </>
                   )
                 }
 
                 {isDisabled !== true &&
                   (userData.user.is_kyc_verify == 3 &&
-                    <View
+                    <>
+                  <View  style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      marginTop: pixelSizeHorizontal(20),
+                      borderRadius: 8,
+                    }}>
+                    <Text style={styles.textHeader}>KYC Status : </Text>
+                    <Text
                       style={{
-                        borderColor: red,
-                        borderWidth: 1,
-                        marginVertical: pixelSizeHorizontal(20),
-                        padding: 10,
-                        borderRadius: 8,
-                      }}>
-                      <Text
-                        style={{
-                          fontFamily: MEDIUM,
-                          color: red,
-                          fontSize: FontSize.FS_16,
-                          textAlign: "center"
-                        }}>{"Your KYC verification has \n been rejected. Please complete your KYC."}</Text>
+                        backgroundColor: warmGrey,
+                        paddingVertical: 3,
+                        paddingHorizontal:8,
+                        fontFamily: MEDIUM,
+                        color: white,
+                        fontSize: FontSize.FS_16,
+                        marginTop: 5,
+                        borderRadius: 8
+                      }}>{"Rejected"}</Text>
+
+                  </View>
+                  {userData?.user?.kyc_reject_reason &&
+                  <Text
+                      style={{
+                        fontFamily: REGULAR,
+                        color: red,
+                        fontSize: FontSize.FS_14,
+                        marginTop: 5,
+                      }}>*{userData?.user?.kyc_reject_reason}</Text>}
                       <TouchableOpacity onPress={() => navigate("BankDetails")}
                         style={{
                           backgroundColor: black,
@@ -768,16 +826,16 @@ const Profile = () => {
                           alignItems: 'center',
                           justifyContent: 'center',
                           borderRadius: widthPixel(8),
-                          marginTop: pixelSizeHorizontal(15)
+                          marginVertical: pixelSizeHorizontal(15)
                         }}>
                         <Text style={{
                           fontFamily: SEMIBOLD,
                           color: white,
                           fontSize: FontSize.FS_14,
                           textTransform: 'uppercase',
-                        }}>Update bank details</Text>
+                        }}>COMPLETE KYC</Text>
                       </TouchableOpacity>
-                    </View>
+                    </>
                   )
                 }
 

@@ -27,7 +27,7 @@ const AboutUs = () => {
         ApiManager.post(GET_CMS, {
             page_id: 3,
         }).then((response) => {
-            console.log("Api_About : ", response)
+            // console.log("Api_About : ", response)
             setIsLoading(false)
 
             var data = response.data

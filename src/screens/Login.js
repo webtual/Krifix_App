@@ -26,7 +26,7 @@ import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 
 const Login = ({route}) => {
-console.log("oute?.params?.mobile",route?.params?.mobile)
+// console.log("oute?.params?.mobile",route?.params?.mobile)
     const dispatch = useDispatch()
 
     const [isLoading, setIsLoading] = useState(false)
@@ -41,7 +41,7 @@ console.log("oute?.params?.mobile",route?.params?.mobile)
       useCallback(() => {
         // console.log("useEffect",route?.params?.mobile)
             if(route?.params?.mobile !== "" && route?.params?.mobile !== undefined){
-                console.log("setMobile",route?.params?.mobile)
+                // console.log("setMobile",route?.params?.mobile)
                 setMobile(route?.params?.mobile)
             }
             else{
@@ -98,7 +98,7 @@ console.log("oute?.params?.mobile",route?.params?.mobile)
 
         if (enabled) {
 
-            console.log('Authorization status:', authStatus);
+            // console.log('Authorization status:', authStatus);
 
             getFCMToken()
 
@@ -132,7 +132,7 @@ console.log("oute?.params?.mobile",route?.params?.mobile)
 
 
     const loginData = (value) => {
-        console.log("value", value)
+        // console.log("value", value)
         setMobile(value.mobile)
         Api_Check_mobile(true, value)
     }
@@ -142,7 +142,7 @@ console.log("oute?.params?.mobile",route?.params?.mobile)
         ApiManager.post(CHECK_MOBILE, {
             phone: data.mobile,
         }).then((response) => {
-            console.log("Api_Check_mobile : ", response)
+            // console.log("Api_Check_mobile : ", response)
             setIsLoading(false)
 
 

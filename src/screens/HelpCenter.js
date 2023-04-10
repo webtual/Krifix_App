@@ -30,20 +30,20 @@ const HelpCenter = () => {
     const Api_Get_Faq = (isLoad) => {
         setIsLoading(isLoad)
         ApiManager.get(GET_FAQS).then((response) => {
-            console.log("Api_Get_Faq : ", response)
+            // console.log("Api_Get_Faq : ", response)
             setIsLoading(false)
             var data = response.data
             if (data.status == true) {
                 setFaqData(data.data)
 
-                console.log("Api_Get_Faq data successfully")
+                // console.log("Api_Get_Faq data successfully")
             } else {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: data.message,
                     button: 'Ok',
-                  })
+                })
             }
 
         }).catch((err) => {
@@ -64,62 +64,66 @@ const HelpCenter = () => {
 
     return (
         <>
-        <HeaderView title={Translate.t("faq")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
-            onPress={() => goBack()}>
-            {faqData?.length === 0 ?
-            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-            <Text style={styles.textItem}>{Translate.t("no_data_found")}</Text>
-        </View>:
-        <View>
-           <Text style={styles.textTitle}>
-           {Translate.t("we_are_here_to_help")}
-       </Text>
-            <FlatList
-                data={faqData}
-                scrollEnabled={false}
-                ListHeaderComponent={() => (<View style={{ height: widthPixel(30), }} />)}
-                ItemSeparatorComponent={() => (<View style={{ height: widthPixel(10), }} />)}
-                renderItem={({ item, index }) => (
-                    <View >
+            <HeaderView title={Translate.t("faq")} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}
+                onPress={() => goBack()}>
+                    <View>
+                      
+                        {faqData?.length !== 0 ?
+                        <>
+                          <Text style={styles.textTitle}>
+                          {Translate.t("we_are_here_to_help")}
+                      </Text>
+                            <FlatList
+                                data={faqData}
+                                scrollEnabled={false}
+                                ListHeaderComponent={() => (<View style={{ height: widthPixel(30), }} />)}
+                                ItemSeparatorComponent={() => (<View style={{ height: widthPixel(10), }} />)}
+                                renderItem={({ item, index }) => (
+                                    <View >
 
-                        <TouchableOpacity
-                            onPress={() => Description_changeLayout(index)}
-                            style={{
-                                alignItems: 'center', flexDirection: 'row', paddingVertical: pixelSizeHorizontal(10),
-                                justifyContent: 'space-between',
-                            }}>
+                                        <TouchableOpacity
+                                            onPress={() => Description_changeLayout(index)}
+                                            style={{
+                                                alignItems: 'center', flexDirection: 'row', paddingVertical: pixelSizeHorizontal(10),
+                                                justifyContent: 'space-between',
+                                            }}>
 
-                            <Text style={{
-                                color: warmGrey, fontFamily: MEDIUM, fontSize: FontSize.FS_16,
-                                justifyContent: 'center', marginRight: 10, flex: 1
-                            }}
-                                numberOfLines={2}>{item.name}</Text>
+                                            <Text style={{
+                                                color: warmGrey, fontFamily: MEDIUM, fontSize: FontSize.FS_16,
+                                                justifyContent: 'center', marginRight: 10, flex: 1
+                                            }}
+                                                numberOfLines={2}>{item.name}</Text>
 
-                            <FastImage
-                                source={BackImg}
-                                style={{ width: widthPixel(15), height: widthPixel(15), transform: [{ rotate: Description_expanded && questionIndex == index ? '90deg' : '270deg' }] }}
-                                tintColor={warmGrey}
-                                resizeMode='contain'
+                                            <FastImage
+                                                source={BackImg}
+                                                style={{ width: widthPixel(15), height: widthPixel(15), transform: [{ rotate: Description_expanded && questionIndex == index ? '90deg' : '270deg' }] }}
+                                                tintColor={warmGrey}
+                                                resizeMode='contain'
+                                            />
+
+                                        </TouchableOpacity>
+                                        {questionIndex == index &&
+
+                                            <View style={{
+                                                height: Description_expanded ? null : 0, overflow: 'hidden', marginTop: Description_expanded ? pixelSizeHorizontal(10) : 0
+                                            }}>
+                                                <Text style={{ fontSize: FontSize.FS_12, fontFamily: REGULAR, color: warmGrey }}>
+                                                    {item.description}
+                                                </Text>
+                                            </View>
+                                        }
+                                    </View>
+                                )}
                             />
-
-                        </TouchableOpacity>
-                        {questionIndex == index &&
-
-                            <View style={{
-                                height: Description_expanded ? null : 0, overflow: 'hidden', marginTop: Description_expanded ? pixelSizeHorizontal(10) : 0
-                            }}>
-                                <Text style={{ fontSize: FontSize.FS_12, fontFamily: REGULAR, color: warmGrey }}>
-                                    {item.description}
-                                </Text>
+                            </>
+                            : isLoading !== true &&
+                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                <Text style={{ alignItems: "center", justifyContent: "center", fontFamily: REGULAR, color: black }}>{"No data found"}</Text>
                             </View>
                         }
                     </View>
-                )}
-            />
-            </View>
-                    }
-        </HeaderView>
-        {isLoading && <LoadingView />}
+            </HeaderView>
+            {isLoading && <LoadingView />}
         </>
     )
 }

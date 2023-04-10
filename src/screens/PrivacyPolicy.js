@@ -26,7 +26,7 @@ const PrivacyPolicy = () => {
         ApiManager.post(GET_CMS, {
             page_id: 2,
         }).then((response) => {
-            console.log("Api_privacy : ", response)
+            // console.log("Api_privacy : ", response)
             setIsLoading(false)
 
             var data = response.data

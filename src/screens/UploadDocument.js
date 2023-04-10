@@ -51,7 +51,7 @@ const UploadDocument = () => {
             setIsLoading(false)
             if (response.data.status == true) {
                 var user_data = response.data.data
-                console.log("user_data", user_data.user.document_front_image)
+               // console.log("user_data", user_data.user.document_front_image)
                 setFrontImg({ path: user_data.user.document_front_image == null ? "" : userData.asset_url + user_data.user.document_front_image })
                 setBackImg({ path: user_data.user.document_back_image == null ? "" : userData.asset_url + user_data.user.document_back_image })
 
@@ -59,7 +59,7 @@ const UploadDocument = () => {
                     dispatch(storeUserData(user_data))
 
                 })
-                console.log("GET PROFILE DATA SUCCEESSFULLY")
+               // console.log("GET PROFILE DATA SUCCEESSFULLY")
 
             } else {
                 Dialog.show({
@@ -79,7 +79,7 @@ const UploadDocument = () => {
 
 
     const UploadImage = (isFront) => {
-        console.log("value", isFront)
+        //console.log("value", isFront)
         Alert.alert("Select from", "Upload your document", [
             {
                 text: 'Cancel',
@@ -98,9 +98,9 @@ const UploadDocument = () => {
                         includeBase64: false,
                         compressImageQuality: 0.7
                     }).then(images => {
-                        console.log("Selected Image  " + JSON.stringify(images))
+                      //  console.log("Selected Image  " + JSON.stringify(images))
                         if (isFront) {
-                            console.log("images.path", images)
+                           // console.log("images.path", images)
                             setFrontImg(images)
                         }
                         else {
@@ -133,7 +133,7 @@ const UploadDocument = () => {
                         multipleShot: false,
                         compressImageQuality: 0.7
                     }).then(images => {
-                        console.log("Selected Image : " + JSON.stringify(images))
+                       // console.log("Selected Image : " + JSON.stringify(images))
                         if (isFront) {
                             setFrontImg(images)
                         }
@@ -165,12 +165,12 @@ const UploadDocument = () => {
 
     const UploadButton = () => {
         if (frontImg.path !== "" && backImg.path !== "") {
-            console.log("frontImg", typeof frontImg.path)
+           // console.log("frontImg", typeof frontImg.path)
             if (frontImg.path.includes('https') || backImg.path.includes('http')) {
                 Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
-                    textBody: "Please upload your documents again",
+                    textBody: "Please upload your KYC documents again",
                     button: 'Ok',
                 })
             }

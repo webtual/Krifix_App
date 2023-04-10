@@ -24,7 +24,7 @@ export function DisplayMessage({title, description, type, onPress}) {
 }
 
 export function DisplayAlert({show, title, description, type, onSucess,onCancel}) {
-console.log("data",show+title+description+type+onSucess+onCancel)
+// console.log("data",show+title+description+type+onSucess+onCancel)
 	return(
 		<AlertView 
 			show={show}

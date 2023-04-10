@@ -38,7 +38,7 @@ const RedeemHistory = () => {
       if (data.status == true) {
         setHeaderdata(data.data.summary)
         setReddemHistory(data.data.transaction)
-        console.log("DATA REDEEM HISTORY SUCCESSFULLY")
+       // console.log("DATA REDEEM HISTORY SUCCESSFULLY")
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
