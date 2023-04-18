@@ -103,13 +103,13 @@ android {
         applicationId "com.krifix.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
         missingDimensionStrategy 'react-native-camera', 'general'
     }
 
     splits {
-        abi {
+        abi {       
             reset()
             enable enableSeparateBuildPerCPUArchitecture
             universalApk false  // If true, also generate a universal APK
