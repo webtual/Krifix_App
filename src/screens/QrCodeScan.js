@@ -53,7 +53,7 @@ const QrCodeScan = () => {
                         PermissionsAndroid.PERMISSIONS.CAMERA,
                         {
                             title: 'Camera Permission',
-                            message: 'App needs permission for camera access',
+                            message: 'App needs permission for camera access to upload a profile picture',
                         },
                     );
 

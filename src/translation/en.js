@@ -7,9 +7,8 @@ export default {
 	done : "Done",
 	login : 'Login',
 	new_to_krifix : "New to KRIFIX? ",
-	sign_up : 'Sign Up',
+	sign_up : 'Register',
 	mobile : 'Mobile',
-	sign_up : "Sign up",
 	already_Registered : "Already Registered? ",
 	full_name : 'Full Name',
 	first_name:"First Name",
@@ -50,6 +49,7 @@ export default {
 	cancel : "Cancel",
 	alert : "Alert",
 	are_you_sure_logout : "Are you sure you want to logout?",
+	are_you_sure_delete : "Are you sure you want to delete account?",
 	we_are_here_to_help : "We’re here to help!",
 	refer_your_friends_and_earn : "Refer your friends and Earn",
 	refer_desc : "Your friend gets 50 Loyalty Points on sign up and, you get 100 Loyalty Points too everytime!",
@@ -78,5 +78,8 @@ export default {
 	date:"Date : ",
 	referralcode:"Referral Code",
 	transaction_history:"Redeem History",
-	referral_history:"Referral History"
+	referral_history:"Referral History",
+	delete_account:"Delete Account",
+	new_account:"Don't have an account? ",
+	register:"Register",
 }

@@ -26,15 +26,25 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string>com.krifix.app</string>
+			<string>com.krifix.ios</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>krifix</string>
 			</array>
 		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.529235610678-i1spfic8pm8i4l0tpui3hie4ar5c4lvk</string>
+			</array>
+		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -49,15 +59,13 @@
 		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>$(PRODUCT_NAME) need to access your camera for taking a picture</string>
+	<string>$(PRODUCT_NAME) need to access camera for upload profile picture.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>$(PRODUCT_NAME) need to access microsphone</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>$(PRODUCT_NAME) need to access your photo library for taking a picture</string>
-	<key>ITSAppUsesNonExemptEncryption</key>
-	<false/>
+	<string>$(PRODUCT_NAME) need to access photo library for upload profile picture.</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Montserrat-Bold.ttf</string>
@@ -86,9 +94,9 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>branch_app_domain</key>
+	<string>krifix.app.link</string>
 	<key>branch_key</key>
-    <string>key_live_ktfilXg3AlhEZ6o27kbZIplczxfl3s7J</string>
-    <key>branch_app_domain</key>
-    <string>krifix.app.link</string>
+	<string>key_live_ktfilXg3AlhEZ6o27kbZIplczxfl3s7J</string>
 </dict>
 </plist>

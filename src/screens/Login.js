@@ -25,8 +25,8 @@ import AlertView from '../commonComponents/AlertView'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 
-const Login = ({route}) => {
-// console.log("oute?.params?.mobile",route?.params?.mobile)
+const Login = ({ route }) => {
+    // console.log("oute?.params?.mobile",route?.params?.mobile)
     const dispatch = useDispatch()
 
     const [isLoading, setIsLoading] = useState(false)
@@ -36,15 +36,15 @@ const Login = ({route}) => {
     const [alerMessage, setAlertMessage] = useState(false)
 
 
- 
-      useFocusEffect(
-      useCallback(() => {
-        // console.log("useEffect",route?.params?.mobile)
-            if(route?.params?.mobile !== "" && route?.params?.mobile !== undefined){
+
+    useFocusEffect(
+        useCallback(() => {
+            // console.log("useEffect",route?.params?.mobile)
+            if (route?.params?.mobile !== "" && route?.params?.mobile !== undefined) {
                 // console.log("setMobile",route?.params?.mobile)
                 setMobile(route?.params?.mobile)
             }
-            else{
+            else {
                 setMobile("")
             }
             if (Platform.OS === "android") {
@@ -54,7 +54,7 @@ const Login = ({route}) => {
                 requestUserPermission()
             }
         }, [])
-      );
+    );
 
 
     // useEffect(() =>{
@@ -142,7 +142,7 @@ const Login = ({route}) => {
         ApiManager.post(CHECK_MOBILE, {
             phone: data.mobile,
         }).then((response) => {
-            // console.log("Api_Check_mobile : ", response)
+            console.log("Api_Check_mobile : ", response)
             setIsLoading(false)
 
 
@@ -153,15 +153,23 @@ const Login = ({route}) => {
                 navigate("OtpView", { data: dict })
 
             } else {
-                navigate("Register",{mobile:data.mobile})
-                // setAlertMessage(response.data.message)
-                // Dialog.show({
-                //     type: ALERT_TYPE.DANGER,
-                //     title: Translate.t('alert'),
-                //     textBody: response.data.message,
-                //     button: 'Ok',
-                //   })
-                // AlertActive()6my
+
+                if (response.data.is_active == 0) {
+                    Dialog.show({
+                        type: ALERT_TYPE.DANGER,
+                        title: Translate.t('alert'),
+                        textBody: response.data.message,
+                        onPressButton: () => {
+                            Dialog.hide();
+                        },
+                        button: 'Ok',
+                    })
+                }
+                else {
+                    navigate("Register", { mobile: data.mobile })
+                }
+
+
             }
 
         }).catch((err) => {
@@ -178,7 +186,7 @@ const Login = ({route}) => {
         <>
             <HeaderView title={Translate.t("login")} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
                 <Formik
-                enableReinitialize
+                    enableReinitialize
                     initialValues={{
                         mobile: mobile,
                     }}
@@ -210,11 +218,11 @@ const Login = ({route}) => {
 
                             <View style={{ alignSelf: 'center', flexDirection: 'row', marginTop: pixelSizeHorizontal(25) }}>
                                 <Text style={styles.text}>
-                                    {Translate.t("new_to_krifix")}
+                                    {Translate.t("new_account")}
                                 </Text>
                                 <TouchableOpacity onPress={() => btnSignUpTap()}>
                                     <Text style={styles.textSignUp}>
-                                        {Translate.t("sign_up")}
+                                        {Translate.t("register")}
                                     </Text>
                                 </TouchableOpacity>
                             </View>

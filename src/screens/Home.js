@@ -9,14 +9,14 @@ import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg, Verified, VerifiedGreen } from '../constants/Images'
 import { ANDROID_APP_LINK, BANNER_DATA, BEARER_TOKEN, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 
-import { navigate } from '../navigations/RootNavigation'
+import { navigate, resetScreen } from '../navigations/RootNavigation'
 import InvitePopUp from './InvitePopUp'
 import { useDispatch, useSelector } from 'react-redux'
 import { storeUserData, user_data } from '../redux/reducers/userReducer'
 import { GET_CONTACT_DETAILS, GET_HOME_BANNER, GET_PROFILE } from '../constants/ApiUrl'
 import ApiManager from '../commonComponents/ApiManager'
 import LoadingView from '../commonComponents/LoadingView'
-import { getData, storeData } from '../commonComponents/AsyncManager'
+import { getData, removeAllData, storeData } from '../commonComponents/AsyncManager'
 import { useFocusEffect } from '@react-navigation/native'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
@@ -44,6 +44,16 @@ const Home = () => {
     }, [])
   );
 
+  const goToLogin = async () => {
+    removeAllData(() => {
+      resetScreen('Login')
+      dispatch(storeUserData(null))
+
+    }, (error) => {
+     // console.log("Remove Data from Async Error : " + error)
+    })
+  }
+
   const Api_Get_Profile = (isLoad) => {
     setIsLoading(isLoad)
     ApiManager.get(GET_PROFILE).then((response) => {
@@ -51,13 +61,17 @@ const Home = () => {
       setIsLoading(false)
       if (response.data.status == true) {
         var user_data = response.data.data
-        // console.log("user_data", user_data)
-        setTotalPoints(user_data.user.reward_point)
+        if(user_data.user.status == 1){
+          setTotalPoints(user_data.user.reward_point)
 
-        storeData(USER_DATA, user_data, () => {
-          storeData(BEARER_TOKEN, user_data.token)
-          dispatch(storeUserData(user_data))
-        })
+          storeData(USER_DATA, user_data, () => {
+            storeData(BEARER_TOKEN, user_data.token)
+            dispatch(storeUserData(user_data))
+          })
+        }
+       else{
+        goToLogin()
+       }
 
         // console.log("GET PROFILE SUCCESSFULLY")
       } else {

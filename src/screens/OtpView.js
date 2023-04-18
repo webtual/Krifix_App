@@ -71,7 +71,7 @@ const OtpView = ({ route }) => {
 
             var data = response.data;
             if (data.status == true) {
-                // console.log("API OTP", data.otp_val)
+                console.log("API OTP", data.otp_val)
                 setOtp(data.otp_val)
                 setCount(60)
                 timerRef.current = 60
@@ -164,7 +164,7 @@ const OtpView = ({ route }) => {
                 'Content-Type': 'multipart/form-data'
             }
         }).then((response) => {
-            // console.log("Api_Register : ", JSON.stringify(response))
+            console.log("Api_Register : ", JSON.stringify(response))
             setIsLoading(false)
 
             var data = response.data;

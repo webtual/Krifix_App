@@ -31,5 +31,6 @@ export const GET_REFERRAL = "get-referral"
 export const UPDATE_BANK = "update-bankdetails"
 export const UPDATE_UPI = "update-upi"
 export const UPDATE_KYC = "update-kycdoc"
+export const DELETE_ACCOUNT = "account-deactivate"
 
 

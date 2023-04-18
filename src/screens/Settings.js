@@ -6,7 +6,7 @@ import HeaderView from '../commonComponents/HeaderView'
 import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import { black, greenPrimary, offWhite, paleGreen, white } from '../constants/Color'
 import FastImage from 'react-native-fast-image'
-import { CallImg, HelpImg, HomeFillImg, InfoImg, LogoutImg, NotificationImg, PrivacyImg, ShareBoxImg, ShareImg } from '../constants/Images'
+import { CallImg, Delete, HelpImg, HomeFillImg, InfoImg, LogoutImg, NotificationImg, PrivacyImg, ShareBoxImg, ShareImg } from '../constants/Images'
 import { removeAllData } from '../commonComponents/AsyncManager'
 import { navigate, resetScreen } from '../navigations/RootNavigation'
 import { storeUserData, user_data } from '../redux/reducers/userReducer'
@@ -15,13 +15,18 @@ import Modal from "react-native-modal";
 import { ANDROID_APP_LINK, IOS_APP_LINK } from '../constants/ConstantKey'
 import InvitePopUp from './InvitePopUp'
 import AlertView from '../commonComponents/AlertView'
-import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
+import { ALERT_TYPE, Dialog, Toast } from 'react-native-alert-notification'
+import { DELETE_ACCOUNT } from '../constants/ApiUrl'
+import LoadingView from '../commonComponents/LoadingView'
+import ApiManager from '../commonComponents/ApiManager'
 const Settings = () => {
 
   const dispatch = useDispatch()
   const [isModalVisible, setModalVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const [AlertShow, setAlertShow] = useState(false)
   const userData = useSelector(user_data)
+  console.log("userData :::::",userData.user.id)
   const toggleModal = () => {
     setModalVisible(!isModalVisible);
   };
@@ -62,6 +67,11 @@ const Settings = () => {
       image: LogoutImg,
       screenName: "logout"
     },
+    {
+      title: Translate.t("delete_account"),
+      image: Delete,
+      screenName: "deleteAccount"
+    },
   ]
 
   // const AlertActive = () => {
@@ -78,6 +88,35 @@ const Settings = () => {
      // console.log("Remove Data from Async Error : " + error)
     })
   }
+
+
+
+ 
+  const Api_Delete_Account = (isLoad) => {
+    setIsLoading(isLoad)
+    ApiManager.get(DELETE_ACCOUNT).then((response) => {
+        console.log("Api_Delete_Account : ", response)
+        setIsLoading(false)
+        if (response.data.status == true) {
+          goToLogin()
+            Toast.show({
+                type: ALERT_TYPE.SUCCESS,
+                title: Translate.t('success'),
+                textBody: response.data.message,
+                button: 'Ok',
+            })
+        }
+        else {
+
+        }
+
+    }).catch((err) => {
+        setIsLoading(false)
+        console.error("Api_Get_Profile Error ", err);
+    })
+}
+
+
 
   // Action Methods
   const btnTap = (item) => {
@@ -115,6 +154,20 @@ const Settings = () => {
 
       })
     }
+    else if (item.screenName == "deleteAccount") {
+      // AlertActive()
+      Dialog.show({
+        type: ALERT_TYPE.DANGER,
+        title: Translate.t('alert'),
+        textBody: Translate.t('are_you_sure_delete'),
+        button: 'Delete',
+        onPressButton: ()=> {
+            Dialog.hide();
+            Api_Delete_Account(true)
+          },
+
+      })
+    }
   }
 
 
@@ -138,6 +191,7 @@ const Settings = () => {
   }
 
   return (
+    <>
     <HeaderView title={Translate.t("settings")} isBack={false} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
 
 
@@ -177,6 +231,8 @@ const Settings = () => {
         onCancel={() => { setAlertShow(false) }} /> */}
 
     </HeaderView>
+    {isLoading && <LoadingView />}
+    </>
   )
 }
 

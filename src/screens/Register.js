@@ -20,7 +20,7 @@ import LoadingView from '../commonComponents/LoadingView'
 import FastImage from 'react-native-fast-image'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
-const Register = ({route}) => {
+const Register = ({ route }) => {
     // console.log("route", typeof route.params.mobile)
     const dispatch = useDispatch()
 
@@ -35,16 +35,16 @@ const Register = ({route}) => {
     const [userData, setUserData] = useState()
 
 
-useEffect(() =>{
-    Get_ReferralCode()
-},[])
+    useEffect(() => {
+        Get_ReferralCode()
+    }, [])
 
 
 
     const Get_ReferralCode = () => {
 
         getData(REFFERAL_KEY, (data) => {
-           // console.log("REFFERAL_KEY", data)
+            // console.log("REFFERAL_KEY", data)
             serRefferalCode(data)
         })
     }
@@ -59,21 +59,37 @@ useEffect(() =>{
 
             if (response.data.status == false) {
 
-                var dict = data
-                dict["isFrom"] = "Register"
-                navigate("OtpView", { data: dict })
+                console.log("is_active user :", response.data.is_active)
+
+                if (response.data.is_active == 0) {
+                    Dialog.show({
+                        type: ALERT_TYPE.DANGER,
+                        title: Translate.t('alert'),
+                        textBody: response.data.message,
+                        onPressButton: () => {
+                            Dialog.hide();
+                        },
+                        button: 'Ok',
+                    })
+                }
+                else {
+                    var dict = data
+                    dict["isFrom"] = "Register"
+                    navigate("OtpView", { data: dict })
+                }
+
 
             } else {
-                Dialog.show({ 
+                Dialog.show({
                     type: ALERT_TYPE.DANGER,
                     title: Translate.t('alert'),
                     textBody: data.mobile + " is already registered with us",
                     onPressButton: () => {
                         Dialog.hide();
-                        navigate("Login",{mobile:data.mobile})
+                        navigate("Login", { mobile: data.mobile })
                     },
                     button: 'Ok',
-                  })
+                })
             }
 
         }).catch((err) => {
@@ -84,7 +100,7 @@ useEffect(() =>{
 
 
     const btnSignUpTap = (value) => {
-       // console.log("User Data Register :", value)
+        // console.log("User Data Register :", value)
         setUserData(value)
         Api_Check_mobile(true, value)
     }
@@ -121,7 +137,7 @@ useEffect(() =>{
                 onPress={() => goBack()}>
 
                 <Formik
-                enableReinitialize
+                    enableReinitialize
                     initialValues={{
                         firstname: firstName,
                         lastname: lastname,
@@ -219,7 +235,7 @@ useEffect(() =>{
                                 placeholder={Translate.t("referralcode")}
                                 autoCapitalize={'characters'}
                                 maxLength={6}
-                                // additionalStyle={{textTransform : 'uppercase'}}
+                            // additionalStyle={{textTransform : 'uppercase'}}
                             />
                             {(errors.referralcode && touched.referralcode) &&
                                 <Text style={styles.errorText}>{errors.referralcode}</Text>
@@ -246,7 +262,7 @@ useEffect(() =>{
                         </View>
                     )}
                 </Formik>
-                <View style={{marginVertical:pixelSizeHorizontal(40), alignItems:"center"}}>
+                <View style={{ marginVertical: pixelSizeHorizontal(40), alignItems: "center" }}>
                     <FastImage
                         source={FooterImage}
                         style={{ width: "40%", height: 30 }}
