@@ -126,9 +126,37 @@ const QrCodeScan = () => {
 
     const rewardManage = (data) => {
         let response = data.nativeEvent
-       // console.log("response : ", response)
-        setQrValue(response.codeStringValue)
-        Api_Add_Reward(true)
+       console.log("response : ", response)
+
+       	// For Getting an params from link for referal earn program
+
+		 var url = response.codeStringValue
+
+			var regex = /[?&]([^=#]+)=([^&#]*)/g,
+				params = {},
+				match;
+			while (match = regex.exec(url)) {
+				params[match[1]] = match[2];
+			}
+			console.log("Params : "+JSON.stringify(params))
+			
+
+			if(Object.keys(params).length != 0){
+
+				console.log("Params : "+JSON.stringify(params))
+
+				if(params.hasOwnProperty('q')){
+                    setQrValue(params.q)
+                    Api_Add_Reward(true)
+				}else{
+
+				}
+			}
+
+    //    return
+    //     setQrValue(response.codeStringValue)
+    //     return
+    //     Api_Add_Reward(true)
     }
 
     const toggleModal = () => {
