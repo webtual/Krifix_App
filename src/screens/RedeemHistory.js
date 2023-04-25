@@ -38,7 +38,7 @@ const RedeemHistory = () => {
       if (data.status == true) {
         setHeaderdata(data.data.summary)
         setReddemHistory(data.data.transaction)
-       // console.log("DATA REDEEM HISTORY SUCCESSFULLY")
+        // console.log("DATA REDEEM HISTORY SUCCESSFULLY")
       } else {
         Dialog.show({
           type: ALERT_TYPE.DANGER,
@@ -71,10 +71,12 @@ const RedeemHistory = () => {
             />
             <Text style={styles.textPoint}>{headerData?.total_point}</Text>
           </View>
-          <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(20) }}>
-            <Text style={styles.textItem}>{Translate.t("last_transaction") + " : "}</Text>
-            <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}> {moment(headerData?.last_transation_date).format("DD MMM YYYY")}</Text>
-          </View>
+          {headerData?.last_transation_date &&
+            <View style={{ flexDirection: "row", alignItems: "center", marginTop: pixelSizeHorizontal(20) }}>
+              <Text style={styles.textItem}>{Translate.t("last_transaction") + " : "}</Text>
+              <Text style={[styles.textValue, { marginTop: pixelSizeVertical(4) }]}> {moment(headerData?.last_transation_date).format("DD MMM YYYY")}</Text>
+            </View>
+          }
 
           <View
             style={{
