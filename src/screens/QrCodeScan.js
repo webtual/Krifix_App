@@ -97,7 +97,7 @@ const QrCodeScan = () => {
         ApiManager.post(ADD_REWARD, {
             unique_id: data,
         }).then((response) => {
-            console.log("Api_Add_Reward : ", response)
+            // console.log("Api_Add_Reward : ", response)
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
