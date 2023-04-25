@@ -92,11 +92,12 @@ const QrCodeScan = () => {
         }
     };
     const Api_Add_Reward = (isLoad, data) => {
+        console.log("data",data)
         setIsLoading(isLoad)
         ApiManager.post(ADD_REWARD, {
-            unique_id: qrValue,
+            unique_id: data,
         }).then((response) => {
-            //console.log("Api_Add_Reward : ", response)
+            console.log("Api_Add_Reward : ", response)
             setIsLoading(false)
             var data = response.data;
             if (data.status == true) {
@@ -147,7 +148,7 @@ const QrCodeScan = () => {
 
 				if(params.hasOwnProperty('q')){
                     setQrValue(params.q)
-                    Api_Add_Reward(true)
+                    Api_Add_Reward(true,params.q)
 				}else{
 
 				}
