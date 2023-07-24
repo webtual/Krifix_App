@@ -3,10 +3,10 @@ import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
-import { black, greenPrimary, iceBlue, offWhite, paleGreen, white } from '../constants/Color'
+import { black, greenPrimary, grey, iceBlue, light_grey, offWhite, paleGreen, white } from '../constants/Color'
 import { BOLD, FontSize, ITALIC, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import FastImage from 'react-native-fast-image'
-import { AppLogoImg, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg, Verified, VerifiedGreen } from '../constants/Images'
+import { AppLogoImg, Banner, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg, Verified, VerifiedGreen } from '../constants/Images'
 import { ANDROID_APP_LINK, BANNER_DATA, BEARER_TOKEN, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 
 import { navigate, resetScreen } from '../navigations/RootNavigation'
@@ -75,10 +75,15 @@ const Home = () => {
 
         // console.log("GET PROFILE SUCCESSFULLY")
       } else {
+        console.log("UNAUTHORISE")
         Dialog.show({
           type: ALERT_TYPE.DANGER,
           title: Translate.t('alert'),
           textBody: response.data.message,
+          onPressButton :() =>{
+            Dialog.hide();
+            goToLogin()
+          },
           button: 'Ok',
         })
       }
@@ -288,10 +293,12 @@ const Home = () => {
             showsHorizontalScrollIndicator={false}
             ItemSeparatorComponent={() => (<View style={{ width: widthPixel(20) }}></View>)}
             renderItem={({ item, index }) => (
-              <View style={{ borderRadius: widthPixel(10), width: SCREEN_WIDTH - 100, height: widthPixel(160), }}>
-                <FastImage
-                  style={{ flex: 1, borderRadius: widthPixel(10) }}
+              <View style={{ borderRadius: widthPixel(10), width: SCREEN_WIDTH - 100, height: widthPixel(160),  }}>
+                <FastImage 
+                resizeMode='contain'
+                  style={{ flex: 1,  }}
                   source={{ uri: userData.asset_url + item.banner_image }}
+                  // source={Banner}
                 />
               </View>
             )}

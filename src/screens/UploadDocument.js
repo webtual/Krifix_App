@@ -98,9 +98,9 @@ const UploadDocument = () => {
                         includeBase64: false,
                         compressImageQuality: 0.7
                     }).then(images => {
-                      //  console.log("Selected Image  " + JSON.stringify(images))
+                       console.log("Selected Image  " + JSON.stringify(images))
                         if (isFront) {
-                           // console.log("images.path", images)
+                        //    console.log("images.path", images)
                             setFrontImg(images)
                         }
                         else {

@@ -76,6 +76,9 @@ export const Verified = require('../assets/images/verified.png')
 export const VerifiedGreen = require('../assets/images/Verified_Green.png')
 export const Delete = require('../assets/images/Delete_Icon.png')
 
+export const Banner = require('../assets/images/Block_Bond.png')
+
+
 
 
 

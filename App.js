@@ -11,9 +11,25 @@ import { FCM_TOKEN, REFFERAL_KEY } from './src/constants/ConstantKey';
 import { DisplayMessage } from './src/commonComponents/AlertManager';
 import { navigate } from './src/navigations/RootNavigation';
 import branch from 'react-native-branch';
+import * as Sentry from "@sentry/react-native";
 
 const App = () => {
   useEffect(() => {
+    try {
+      aFunctionThatMightFail();
+    } catch (err) {
+      console.log("catch")
+      Sentry.captureException(err);
+    }
+    Sentry.nativeCrash();
+    Sentry.init({
+      dsn: "https://examplePublicKey@o0.ingest.sentry.io/0",
+      debug: true,
+      // Set tracesSampleRate to 1.0 to capture 100%
+      // of transactions for performance monitoring.
+      // We recommend adjusting this value in production
+      tracesSampleRate: 1.0,
+    });
 
     if (Platform.OS == 'ios') {
       requestUserPermission();
@@ -188,4 +204,5 @@ const App = () => {
   );
 }
 
-export default App;
+// export default App;
+export default Sentry.wrap(App);
