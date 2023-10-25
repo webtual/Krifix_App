@@ -182,6 +182,7 @@ const QrCodeScan = () => {
                     <View style={{ flex: 1 }}>
 
                         <CameraScreen
+                            
                             scanBarcode={true}
                             onReadCode={(event) => {
                                 setOpneScanner(false)

@@ -27,6 +27,7 @@ const Home = () => {
   const [bannerData, setBannerData] = useState([])
   const [totalPoints, setTotalPoints] = useState()
   const [BannerPoints, setBannerPoints] = useState()
+  const [referMessage, setReferMessage] = useState("")
   const userData = useSelector(user_data)
 
   // console.log("userData :::",userData.user.referral_code)
@@ -37,8 +38,8 @@ const Home = () => {
       //   getData(FCM_TOKEN, (data) => {
       //     console.log("FCM_TOKEN",data)
       // })
-      Api_Get_Home_Banner(true)
       Api_Get_Profile(true)
+      Api_Get_Home_Banner(true)
       Api_Get_Contact_details(true)
 
     }, [])
@@ -123,7 +124,10 @@ const Home = () => {
       setIsLoading(false)
       var data = response.data
       if (data.status == true) {
+        console.log("data.data :",data.data)
         setBannerPoints(data.data.refer_point)
+        setReferMessage(data?.data?.refer_msg)
+        global.referMessage = data?.data?.refer_msg
         // console.log("GET CONTACT DATA SUCCESSFULLY")
       } else {
         Dialog.show({
@@ -282,9 +286,9 @@ const Home = () => {
         </View>
 
 
-        <Text style={styles.textTitle}>
+        {/* <Text style={styles.textTitle}>
           {Translate.t("popular_offer")}
-        </Text>
+        </Text> */}
 
         <View style={{ marginTop: pixelSizeHorizontal(20), marginBottom: pixelSizeHorizontal(120) }}>
           <FlatList
