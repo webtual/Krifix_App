@@ -119,11 +119,8 @@ const OtpView = ({ route }) => {
                 var user_data = data.data
 
                 storeData(USER_DATA, user_data, () => {
-
                     storeData(BEARER_TOKEN, user_data.token)
-
                     dispatch(storeUserData(user_data))
-
                     resetScreen("Dashboard")
                 })
 

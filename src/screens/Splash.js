@@ -7,11 +7,11 @@ import { black, dodgerBlue, greenPrimary, offWhite, primary, white } from '../co
 import { navigate, resetScreen } from '../navigations/RootNavigation'
 import { BOLD, FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts';
 import { getData, storeData } from '../commonComponents/AsyncManager';
-import { SCREEN_HEIGHT, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey';
+import { BEARER_TOKEN, SCREEN_HEIGHT, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey';
 import translate from '../translation/Translate';
 import ApiManager from '../commonComponents/ApiManager';
 import { name, version } from '../../package.json'
-import { VERSION_CHECK } from '../constants/ApiUrl';
+import { TOKEN_CHECK, VERSION_CHECK } from '../constants/ApiUrl';
 import { ImgLogo, SplashImg } from '../constants/Images';
 
 /** Redux Files */
@@ -20,6 +20,7 @@ import { storeUserData, user_data } from '../redux/reducers/userReducer'
 import FastImage from 'react-native-fast-image';
 import { heightPixel, pixelSizeHorizontal, pixelSizeVertical } from '../commonComponents/ResponsiveScreen';
 import Translate from '../translation/Translate';
+import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 
 // create a component
@@ -47,17 +48,64 @@ const Splash = (props) => {
 				//console.log("go to login")
 				resetScreen('Intro')
 			} else {
-				storeData(USER_DATA, data, () => {
+				// storeData(USER_DATA, data, () => {
+				// 	dispatch(storeUserData(data))
+				// 	resetScreen("Dashboard")
+				// })
 
-					dispatch(storeUserData(data))
-
-					resetScreen("Dashboard")
-
+				getData(BEARER_TOKEN,(token) => {
+					Api_Token_Check(true, {...data,token: token})
 				})
+				
 			}
 		})
 	}
 
+
+ const Api_Token_Check = (isLoad, user_data) => {
+        console.log("data",user_data)
+        ApiManager.post(TOKEN_CHECK, {
+            token: user_data.token,
+			phone: user_data?.user.phone,
+			api_access_key: "EyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9",
+        }).then((response) => {
+            console.log("Api_Token_Check : ", response.data)
+            var data = response.data;
+            if (data.status == true) {
+
+				var userData = data.data
+
+                storeData(USER_DATA, userData, () => {
+                    storeData(BEARER_TOKEN, userData.token)
+                    dispatch(storeUserData(userData))
+                    resetScreen("Dashboard")
+                })
+
+				// storeData(USER_DATA, data, () => {
+				// 	dispatch(storeUserData(data))
+				// 	resetScreen("Dashboard")
+				// })
+
+            } else {
+                Dialog.show({   
+                    type: ALERT_TYPE.DANGER,
+                    title: "Something went wrong",
+                    textBody: "Please login again",
+                    button: 'Ok',
+                    onPressButton: ()=> {
+						resetScreen('Intro')
+                       // console.log("ok presssed")
+                    },
+
+                  })
+				  resetScreen('Intro')
+            }
+
+        }).catch((err) => {
+            setIsLoading(false)
+            console.error("Api_Add_Reward Error ", err);
+        })
+    }
 
 	return (
 		<View style={styles.container}>

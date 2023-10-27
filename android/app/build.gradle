@@ -141,7 +141,7 @@ android {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             firebaseCrashlytics {
-                nativeSymbolUploadEnabled true
+                nativeSymbolUploadEnabled false
                 unstrippedNativeLibsDir 'build/intermediates/merged_native_libs/release/out/lib'
             }
         }

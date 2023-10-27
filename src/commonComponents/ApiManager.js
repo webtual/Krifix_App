@@ -3,10 +3,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 
 /** Constant Files */
-import { BEARER_TOKEN, USER_DATA } from '../constants/ConstantKey';
-import { BASE_URL } from "../constants/ApiUrl";
+import { BEARER_TOKEN, FCM_TOKEN, USER_DATA } from '../constants/ConstantKey';
+import { BASE_URL, LOGIN } from "../constants/ApiUrl";
 import { ALERT_TYPE, Dialog } from "react-native-alert-notification";
 import Translate from "../translation/Translate";
+import { Platform } from "react-native";
+import { getData, storeData } from "./AsyncManager";
+import { storeUserData } from "../redux/reducers/userReducer";
+import { useDispatch } from "react-redux";
 
 
 const ApiManager = axios.create({
@@ -40,8 +44,6 @@ ApiManager.interceptors.request.use(async config => {
 
 /** Handle Response error from axios  */
 ApiManager.interceptors.response.use(response => {
-
-	
 	return response
 }, function (error) {
 
@@ -70,5 +72,7 @@ ApiManager.interceptors.response.use(response => {
 	}
 	return Promise.reject(error);
 })
+
+
 
 export default ApiManager;
