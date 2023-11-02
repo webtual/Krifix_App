@@ -150,9 +150,11 @@ const QrCodeScan = () => {
                     setQrValue(params.q)
                     Api_Add_Reward(true,params.q)
 				}else{
-
+                    setOpneScanner(true);
 				}
-			}
+			}else{
+                setOpneScanner(true);
+            }
 
     //    return
     //     setQrValue(response.codeStringValue)
