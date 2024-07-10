@@ -1,17 +1,15 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, SectionList, SafeAreaView, ScrollView, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet,Image, Share, Pressable, FlatList, SectionList, SafeAreaView, ScrollView, Alert } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { black, greenPrimary, iceBlue, offWhite, paleGreen, white, warmGrey, disableColor, light_grey } from '../constants/Color'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
-import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, NotificationSq, RedeemImg, ScanImg, ShareBoxImg } from '../constants/Images'
 import { ANDROID_APP_LINK, IOS_APP_LINK, SCREEN_WIDTH } from '../constants/ConstantKey'
 
 import { goBack, navigate } from '../navigations/RootNavigation'
 import InvitePopUp from './InvitePopUp'
-import { Image } from 'react-native-svg'
 import ApiManager from '../commonComponents/ApiManager'
 import { GET_NOTIFICATIONS, READ_NOTIFICATIONS } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
@@ -105,7 +103,7 @@ const Notification = () => {
                                     paddingHorizontal: 25,
                                     paddingVertical: 10
                                 }]}>
-                                <FastImage
+                                <Image
                                     style={styles.image}
                                     source={NotificationSq}
                                 />

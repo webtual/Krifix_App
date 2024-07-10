@@ -1,11 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, SectionList, Linking, Dimensions, Alert } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet,Image, Share, Pressable, FlatList, SectionList, Linking, Dimensions, Alert } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { black, greenPrimary, iceBlue, offWhite, paleGreen, white, warmGrey, disableColor } from '../constants/Color'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
-import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CloseImg, CoinImg, CongratsImg, FlashImg, InviteImg, NotificationSq, RedeemImg, ScanImg, ScanImgBlack, ScanImgOutline, ShareBoxImg, WithdrawImg } from '../constants/Images'
 import { ANDROID_APP_LINK, IOS_APP_LINK, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants/ConstantKey'
 
@@ -200,21 +199,12 @@ const QrCodeScan = () => {
 
 
                 <TouchableOpacity style={styles.headContainer} onPress={() => goBack()}>
-                    <FastImage
+                    <Image
                         style={styles.closeImage}
-                        resizeMode="contain"
+                        // resizeMode="contain"
                         source={CloseImg}
                     />
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={styles.scanBtn}
-                    onPress={() => refScan.current.reactivate()}>
-                    <FastImage
-                        style={styles.image}
-                        resizeMode="contain"
-                        source={ScanImgBlack}
-                    />
-                    <Text style={styles.scanText}>{Translate.t("Scan_QR")} </Text>
-                </TouchableOpacity> */}
 
             </View>
             <CongratulationsPopUp isWithDrawModel={false} Point={point}
@@ -293,6 +283,7 @@ const styles = StyleSheet.create({
     closeImage: {
         height: 18,
         width: 18,
+        resizeMode : 'contain'
     },
     flashImage: {
         height: 22,

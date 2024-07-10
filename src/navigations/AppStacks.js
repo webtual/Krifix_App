@@ -21,7 +21,6 @@ import Login from '../screens/Login';
 import Register from '../screens/Register';
 import OtpView from '../screens/OtpView';
 import Home from '../screens/Home';
-import FastImage from 'react-native-fast-image';
 import { FolderFillImg, FolderImg, HomeFillImg, HomeImg, SettingFillImg, SettingImg, UserFillImg, UserImg } from '../constants/Images';
 import RedeemHistory from '../screens/RedeemHistory';
 import Profile from '../screens/Profile';
@@ -40,6 +39,7 @@ import KycIntro from '../screens/KycIntro';
 import UploadDocument from '../screens/UploadDocument';
 import TakeSelfie from '../screens/TakeSelfie';
 import KycVerify from '../screens/KycVerify';
+import { Image } from 'react-native';
 // import { cart_data } from '../redux/reducers/cartReducer';
 // import { useSelector } from 'react-redux';
 
@@ -71,9 +71,9 @@ function HomeTabs() {
 						tabBarLabel: "",
 						tabBarIcon: ({ color, size, focused }) => (
 
-							<FastImage style={{ width: size, height: size, }}
-								tintColor={color}
-								resizeMode='contain'
+							<Image style={{ width: size, height: size, resizeMode : 'contain', tintColor : color }}
+								// tintColor={color}
+								// resizeMode='contain'
 								source={focused ? HomeFillImg : HomeImg}
 							/>
 
@@ -89,9 +89,9 @@ function HomeTabs() {
 						tabBarLabel: "",
 						tabBarIcon: ({ color, size, focused }) => (
 
-							<FastImage style={{ width: size, height: size, }}
-								tintColor={color}
-								resizeMode='contain'
+							<Image style={{ width: size, height: size, resizeMode : 'contain', tintColor : color }}
+								// tintColor={color}
+								// resizeMode='contain'
 								source={focused ? FolderFillImg : FolderImg}
 							/>
 
@@ -106,9 +106,9 @@ function HomeTabs() {
 						tabBarLabel: "",
 						tabBarIcon: ({ color, size, focused }) => (
 
-							<FastImage style={{ width: size, height: size, }}
-								tintColor={color}
-								resizeMode='contain'
+							<Image style={{ width: size, height: size,resizeMode : 'contain', tintColor:color }}
+								// tintColor={color}
+								// resizeMode='contain'
 								source={focused ? UserFillImg : UserImg}
 							/>
 
@@ -124,9 +124,9 @@ function HomeTabs() {
 						tabBarLabel: "",
 						tabBarIcon: ({ color, size, focused }) => (
 
-							<FastImage style={{ width: size, height: size, }}
-								tintColor={color}
-								resizeMode='contain'
+							<Image style={{ width: size, height: size, tintColor : color, resizeMode : 'contain' }}
+								// tintColor={color}
+								// resizeMode='contain'
 								source={focused ? SettingFillImg : SettingImg}
 							/>
 

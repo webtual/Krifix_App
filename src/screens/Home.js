@@ -1,11 +1,10 @@
-import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, ImageBackground, Linking } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Share, Pressable, FlatList, ImageBackground, Linking, Image } from 'react-native'
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { black, greenPrimary, grey, iceBlue, light_grey, offWhite, paleGreen, white } from '../constants/Color'
 import { BOLD, FontSize, ITALIC, MEDIUM, SEMIBOLD } from '../constants/Fonts'
-import FastImage from 'react-native-fast-image'
 import { AppLogoImg, Banner, CoinImg, InviteImg, RedeemImg, ScanImg, ShareBoxImg, Verified, VerifiedGreen } from '../constants/Images'
 import { ANDROID_APP_LINK, BANNER_DATA, BEARER_TOKEN, FCM_TOKEN, IOS_APP_LINK, SCREEN_WIDTH, USER_DATA } from '../constants/ConstantKey'
 
@@ -164,10 +163,10 @@ const Home = () => {
             onPress={() => navigate('RedeemHistory')}
             style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
 
-            <FastImage
+            <Image
               source={CoinImg}
-              style={{ width: widthPixel(30), height: widthPixel(30) }}
-              resizeMode={'contain'}
+              style={{ width: widthPixel(30), height: widthPixel(30), resizeMode : 'contain' }}
+              // resizeMode={'contain'}
             />
             <View style={{ marginLeft: pixelSizeHorizontal(8) }}>
               <Text style={styles.textPoint}>{totalPoints}</Text>
@@ -197,17 +196,17 @@ const Home = () => {
 
               borderRadius: 28,
             }}>
-              <FastImage
+              <Image
                 style={{ width: 26, height: 26, }}
                 source={VerifiedGreen} />
             </View>}
           </TouchableOpacity>
 
           <View style={{ alignItems: 'flex-end', flex: 1 }}>
-            <FastImage
+            <Image
               source={AppLogoImg}
-              style={{ width: widthPixel(100), height: widthPixel(30), }}
-              resizeMode={'contain'}
+              style={{ width: widthPixel(100), height: widthPixel(30), resizeMode : 'contain'}}
+              // resizeMode={'contain'}
             />
           </View>
 
@@ -221,10 +220,10 @@ const Home = () => {
         >
           <View style={{ alignItems: "center", marginVertical: pixelSizeVertical(10) }}>
             <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <FastImage
+              <Image
                 source={require("../assets/images/krifix_trans.png")}
-                style={{ width: "40%", height: 30 }}
-                resizeMode={'contain'}
+                style={{ width: "40%", height: 30 , resizeMode : 'contain'}}
+                // resizeMode={'contain'}
               />
               <Text style={{
                 fontFamily: ITALIC,
@@ -244,10 +243,10 @@ const Home = () => {
                 color: black,
                 textAlign: "center"
               }}>Earn {BannerPoints}</Text>
-              <FastImage
+              <Image
                 source={CoinImg}
-                style={{ width: widthPixel(26), height: widthPixel(26), marginLeft: 6 }}
-                resizeMode={'contain'}
+                style={{ width: widthPixel(26), height: widthPixel(26), marginLeft: 6 ,resizeMode : 'contain'}}
+                // resizeMode={'contain'}
               />
             </View>
           </View>
@@ -261,10 +260,10 @@ const Home = () => {
           <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
             onPress={() => toggleModal()}>
 
-            <FastImage
+            <Image
               source={InviteImg}
-              style={{ width: widthPixel(32), height: widthPixel(32) }}
-              resizeMode={'contain'}
+              style={{ width: widthPixel(32), height: widthPixel(32),resizeMode : 'contain' }}
+              // resizeMode={'contain'}
             />
             <Text style={styles.textSmallTitle}>
               {Translate.t("invite_friend")}
@@ -273,10 +272,10 @@ const Home = () => {
 
           <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
             onPress={() => navigate("Rewards")}>
-            <FastImage
+            <Image
               source={RedeemImg}
-              style={{ width: widthPixel(32), height: widthPixel(32) }}
-              resizeMode={'contain'}
+              style={{ width: widthPixel(32), height: widthPixel(32), resizeMode : 'contain' }}
+              // resizeMode={'contain'}
             />
             <Text style={styles.textSmallTitle}>
               {Translate.t("redeem")}
@@ -298,9 +297,9 @@ const Home = () => {
             ItemSeparatorComponent={() => (<View style={{ width: widthPixel(20) }}></View>)}
             renderItem={({ item, index }) => (
               <View style={{ borderRadius: widthPixel(10), width: SCREEN_WIDTH - 100, height: widthPixel(160),  }}>
-                <FastImage 
-                resizeMode='contain'
-                  style={{ flex: 1,  }}
+                <Image 
+                // resizeMode='contain'
+                  style={{ flex: 1,resizeMode : 'contain'  }}
                   source={{ uri: userData.asset_url + item.banner_image }}
                   // source={Banner}
                 />
@@ -319,10 +318,10 @@ const Home = () => {
         onPress={() => navigate("QrCodeScan")}
         style={[styles.btnScanStyle]}>
 
-        <FastImage
+        <Image
           source={ScanImg}
-          style={{ width: widthPixel(28), height: widthPixel(28) }}
-          resizeMode={'contain'}
+          style={{ width: widthPixel(28), height: widthPixel(28) ,resizeMode : 'contain'}}
+          // resizeMode={'contain'}
         />
 
         <Text style={styles.btnScanText} >{Translate.t("scan_qr")}</Text>

@@ -1,9 +1,8 @@
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
-import FastImage from 'react-native-fast-image'
 import { black, black05, disableColor, greenPrimary, paleGreen, primary, transparent, warmGrey, white } from '../constants/Color'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
@@ -64,16 +63,16 @@ const KycVerify = () => {
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}  >
             <HeaderView title={"Congratulation!"} onPress={() => goBack()} isBack={true} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
             <View style={{ marginVertical: pixelSizeHorizontal(25), alignItems: "center" }}>
-                    <FastImage
+                    <Image
                         source={AppLogoImg}
-                        style={{ width: "40%", height: 30 }}
-                        resizeMode={'contain'}
+                        style={{ width: "40%", height: 30 , resizeMode : 'contain'}}
+                        // resizeMode={'contain'}
                     />
                 </View>
-                <FastImage
+                <Image
                     source={ThankYou}
-                    style={{ width: "100%", height: SCREEN_WIDTH/1.3 }}
-                    resizeMode={'contain'}
+                    style={{ width: "100%", height: SCREEN_WIDTH/1.3 ,resizeMode : 'contain'}}
+                    // resizeMode={'contain'}
                 />
                    <Text style={{ fontFamily: BOLD, fontSize: FontSize.FS_28, color: black,textAlign:"center" }}>Thank you!</Text>
                    <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_16, color: warmGrey,textAlign:"center",marginTop:10 }}>{"Your KYC documents has been submitted."  }</Text>

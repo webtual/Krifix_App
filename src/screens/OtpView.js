@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Pressable, TouchableOpacity, Platform, Alert } from 'react-native'
+import { View, Text, StyleSheet, Pressable, TouchableOpacity, Platform, Alert, Image } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import Translate from '../translation/Translate'
 import { heightPixel, pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -16,7 +16,6 @@ import { storeUserData } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import crashlytics from '@react-native-firebase/crashlytics';
 import { FooterImage } from '../constants/Images'
-import FastImage from 'react-native-fast-image'
 import AlertView from '../commonComponents/AlertView'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
@@ -293,10 +292,10 @@ const OtpView = ({ route }) => {
 
                 </View>
                 <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40), left: 0, right: 0, alignItems: "center" }}>
-                    <FastImage
+                    <Image
                         source={FooterImage}
-                        style={{ width: "40%", height: 30 }}
-                        resizeMode={'contain'}
+                        style={{ width: "40%", height: 30, resizeMode : 'contain' }}
+                        // resizeMode={'contain'}
                     />
                 </View>
 

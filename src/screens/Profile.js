@@ -1,9 +1,8 @@
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert,Image, Platform, KeyboardAvoidingView } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
-import FastImage from 'react-native-fast-image'
 import { black, disableColor, greenPrimary, grey, paleGreen, red, seprator, warmGrey, white, yellow } from '../constants/Color'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
@@ -286,7 +285,7 @@ const Profile = () => {
           <View style={{ flexDirection: 'row' }} >
 
             <View>
-              <FastImage
+              <Image
                 style={{ width: widthPixel(90), height: widthPixel(90), borderRadius: widthPixel(90), borderWidth: 3, borderColor: paleGreen }}
                 source={{ uri: profileImg.path }}
               />
@@ -305,7 +304,7 @@ const Profile = () => {
                     borderWidth: 2,
                     borderColor: paleGreen
                   }}>
-                  <FastImage
+                  <Image
                     style={{ width: 18, height: 18, }}
                     source={Camera}
                   />
@@ -696,7 +695,7 @@ const Profile = () => {
                           color: white,
                           fontSize: FontSize.FS_16,
                         }}>{"Verified "}</Text>
-                       <FastImage 
+                       <Image 
                         style={{ width: 20, height: 20,}}
                         source={Verified}
                     />

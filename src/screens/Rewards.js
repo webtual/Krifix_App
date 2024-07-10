@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ImageBackground, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { goBack, navigate, resetScreen } from '../navigations/RootNavigation'
-import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, VerifiedGreen, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, warmGrey, white, } from '../constants/Color'
 import { BOLD, FontSize, ITALIC, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
@@ -230,10 +229,10 @@ const Rewards = ({ navigation }) => {
                         onPress={() => navigate('RedeemHistory')}
                         style={{ flexDirection: 'row', alignItems: 'center', flex: 1 }}>
 
-                        <FastImage
+                        <Image
                             source={CoinImg}
-                            style={{ width: widthPixel(30), height: widthPixel(30) }}
-                            resizeMode={'contain'}
+                            style={{ width: widthPixel(30), height: widthPixel(30), resizeMode : 'contain' }}
+                            // resizeMode={'contain'}
                         />
 
                         <View style={{ marginLeft: pixelSizeHorizontal(8) }}>
@@ -261,7 +260,7 @@ const Rewards = ({ navigation }) => {
 
                             borderRadius: 28,
                         }}>
-                            <FastImage
+                            <Image
                                 style={{ width: 26, height: 26, }}
                                 source={VerifiedGreen} />
                         </View>}
@@ -270,10 +269,10 @@ const Rewards = ({ navigation }) => {
                     </TouchableOpacity>
 
                     <View style={{ alignItems: 'flex-end', flex: 1 }}>
-                        <FastImage
+                        <Image
                             source={AppLogoImg}
-                            style={{ width: widthPixel(100), height: widthPixel(30), }}
-                            resizeMode={'contain'}
+                            style={{ width: widthPixel(100), height: widthPixel(30), resizeMode : 'contain'}}
+                            // resizeMode={'contain'}
                         />
                     </View>
 
@@ -287,10 +286,10 @@ const Rewards = ({ navigation }) => {
                 >
                     <View style={{ alignItems: "center", marginVertical: pixelSizeVertical(10) }}>
                         <View style={{ flexDirection: "row", alignItems: "center" }}>
-                            <FastImage
+                            <Image
                                 source={require("../assets/images/krifix_trans.png")}
-                                style={{ width: "40%", height: 30 }}
-                                resizeMode={'contain'}
+                                style={{ width: "40%", height: 30, resizeMode : 'contain' }}
+                                // resizeMode={'contain'}
                             />
                             <Text style={{
                                 fontFamily: ITALIC,
@@ -310,10 +309,10 @@ const Rewards = ({ navigation }) => {
                                 color: black,
                                 textAlign: "center"
                             }}>Earn {BannerPoints}</Text>
-                            <FastImage
+                            <Image
                                 source={CoinImg}
-                                style={{ width: widthPixel(26), height: widthPixel(26), marginLeft: 6 }}
-                                resizeMode={'contain'}
+                                style={{ width: widthPixel(26), height: widthPixel(26), marginLeft: 6, resizeMode : 'contain' }}
+                                // resizeMode={'contain'}
                             />
                         </View>
                     </View>
@@ -327,10 +326,10 @@ const Rewards = ({ navigation }) => {
                     <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
                         onPress={() => toggleModal()}>
 
-                        <FastImage
+                        <Image
                             source={InviteImg}
-                            style={{ width: widthPixel(32), height: widthPixel(32) }}
-                            resizeMode={'contain'}
+                            style={{ width: widthPixel(32), height: widthPixel(32), resizeMode : 'contain' }}
+                            // resizeMode={'contain'}
                         />
                         <Text style={styles.textSmallTitle}>
                             {Translate.t("invite_friend")}
@@ -339,10 +338,10 @@ const Rewards = ({ navigation }) => {
 
                     <TouchableOpacity style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
                         onPress={() => btnScanTap()}>
-                        <FastImage
+                        <Image
                             source={ScanColorImg}
-                            style={{ width: widthPixel(32), height: widthPixel(32) }}
-                            resizeMode={'contain'}
+                            style={{ width: widthPixel(32), height: widthPixel(32), resizeMode : 'contain' }}
+                            // resizeMode={'contain'}
                         />
                         <Text style={styles.textSmallTitle}>
                             {Translate.t("scan_qr")}
@@ -371,51 +370,13 @@ const Rewards = ({ navigation }) => {
                             }}>{message}</Text>
                         </View>)}
                         renderItem={({ item, index }) => (
-                            // <>
-                            //     <View style={{ flexDirection: "row", flex: 1, backgroundColor: iceBlue, borderRadius: 8, padding: widthPixel(8), }}>
-
-                            //         <FastImage
-                            //             source={{ uri: userData.asset_url + item.item_image }}
-                            //             style={{ flex: 0.25 }}
-                            //             resizeMode={'contain'}
-                            //         />
-
-                            //         <View style={{ backgroundColor: iceBlue, flex: 0.75, marginLeft: pixelSizeHorizontal(10) }}>
-                            //             <Text style={[styles.textItem]}>{item.item_name}
-                            //             </Text>
-                            //             <Text style={[styles.textItem, { marginTop: pixelSizeVertical(6), color: warmGrey }]}>{item.item_desc}
-                            //             </Text>
-                            //             <View style={{
-                            //                 alignItems: 'center', flexDirection: 'row',
-                            //                 marginVertical: pixelSizeHorizontal(6), flex: 1
-                            //             }}>
-                            //                 <FastImage
-                            //                     source={CoinImg}
-                            //                     style={{ width: widthPixel(18), height: widthPixel(18) }}
-                            //                     resizeMode={'contain'}
-                            //                 />
-                            //                 <Text style={[styles.textItem, { marginLeft: pixelSizeHorizontal(5), fontFamily: SEMIBOLD }]}>{item.item_point}</Text>
-                            //             </View>
-
-                            //         </View>
-                            //     </View>
-                            //     <TouchableOpacity onPress={() => { redeem_cards(item) }}
-                            //         style={{
-                            //             width: "100%",
-                            //             backgroundColor: black, paddingVertical: pixelSizeHorizontal(8),
-                            //             borderBottomRightRadius: widthPixel(8), borderBottomLeftRadius: widthPixel(8)
-                            //         }}>
-                            //         <Text style={styles.textRedeemIt}>
-                            //             {Translate.t("redeem_it")}
-                            //         </Text>
-                            //     </TouchableOpacity>
-                            // </>
+                          
                             <>
                                 <View style={{ width: "46%", backgroundColor: iceBlue, margin: "2%", borderRadius: 8, paddingTop: pixelSizeVertical(12), }} >
-                                    <FastImage
+                                    <Image
                                         source={{ uri: userData.asset_url + item.item_image }}
-                                        style={{ width: 150, height: 100 }}
-                                        resizeMode={'contain'}
+                                        style={{ width: 150, height: 100 , resizeMode : 'contain'}}
+                                        // resizeMode={'contain'}
                                     />
                                     <View style={{ flex: 1, alignItems: "center", marginTop: pixelSizeVertical(12), }}>
                                         <Text style={[styles.textItem]}>{item.item_name}
@@ -426,10 +387,10 @@ const Rewards = ({ navigation }) => {
                                             alignItems: 'center', flexDirection: 'row',
                                             marginVertical: pixelSizeHorizontal(6),
                                         }}>
-                                            <FastImage
+                                            <Image
                                                 source={CoinImg}
-                                                style={{ width: widthPixel(18), height: widthPixel(18) }}
-                                                resizeMode={'contain'}
+                                                style={{ width: widthPixel(18), height: widthPixel(18), resizeMode : 'contain' }}
+                                                // resizeMode={'contain'}
                                             />
                                             <Text style={[styles.textItem, { marginLeft: pixelSizeHorizontal(5), fontFamily: SEMIBOLD }]}>{item.item_point}</Text>
                                         </View>

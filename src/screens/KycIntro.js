@@ -1,9 +1,8 @@
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
-import FastImage from 'react-native-fast-image'
 import { black, black05, disableColor, greenPrimary, paleGreen, primary, transparent, warmGrey, white } from '../constants/Color'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
@@ -37,10 +36,10 @@ const KycIntro = () => {
         <KeyboardAvoidingView style={{ flex: 1, flexDirection: 'column', justifyContent: 'center', }}  >
             <HeaderView title={"KYC verification"} onPress={() => goBack()} isBack={true} containerStyle={{ paddingHorizontal: pixelSizeHorizontal(25) }}>
                 <View style={{ marginVertical: pixelSizeHorizontal(10), alignItems: "center" }}>
-                    <FastImage
+                    <Image
                         source={AppLogoImg}
-                        style={{ width: "40%", height: 30 }}
-                        resizeMode={'contain'}
+                        style={{ width: "40%", height: 30,resizeMode : 'contain' }}
+                        // resizeMode={'contain'}
                     />
                 </View>
                 <View style={{ alignItems: "center", marginVertical: pixelSizeHorizontal(15) }}>
@@ -65,10 +64,11 @@ const KycIntro = () => {
                     shadowRadius: 8,
                     elevation: 3
                 }}>
-                    <FastImage tintColor={greenPrimary}
+                    <Image 
+                    // tintColor={greenPrimary}
                         source={CardId}
-                        style={{ width: 60, height: 50 }}
-                        resizeMode={'contain'}
+                        style={{ width: 60, height: 50,resizeMode : 'contain', tintColor : greenPrimary }}
+                        // resizeMode={'contain'}
                     />
                     <View style={{ marginLeft: pixelSizeHorizontal(15) }}>
                         <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: warmGrey, }}>Step 1</Text>
@@ -92,10 +92,11 @@ const KycIntro = () => {
                     shadowRadius: 8,
                     elevation: 3
                 }}>
-                    <FastImage tintColor={greenPrimary}
+                    <Image 
+                    // tintColor={greenPrimary}
                         source={Selfie}
-                        style={{ width: 60, height: 50 }}
-                        resizeMode={'contain'}
+                        style={{ width: 60, height: 50, resizeMode : 'contain', tintColor : greenPrimary }}
+                        // resizeMode={'contain'}
                     />
                     <View style={{ marginLeft: pixelSizeHorizontal(15) }}>
                         <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: warmGrey, }}>Step 2</Text>
@@ -120,10 +121,11 @@ const KycIntro = () => {
                     shadowRadius: 8,
                     elevation: 3
                 }}>
-                    <FastImage tintColor={greenPrimary}
+                    <Image 
+                    // tintColor={greenPrimary}
                         source={Check}
-                        style={{ width: 60, height: 50 }}
-                        resizeMode={'contain'}
+                        style={{ width: 60, height: 50 , resizeMode : 'contain', tintColor : greenPrimary}}
+                        // resizeMode={'contain'}
                     />
                     <View style={{ marginLeft: pixelSizeHorizontal(15) }}>
                         <Text style={{ fontFamily: SEMIBOLD, fontSize: FontSize.FS_14, color: warmGrey, }}>Step 3</Text>

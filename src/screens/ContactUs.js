@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, Linking } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, Linking, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
@@ -6,7 +6,6 @@ import HeaderView from '../commonComponents/HeaderView'
 import { FontSize, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import { black, warmGrey } from '../constants/Color'
 import { goBack } from '../navigations/RootNavigation'
-import FastImage from 'react-native-fast-image'
 import { AtImg, BigPhoneImg, NavigateImg, PhoneImg } from '../constants/Images'
 import ApiManager from '../commonComponents/ApiManager'
 import { GET_CONTACT_DETAILS } from '../constants/ApiUrl'
@@ -61,10 +60,10 @@ const ContactUs = () => {
 
             <View style={styles.viewItem}>
 
-                <FastImage
+                <Image
                     source={NavigateImg}
-                    style={{ width: widthPixel(40), height: widthPixel(40) }}
-                    resizeMode='contain'
+                    style={{ width: widthPixel(40), height: widthPixel(40), resizeMode : 'contain' }}
+                    // resizeMode='contain'
                 />
 
                 <Text style={styles.textDesc}>{contactData?.contact_address}</Text>
@@ -74,10 +73,10 @@ const ContactUs = () => {
             <TouchableOpacity style={styles.viewItem}
                 onPress={() => Linking.openURL("tel:+91"+(contactData?.contact_no))}>
 
-                <FastImage
+                <Image
                     source={BigPhoneImg}
-                    style={{ width: widthPixel(40), height: widthPixel(40) }}
-                    resizeMode='contain'
+                    style={{ width: widthPixel(40), height: widthPixel(40), resizeMode : 'contain' }}
+                    // resizeMode='contain'
                 />
 
                 <Text style={styles.textDesc}>{contactData?.contact_no}</Text>
@@ -87,10 +86,10 @@ const ContactUs = () => {
             <TouchableOpacity style={styles.viewItem}
                 onPress={() => Linking.openURL("mailto:info@krifix.com")}>
 
-                <FastImage
+                <Image
                     source={AtImg}
-                    style={{ width: widthPixel(40), height: widthPixel(40) }}
-                    resizeMode='contain'
+                    style={{ width: widthPixel(40), height: widthPixel(40),resizeMode : 'contain' }}
+                    // resizeMode='contain'
                 />
 
                 <Text style={styles.textDesc}>{contactData?.contcat_email}</Text>

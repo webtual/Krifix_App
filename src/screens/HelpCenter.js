@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, LayoutAnimation, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, LayoutAnimation, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
@@ -6,7 +6,6 @@ import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveS
 import { goBack } from '../navigations/RootNavigation'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import { black, warmGrey } from '../constants/Color'
-import FastImage from 'react-native-fast-image'
 import { BackImg } from '../constants/Images'
 import { GET_FAQS } from '../constants/ApiUrl'
 import ApiManager from '../commonComponents/ApiManager'
@@ -94,11 +93,13 @@ const HelpCenter = () => {
                                             }}
                                                 numberOfLines={2}>{item.name}</Text>
 
-                                            <FastImage
+                                            <Image
                                                 source={BackImg}
-                                                style={{ width: widthPixel(15), height: widthPixel(15), transform: [{ rotate: Description_expanded && questionIndex == index ? '90deg' : '270deg' }] }}
-                                                tintColor={warmGrey}
-                                                resizeMode='contain'
+                                                style={{ width: widthPixel(15), height: widthPixel(15), 
+                                                    transform: [{ rotate: Description_expanded && questionIndex == index ? '90deg' : '270deg' }],
+                                                    resizeMode : 'contain', tintColor : warmGrey }}
+                                                // tintColor={warmGrey}
+                                                // resizeMode='contain'
                                             />
 
                                         </TouchableOpacity>

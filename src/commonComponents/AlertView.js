@@ -1,9 +1,8 @@
-import { View, Text, Share, StyleSheet, Pressable, Platform, TouchableOpacity } from 'react-native'
+import { View, Text, Share, StyleSheet, Pressable, Platform, TouchableOpacity, Image } from 'react-native'
 import React, { useState } from 'react'
 import { black, greenPrimary, offWhite, paleGreen, warmGrey, white, disableColor } from '../constants/Color'
 import { heightPixel, pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import Translate from '../translation/Translate'
-import FastImage from 'react-native-fast-image'
 import { Error, ShareBoxImg, Success, Warning } from '../constants/Images'
 import { ANDROID_APP_LINK, IOS_APP_LINK } from '../constants/ConstantKey'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
@@ -30,25 +29,31 @@ const AlertView = ({ isAlertVisible, show, toggleAlert, title, description, onSu
                 <View style={styles.modalView}>
                     <View style={{ borderRadius: 70, position: "absolute", top: -32, alignItems: "center", justifyContent: "center" }}>
                         {type == "success" &&
-                            <FastImage
-                                source={Success}
-                                style={{ width: widthPixel(70), height: widthPixel(70) }}
-                                resizeMode={'contain'}
-                            />
+                           <Image source={Success}
+                           style={{ width: widthPixel(70), height: widthPixel(70), resizeMode : 'contain' }}/>
+                        //    <FastImage
+                        //         source={Success}
+                        //         style={{ width: widthPixel(70), height: widthPixel(70) }}
+                        //         resizeMode={'contain'}
+                        //     />
                         }
                         {type == "error" &&
-                            <FastImage
-                                source={Error}
-                                style={{ width: widthPixel(70), height: widthPixel(70) }}
-                                resizeMode={'contain'}
-                            />
+                         <Image source={Error}
+                         style={{ width: widthPixel(70), height: widthPixel(70), resizeMode : 'contain' }}/>
+                            // <FastImage
+                            //     source={Error}
+                            //     style={{ width: widthPixel(70), height: widthPixel(70) }}
+                            //     resizeMode={'contain'}
+                            // />
                         }
                         {type == "warning" &&
-                            <FastImage
-                                source={Warning}
-                                style={{ width: widthPixel(70), height: widthPixel(70) }}
-                                resizeMode={'contain'}
-                            />
+                        <Image source={Warning}
+                        style={{ width: widthPixel(70), height: widthPixel(70), resizeMode : 'contain' }}/>
+                            // <FastImage
+                            //     source={Warning}
+                            //     style={{ width: widthPixel(70), height: widthPixel(70) }}
+                            //     resizeMode={'contain'}
+                            // />
                         }
                     </View>
                     <View style={{ marginTop: pixelSizeHorizontal(35), alignItems: "center" }}>

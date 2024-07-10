@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity, Platform } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity, Platform, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import { black, greenPrimary, offWhite, warmGrey, white } from '../constants/Color'
 import HeaderView from '../commonComponents/HeaderView'
@@ -20,7 +20,6 @@ import LoadingView from '../commonComponents/LoadingView'
 
 import messaging from '@react-native-firebase/messaging';
 import { useFocusEffect } from '@react-navigation/native'
-import FastImage from 'react-native-fast-image'
 import AlertView from '../commonComponents/AlertView'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
@@ -232,10 +231,10 @@ const Login = ({ route }) => {
                     )}
                 </Formik>
                 <View style={{ position: "absolute", bottom: pixelSizeHorizontal(40), left: 0, right: 0, alignItems: "center" }}>
-                    <FastImage
+                    <Image
                         source={FooterImage}
-                        style={{ width: "40%", height: 30 }}
-                        resizeMode={'contain'}
+                        style={{ width: "40%", height: 30 , resizeMode : 'contain'}}
+                        // resizeMode={'contain'}
                     />
                 </View>
             </HeaderView>

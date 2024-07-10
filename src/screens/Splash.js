@@ -11,13 +11,12 @@ import { BEARER_TOKEN, SCREEN_HEIGHT, SCREEN_WIDTH, USER_DATA } from '../constan
 import translate from '../translation/Translate';
 import ApiManager from '../commonComponents/ApiManager';
 import { name, version } from '../../package.json'
-import { TOKEN_CHECK, VERSION_CHECK } from '../constants/ApiUrl';
+import { TOKEN_CHECK } from '../constants/ApiUrl';
 import { ImgLogo, SplashImg } from '../constants/Images';
 
 /** Redux Files */
 import { useSelector, useDispatch } from 'react-redux'
 import { storeUserData, user_data } from '../redux/reducers/userReducer'
-import FastImage from 'react-native-fast-image';
 import { heightPixel, pixelSizeHorizontal, pixelSizeVertical } from '../commonComponents/ResponsiveScreen';
 import Translate from '../translation/Translate';
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
@@ -112,9 +111,9 @@ const Splash = (props) => {
 			<StatusBar barStyle={'dark-content'} backgroundColor={offWhite} />
 			<View style={{ flex: 1, backgroundColor: offWhite, alignItems: 'center', justifyContent: 'center' }}>
 
-				<FastImage
+				<Image
 					source={ImgLogo}
-					style={{ width: '100%', height: heightPixel(455), alignSelf: 'center' }}
+					style={{ width: '100%', height: heightPixel(455), alignSelf: 'center',  resizeMode : 'cover' }}
 					resizeMode="cover"
 				/>
 			</View>

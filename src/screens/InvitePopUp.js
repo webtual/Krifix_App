@@ -1,9 +1,8 @@
-import { View, Text, Share, StyleSheet, Pressable, Platform } from 'react-native'
+import { View, Text, Share, StyleSheet, Pressable, Platform, Image } from 'react-native'
 import React from 'react'
 import { black, greenPrimary, offWhite, paleGreen, white } from '../constants/Color'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import Translate from '../translation/Translate'
-import FastImage from 'react-native-fast-image'
 import { ShareBoxImg } from '../constants/Images'
 import { ANDROID_APP_LINK, IOS_APP_LINK } from '../constants/ConstantKey'
 import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
@@ -44,10 +43,10 @@ const InvitePopUp = ({isInviteVisible, toggleInvite,referralcode}) => {
         {Translate.t("refer_your_friends_and_earn")}
       </Text>
 
-      <FastImage
+      <Image
         source={ShareBoxImg}
-        style={{ width: "100%", height: widthPixel(150), marginVertical: pixelSizeHorizontal(20) }}
-        resizeMode={'contain'}
+        style={{ width: "100%", height: widthPixel(150), marginVertical: pixelSizeHorizontal(20),resizeMode : 'contain' }}
+        // resizeMode={'contain'}
       />
 
       <View style={{ backgroundColor: paleGreen, padding: pixelSizeHorizontal(10), borderRadius: widthPixel(50) }}>

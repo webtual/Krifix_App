@@ -1,9 +1,8 @@
-import { View, Text, Share, StyleSheet, Pressable } from 'react-native'
+import { View, Text, Share, StyleSheet, Pressable, Image } from 'react-native'
 import React from 'react'
 import { black, greenPrimary, offWhite, paleGreen, white } from '../constants/Color'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import Translate from '../translation/Translate'
-import FastImage from 'react-native-fast-image'
 import { CoinImg, CongratsImg, ShareBoxImg, WithdrawImg } from '../constants/Images'
 import { ANDROID_APP_LINK, IOS_APP_LINK } from '../constants/ConstantKey'
 import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
@@ -29,15 +28,15 @@ const CongratulationsPopUp = ({ isInviteVisible, toggleInvite, image, isWithDraw
           <Text style={styles.textDesc}>
             {Translate.t("You_earned")}
           </Text>}
-        {isWithDrawModel ? <FastImage
+        {isWithDrawModel ? <Image
           source={WithdrawImg}
-          style={{ width: 260, height: 240, }}
-          resizeMode={'contain'}
+          style={{ width: 260, height: 240, resizeMode : 'contain' }}
+          // resizeMode={'contain'}
         /> :
-        <FastImage
+        <Image
           source={CongratsImg}
-          style={{ width: 260, height: 240, }}
-          resizeMode={'contain'}
+          style={{ width: 260, height: 240, resizeMode : 'contain'}}
+          // resizeMode={'contain'}
         />
         }
         {isWithDrawModel ?
@@ -62,10 +61,10 @@ const CongratulationsPopUp = ({ isInviteVisible, toggleInvite, image, isWithDraw
           alignItems: "center",
           justifyContent: "center"
         }}>
-          <FastImage
+          <Image
             source={CoinImg}
-            style={{ width: 24, height: 24, }}
-            resizeMode={'contain'}
+            style={{ width: 24, height: 24,resizeMode : 'contain' }}
+            // resizeMode={'contain'}
           />
           <Text style={{
             fontSize: FontSize.FS_27,

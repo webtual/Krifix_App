@@ -566,6 +566,7 @@
 				DEVELOPMENT_TEAM = MSD97L88TJ;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = Krifix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Krifix;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -597,6 +598,7 @@
 				CURRENT_PROJECT_VERSION = 11;
 				DEVELOPMENT_TEAM = MSD97L88TJ;
 				INFOPLIST_FILE = Krifix/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Krifix;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

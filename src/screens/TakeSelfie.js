@@ -1,9 +1,8 @@
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView } from 'react-native'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
-import FastImage from 'react-native-fast-image'
 import { black, black05, disableColor, greenPrimary, paleGreen, primary, transparent, warmGrey, white } from '../constants/Color'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
@@ -173,13 +172,13 @@ const TakeSelfie = ({ route }) => {
                         padding: 5,
                         borderColor: disableColor,
                     }}>
-                    {takeImg?.path == "" ? <FastImage
+                    {takeImg?.path == "" ? <Image
                         source={Selfie1x}
-                        style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
-                        resizeMode={'cover'}
+                        style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1, resizeMode : 'cover' }}
+                        // resizeMode={'cover'}
                     /> :
                         <>
-                            <FastImage
+                            <Image
                                 style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
                                 source={{ uri: takeImg?.path }}
                             />
@@ -198,8 +197,9 @@ const TakeSelfie = ({ route }) => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                 }}>
-                                <FastImage tintColor={white}
-                                    style={{ width: 20, height: 20, }}
+                                <Image 
+                                // tintColor={white}
+                                    style={{ width: 20, height: 20,tintColor : white }}
                                     source={Eye}
                                 />
                             </TouchableOpacity>

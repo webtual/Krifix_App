@@ -1,9 +1,8 @@
-import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView, Linking } from 'react-native'
+import { View, Text, Pressable, StyleSheet, TouchableOpacity, Alert, Platform, KeyboardAvoidingView, Linking, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { heightPixel, pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
-import FastImage from 'react-native-fast-image'
 import { black, black05, disableColor, greenPrimary, light_grey, paleGreen, primary, transparent, warmGrey, white } from '../constants/Color'
 import { BOLD, FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import TextInputView from '../commonComponents/TextInputView'
@@ -260,13 +259,13 @@ const UploadDocument = () => {
                         padding: 5,
                         borderColor: disableColor,
                     }}>
-                    {frontImg.path == "" ? <FastImage
+                    {frontImg.path == "" ? <Image
                         source={Back}
-                        style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
-                        resizeMode={'cover'}
+                        style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1, resizeMode : 'cover' }}
+                        // resizeMode={'cover'}
                     /> :
                         <>
-                            <FastImage
+                            <Image
                                 style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
                                 source={{ uri: frontImg.path }}
                             />
@@ -285,8 +284,9 @@ const UploadDocument = () => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                 }}>
-                                <FastImage tintColor={white}
-                                    style={{ width: 20, height: 20, }}
+                                <Image 
+                                // tintColor={white}
+                                    style={{ width: 20, height: 20, tintColor : white}}
                                     source={Eye}
                                 />
                             </TouchableOpacity>
@@ -307,13 +307,13 @@ const UploadDocument = () => {
                         borderWidth: 1,
                         borderColor: disableColor,
                     }}>
-                    {backImg.path == "" ? <FastImage
+                    {backImg.path == "" ? <Image
                         source={Front}
-                        style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 }}
-                        resizeMode={'cover'}
+                        style={{ width: "100%", height: "100%", borderRadius: 8, flex: 1 , resizeMode : 'cover'}}
+                        // resizeMode={'cover'}
                     /> :
                         <>
-                            <FastImage
+                            <Image
                                 style={{ width: "100%", height: "100%", borderRadius: 8, }}
                                 source={{ uri: backImg.path }}
                             />
@@ -332,8 +332,9 @@ const UploadDocument = () => {
                                     alignItems: "center",
                                     justifyContent: "center",
                                 }}>
-                                <FastImage tintColor={white}
-                                    style={{ width: 20, height: 20, }}
+                                <Image
+                                //  tintColor={white}
+                                    style={{ width: 20, height: 20,tintColor : white }}
                                     source={Eye}
                                 />
                             </TouchableOpacity>

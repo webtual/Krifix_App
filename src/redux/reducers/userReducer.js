@@ -9,6 +9,7 @@ export const userReducer = createSlice({
 		storeUserData:(state, action) => {
 			state.user_data = action.payload
 		},
+		
 	}
 })
 

@@ -1,11 +1,10 @@
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Button, Pressable, Share } from 'react-native'
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, Alert, Button, Pressable, Share, Image } from 'react-native'
 import React, { useState } from 'react'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen'
 import HeaderView from '../commonComponents/HeaderView'
 import { FontSize, MEDIUM, SEMIBOLD } from '../constants/Fonts'
 import { black, greenPrimary, offWhite, paleGreen, white } from '../constants/Color'
-import FastImage from 'react-native-fast-image'
 import { CallImg, Delete, HelpImg, HomeFillImg, InfoImg, LogoutImg, NotificationImg, PrivacyImg, ShareBoxImg, ShareImg } from '../constants/Images'
 import { removeAllData } from '../commonComponents/AsyncManager'
 import { navigate, resetScreen } from '../navigations/RootNavigation'
@@ -204,9 +203,8 @@ const Settings = () => {
           <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', paddingVertical: pixelSizeHorizontal(15) }}
             onPress={() => btnTap(item)}>
 
-            <FastImage
-              style={{ width: widthPixel(40), height: widthPixel(40) }}
-              resizeMode="contain"
+            <Image
+              style={{ width: widthPixel(40), height: widthPixel(40),  resizeMode : 'contain' }}
               source={item.image}
             />
             <Text style={styles.textTitle}>

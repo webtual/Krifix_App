@@ -1,10 +1,9 @@
-import { View, Text, SafeAreaView, StyleSheet, StatusBar, ScrollView } from 'react-native'
+import { View, Text, SafeAreaView, StyleSheet, StatusBar, ScrollView, Image } from 'react-native'
 import React from 'react'
 import { greenPrimary, midGreen, offWhite, transparent, white } from '../constants/Color'
 import LinearGradient from 'react-native-linear-gradient'
 import { heightPixel, pixelSizeHorizontal, widthPixel } from './ResponsiveScreen'
 import IconButton from './IconButton'
-import FastImage from 'react-native-fast-image'
 import { BackImg } from '../constants/Images'
 import { BOLD, FontSize, SEMIBOLD } from '../constants/Fonts'
 
@@ -29,9 +28,10 @@ const HeaderView = ({ title = "", isBack = true, children, onPress = {}, contain
                                 {isBack &&
                                     <IconButton additionalStyle={styles.btnBack}
                                         onPress={onPress}>
-                                        <FastImage source={BackImg} style={{ width: widthPixel(24), height: widthPixel(24), }}
+                                            <Image source={BackImg} style={{ width: widthPixel(24), height: widthPixel(24),resizeMode:'contain' }}/>
+                                        {/* <FastImage source={BackImg} style={{ width: widthPixel(24), height: widthPixel(24), }}
                                             resizeMode='contain'
-                                        />
+                                        /> */}
                                     </IconButton>}
                                 <Text style={[styles.textTitle, { marginHorizontal: !isBack ? pixelSizeHorizontal(25) : 0 }]}>{title}</Text>
                             </View>

@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, Pressable, TouchableOpacity, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { black, greenPrimary, offWhite, warmGrey, white } from '../constants/Color'
 import HeaderView from '../commonComponents/HeaderView'
@@ -17,7 +17,6 @@ import { storeUserData } from '../redux/reducers/userReducer'
 import { useDispatch } from 'react-redux'
 import { CHECK_MOBILE, REGISTER } from '../constants/ApiUrl'
 import LoadingView from '../commonComponents/LoadingView'
-import FastImage from 'react-native-fast-image'
 import { ALERT_TYPE, Dialog } from 'react-native-alert-notification'
 
 const Register = ({ route }) => {
@@ -263,10 +262,10 @@ const Register = ({ route }) => {
                     )}
                 </Formik>
                 <View style={{ marginVertical: pixelSizeHorizontal(40), alignItems: "center" }}>
-                    <FastImage
+                    <Image
                         source={FooterImage}
-                        style={{ width: "40%", height: 30 }}
-                        resizeMode={'contain'}
+                        style={{ width: "40%", height: 30, resizeMode : 'contain' }}
+                        // resizeMode={'contain'}
                     />
                 </View>
             </HeaderView>

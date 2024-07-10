@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ImageBackground, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { goBack, navigate } from '../navigations/RootNavigation'
-import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, warmGrey, white, } from '../constants/Color'
 import { BOLD, FontSize, ITALIC, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
@@ -70,10 +69,10 @@ const RewardStatus = () => {
             renderItem={({ item, index }) => (
               <>
                 <View style={{ width: "46%", backgroundColor: iceBlue, margin: "2%", borderRadius: 8, paddingTop: pixelSizeVertical(12), }} >
-                  <FastImage
+                  <Image
                     source={{ uri: userData.asset_url + item?.order_details?.items?.item_image }}
-                    style={{ width: 150, height: 100 }}
-                    resizeMode={'contain'}
+                    style={{ width: 150, height: 100,  resizeMode : 'contain' }}
+                    // resizeMode={'contain'}
                   />
                   <View style={{ flex: 1, alignItems: "center", marginTop: pixelSizeVertical(12), }}>
                     <Text style={[styles.textItem]}>{item?.order_details?.items?.item_name}
@@ -86,10 +85,10 @@ const RewardStatus = () => {
                       alignItems: 'center', flexDirection: 'row',
                       marginVertical: pixelSizeHorizontal(6),
                     }}>
-                      <FastImage
+                      <Image
                         source={CoinImg}
-                        style={{ width: widthPixel(18), height: widthPixel(18) }}
-                        resizeMode={'contain'}
+                        style={{ width: widthPixel(18), height: widthPixel(18),  resizeMode : 'contain' }}
+                        // resizeMode={'contain'}
                       />
                       <Text style={[styles.textItem, { marginLeft: pixelSizeHorizontal(5), fontFamily: SEMIBOLD }]}>{item?.order_details?.items?.item_point}</Text>
                     </View>

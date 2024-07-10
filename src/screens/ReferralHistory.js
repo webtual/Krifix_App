@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ImageBackground } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Alert, ImageBackground, Image } from 'react-native'
 import React, { useCallback, useEffect, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
 import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonComponents/ResponsiveScreen'
 import { goBack, navigate } from '../navigations/RootNavigation'
-import FastImage from 'react-native-fast-image'
 import { AppLogoImg, CoinImg, InviteImg, ScanColorImg, TicketImg, WithdrawImg } from '../constants/Images'
 import { black, greenPrimary, iceBlue, warmGrey, white, } from '../constants/Color'
 import { BOLD, FontSize, ITALIC, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
@@ -75,10 +74,10 @@ const ReferralHistory = () => {
                                             <Text style={{ color: white, fontFamily: BOLD, fontSize: 20 }}>{item.full_name.charAt(0)}</Text>
                                         </View>
                                         :
-                                        <FastImage
+                                        <Image
                                             source={{ uri: userData.asset_url + item.avatar }}
-                                            style={{ width: widthPixel(40), height: widthPixel(40), borderRadius: 40 }}
-                                            resizeMode={'contain'}
+                                            style={{ width: widthPixel(40), height: widthPixel(40), borderRadius: 40 , resizeMode : 'contain'}}
+                                            // resizeMode={'contain'}
                                         />
                                     }
 

@@ -3,7 +3,6 @@ import React, { useCallback, useRef, useState } from 'react'
 import { black, disableColor, greenPrimary, offWhite, white } from '../constants/Color';
 import { FontSize, SEMIBOLD } from '../constants/Fonts';
 import { pixelSizeHorizontal, widthPixel } from '../commonComponents/ResponsiveScreen';
-import FastImage from 'react-native-fast-image';
 import { Intro1, Intro2, Intro3, NewIntro } from '../constants/Images';
 import { SCREEN_WIDTH } from '../constants/ConstantKey';
 import Translate from '../translation/Translate';
@@ -73,7 +72,7 @@ const Intro = () => {
                     renderItem={({ item }) => (
                         <View style={styles.itemView}>
 
-                            <FastImage source={item.image} style={styles.imgStyle} resizeMode='contain' />
+                            <Image source={item.image} style={[styles.imgStyle]} />
                             <Text style={styles.textStyle}>{item.title}</Text>
                         </View>
                     )}
@@ -132,6 +131,7 @@ const styles = StyleSheet.create({
     imgStyle: {
         width: SCREEN_WIDTH - 70,
         height: SCREEN_WIDTH - 70,
+        resizeMode : 'contain'
     },
     btnStyle: {
         backgroundColor: black,

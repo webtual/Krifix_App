@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Image } from 'react-native'
 import React, { useCallback, useState } from 'react'
 import HeaderView from '../commonComponents/HeaderView'
 import Translate from '../translation/Translate'
@@ -6,7 +6,6 @@ import { pixelSizeHorizontal, pixelSizeVertical, widthPixel } from '../commonCom
 import { black, disableColor, greenPrimary, iceBlue, warmGrey, white, yellow } from '../constants/Color'
 import { FontSize, MEDIUM, REGULAR, SEMIBOLD } from '../constants/Fonts'
 import moment from 'moment'
-import FastImage from 'react-native-fast-image'
 import { CoinImg, Eye, TrophyImg } from '../constants/Images'
 import ApiManager from '../commonComponents/ApiManager'
 import { GET_REDEEM_HISTORY } from '../constants/ApiUrl'
@@ -65,10 +64,10 @@ const RedeemHistory = () => {
             {Translate.t("krifix_point")}
           </Text>
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: pixelSizeHorizontal(10) }}>
-            <FastImage
+            <Image
               source={CoinImg}
-              style={{ width: widthPixel(30), height: widthPixel(30) }}
-              resizeMode={'contain'}
+              style={{ width: widthPixel(30), height: widthPixel(30), resizeMode : 'contain' }}
+              // resizeMode={'contain'}
             />
             <Text style={styles.textPoint}>{headerData?.total_point}</Text>
           </View>
@@ -104,10 +103,10 @@ const RedeemHistory = () => {
                 <View onPress={() => navigate("RewardStatus")}
                   style={{ marginLeft: 6 }}>
 
-                  <FastImage tintColor={white}
+                  <Image tintColor={white}
                     source={Eye}
-                    style={{ width: widthPixel(20), height: widthPixel(20) }}
-                    resizeMode={'contain'}
+                    style={{ width: widthPixel(20), height: widthPixel(20), resizeMode : 'contain' }}
+                    // resizeMode={'contain'}
                   />
                 </View>
               </TouchableOpacity>
@@ -126,10 +125,11 @@ const RedeemHistory = () => {
                 <View onPress={() => navigate("ReferralHistory")}
                   style={{ marginLeft: 6 }}>
 
-                  <FastImage tintColor={white}
+                  <Image 
+                  // tintColor={white}
                     source={Eye}
-                    style={{ width: widthPixel(20), height: widthPixel(20) }}
-                    resizeMode={'contain'}
+                    style={{ width: widthPixel(20), height: widthPixel(20), resizeMode : 'contain', tintColor : white }}
+                    // resizeMode={'contain'}
                   />
                 </View>
               </TouchableOpacity>
@@ -153,9 +153,9 @@ const RedeemHistory = () => {
 
                 <View style={{ width: widthPixel(40), height: widthPixel(40) }}>
 
-                  <FastImage
-                    style={{ flex: 1 }}
-                    resizeMode="contain"
+                  <Image
+                    style={{ flex: 1, resizeMode : 'contain' }}
+                    // resizeMode="contain"
                     source={TrophyImg}
                   />
 
